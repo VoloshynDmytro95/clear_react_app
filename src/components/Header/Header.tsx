@@ -1,4 +1,5 @@
 import { useUser } from "@/providers/UserProvider/UserProvider";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const { isAuthenticated } = useUser();

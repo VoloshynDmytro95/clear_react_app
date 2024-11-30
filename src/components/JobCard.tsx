@@ -1,4 +1,3 @@
-import React from "react";
 import { JobVacancy } from "@/mop/jobVacancy";
 
 interface JobCardProps extends JobVacancy {}
