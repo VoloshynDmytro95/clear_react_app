@@ -1,4 +1,20 @@
-export const jobSkills = [
+import { useState } from "react";
+
+interface Message {
+  role: "system" | "user" | "assistant";
+  content: string;
+}
+
+interface ChatResponse {
+  choices: {
+    message: {
+      content: string;
+    };
+  }[];
+}
+
+// mock skills list
+const jobSkills = [
   "IT security and system protection",
   "Ethical hacking and vulnerability testing",
   "Network administration and troubleshooting",
@@ -271,3 +287,105 @@ export const jobSkills = [
   "Strategic planning and policy implementation",
   "Organizational management skills",
 ];
+
+// mock vacancy data
+const vacancyExample = {
+  id: "88bd259f-6984-431a-832d-0bf55997353c",
+  name: "Фахівець (оператор) відділення",
+  logo: "https://company-logo-frankfurt.rabota.ua/cdn-cgi/image/w=250/477532_20210430122646.png",
+  salary: 0,
+  salaryFrom: 15000,
+  salaryTo: 19000,
+  cityName: "Полтава",
+  companyName: "Нова пошта",
+  shortDescription:
+    "\t\t\t\t\t\t\t\t\t\tНова пошта — лідер експрес-доставки в Україні. Наша команда постійно зростає, і зараз ми шукаємо «оператора відділення». Хочеш стати обличчям Нової пошти та дарувати радість клієнтам, які поспішають у відділення за посилками? Любиш спілкува…",
+  description:
+    " <head></head><p><strong>Нова пошта</strong> — лідер експрес-доставки в Україні. Наша команда постійно зростає, і зараз ми шукаємо <strong>«оператора відділення»</strong>.</p><p> <strong>Хочеш стати обличчям Нової пошти та дарувати радість клієнтам, які поспішають у відділення за посилками? Любиш спілкуватися, посміхатися і з комп’ютером на «ти»? Вважай, що робота вже твоя!</strong> </p><p><strong>Ми пропонуємо тобі:</strong></p><ul><li>Офіційну заробітну плату, оплачувані відпустки, лікарняні та відрядження.</li><li>Роботу для чоловіків та жінок.</li><li>Навчання всім тонкощам роботи з обслуговування клієнтів по стандартам Нової пошти.</li><li>Молодий дружній колектив.</li><li>Медичне страхування та страхування життя.</li><li>Можливість кар'єрного зростання.</li></ul><p><strong>Що потрібно робити: </strong></p><ul><li>Вносити дані в інформаційну систему.</li><li>Здійснювати взаєморозрахунки з клієнтами.</li><li>Сканувати, палетувати вантаж у відділенні.</li><li>Завантажувати й розвантажувати посилки.</li></ul><p><strong>Ми очікуємо від тебе:</strong></p><ul><li>Відсутність протипоказань щодо фізичних навантажень.</li><li>Володіння ПК.</li><li>Швидкий набір тексту.</li><li>Середню спеціальну освіту.</li><li>Бажаний досвід роботи з клієнтами.</li><li>Вільне володіння українською мовою.</li></ul><p><strong>Якщо все це про тебе і ти бажаєш стати частиною великої родини Нової пошти – надсилай резюме або телефонуй за номером: </strong><strong><span data-vacancyphone>067 571 84 49</span></strong></p> ",
+  schedule: "FULL_TIME",
+  vacancy_category_id: "16a0caa6-f3c7-49ac-89f9-84c12c4ab4df",
+  publish_at: "2024-08-27 08:19:53.001318",
+};
+
+// Custom hook for interacting with AI to analyze job skills
+export const useAI = () => {
+  // State for tracking loading status, errors, and AI response
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [response, setResponse] = useState<string>("");
+
+  // System message that defines the AI assistant's role and response format
+  const systemMessage: Message = {
+    role: "system",
+    content:
+      "You are a helpful AI assistant for defining job skills from the vacancy description. Your task is to analyze the job vacancy and define the professional soft and hard skills that match the vacancy. We will give you a list of skills and you will need to choose the most relevant ones. Reply containts 1 to 10 skills, but 10 is maximum. Does not makeup your own skills, only the ones we defined, validate response. Your response is in JSON format where there is an array of skills. Your response should have this structure: {'skills': ['skill1', 'skill2', 'skill3']}",
+  };
+
+  // Function to make API call to OpenAI
+  const callAI = async (text: string) => {
+    setIsLoading(true);
+    setError(null);
+
+    // Log the messages being sent to AI
+    console.log(111, [systemMessage, { role: "user", content: text }]);
+
+    try {
+      // Make POST request to OpenAI API
+      const response = await fetch(
+        "https://api.openai.com/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            model: "gpt-4o-mini",
+            messages: [systemMessage, { role: "user", content: text }],
+            temperature: 0.1, // Lower temperature for more focused responses
+            response_format: { type: "json_object" }, // Ensure JSON response
+          }),
+        }
+      );
+
+      // Handle unsuccessful API responses
+      if (!response.ok) {
+        throw new Error("Failed to generate response");
+      }
+
+      // Parse and store the AI response
+      const data: ChatResponse = await response.json();
+      const content = data.choices[0]?.message?.content || "";
+      setResponse(content);
+      return content;
+    } catch (err) {
+      // Error handling with type checking
+      const errorMessage =
+        err instanceof Error ? err.message : "An error occurred";
+      setError(errorMessage);
+      return "";
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Return hook interface
+  return {
+    callAI,
+    isLoading,
+    error,
+    response,
+  };
+};
+
+// USE CODE BELOW ELSEWHERE IN THE CODE
+const { name, shortDescription, description, schedule } = vacancyExample;
+
+// Initialize the AI hook
+const { callAI } = useAI();
+
+// Make API call with formatted vacancy data
+const response = await callAI(
+  `Analyze following vacancy data. Name: ${name}. Employer Description: ${shortDescription} ${description}. Work type: ${schedule}. Analyze our skills list: ${jobSkills}. Give me a list of skills that are required for this vacancy.`
+);
