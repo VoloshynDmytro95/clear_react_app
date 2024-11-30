@@ -1,6 +1,51 @@
+import Button from "@/components/FormComponents/Button/Button";
+import SecondaryButton from "@/components/FormComponents/Button/SecondaryButton";
+import veteranIcon from "./assets/illustration-veteran.png";
+import employerIcon from "./assets/illustration-company.png";
+import { useNavigate } from "react-router-dom";
+
 const HomePage = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="container mx-auto flex flex-col gap-4 p-4">HomePage</div>
+    <div className="bg-[#E1DECB] flex flex-col justify-center items-center h-screen">
+      <div className="text-center">
+        <h1>Текст тайтлу</h1>
+        <h2>subTitle</h2>
+      </div>
+      <div className="flex flex-col gap-4  mt-20">
+        <Button
+          className="!bg-black text-white w-[345px]"
+          onClick={() => {
+            navigate("/register");
+          }}
+        >
+          <p className="text-white flex justify-center">
+            <img
+              src={veteranIcon}
+              alt="veteran"
+              className="h-[24px] w-[24px]"
+            />
+            <span>Для ветеранів</span>
+          </p>
+        </Button>
+        <SecondaryButton
+          className="!border-black w-[345px]"
+          onClick={() => {
+            navigate("/login-employer");
+          }}
+        >
+          <p className="text-black flex justify-center">
+            <img
+              src={employerIcon}
+              alt="employer"
+              className="h-[24px] w-[24px]"
+            />
+            <span>Для роботодавців</span>
+          </p>
+        </SecondaryButton>
+      </div>
+    </div>
   );
 };
 
