@@ -18,7 +18,7 @@ const RegisterPage = () => {
         <Button
           className="!bg-black text-white w-[345px]"
           onClick={() => {
-            navigate("/register");
+            navigate("/register-form");
           }}
         >
           <p className="text-white flex justify-center">
@@ -29,7 +29,7 @@ const RegisterPage = () => {
         <SecondaryButton
           className="!border-black w-[345px]"
           onClick={() => {
-            navigate("/login-employer");
+            navigate("/register-form");
           }}
         >
           <p className="text-black flex justify-center">
