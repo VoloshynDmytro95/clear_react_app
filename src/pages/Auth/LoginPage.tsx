@@ -13,12 +13,6 @@ const LoginSchema = Yup.object().shape({
 const LoginPage = () => {
   return (
     <div>
-      <div>
-        <h2>Login py govUa</h2>
-        <button>gov ua</button>
-      </div>
-
-      <div>or</div>
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}

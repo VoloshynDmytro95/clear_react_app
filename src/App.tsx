@@ -10,7 +10,6 @@ const App = () => {
     <Provider store={store}>
       <BrowserRouter>
         <UserProvider>
-          <Header />
           <AppRoutes />
         </UserProvider>
       </BrowserRouter>
