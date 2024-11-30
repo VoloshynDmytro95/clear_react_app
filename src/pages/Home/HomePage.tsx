@@ -1,34 +1,50 @@
-import { JobCard } from "@/components/JobCard";
-import { mockJobVacancies } from "@/mop/jobVacancy";
-import { useAI } from "@/hooks/useAI";
-import { useEffect, useState } from "react";
-import { jobSkills } from "@/mop/jobSkills";
-import { vacancyExample } from "@/mop/vacancyExample";
+import Button from "@/components/FormComponents/Button/Button";
+import SecondaryButton from "@/components/FormComponents/Button/SecondaryButton";
+import veteranIcon from "./assets/illustration-veteran.png";
+import employerIcon from "./assets/illustration-company.png";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
-  const { callAI } = useAI();
-  const [aiResponse, setAiResponse] = useState("");
-
-  useEffect(() => {
-    const getAIResponse = async () => {
-      const response = await callAI(
-        `Analyze this vacancy data: ${vacancyExample}. Analyze our skills list: ${jobSkills}. Give me a list of skills that are required for this vacancy.`
-      );
-      setAiResponse(response);
-    };
-
-    getAIResponse();
-  }, []);
+  const navigate = useNavigate();
 
   return (
-    <div className="container mx-auto flex flex-col gap-4 p-4">
-      <div className="bg-white p-4 rounded shadow">
-        <h2 className="text-xl font-bold mb-2">AI Job Search Tips</h2>
-        <p>{aiResponse}</p>
+    <div className="bg-[#E1DECB] flex flex-col justify-center items-center h-screen">
+      <div className="text-center">
+        <h1>Текст тайтлу</h1>
+        <h2>subTitle</h2>
       </div>
-      {mockJobVacancies.map((job) => (
-        <JobCard {...job} />
-      ))}
+      <div className="flex flex-col gap-4  mt-20">
+        <Button
+          className="!bg-black text-white w-[345px]"
+          onClick={() => {
+            navigate("/register");
+          }}
+        >
+          <p className="text-white flex justify-center">
+            <img
+              src={veteranIcon}
+              alt="veteran"
+              className="h-[24px] w-[24px]"
+            />
+            <span>Для ветеранів</span>
+          </p>
+        </Button>
+        <SecondaryButton
+          className="!border-black w-[345px]"
+          onClick={() => {
+            navigate("/login-employer");
+          }}
+        >
+          <p className="text-black flex justify-center">
+            <img
+              src={employerIcon}
+              alt="employer"
+              className="h-[24px] w-[24px]"
+            />
+            <span>Для роботодавців</span>
+          </p>
+        </SecondaryButton>
+      </div>
     </div>
   );
 };
