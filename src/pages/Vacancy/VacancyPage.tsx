@@ -1,4 +1,3 @@
-import React from "react";
 import { mockJobVacancies } from "@/mop/jobVacancy";
 import { JobCard } from "@/components/JobCard";
 import { useAI } from "@/hooks/useAI";
@@ -12,13 +11,16 @@ const VacancyPage = () => {
 
   useEffect(() => {
     const getAIResponse = async () => {
+      const { name, shortDescription, description, schedule } = vacancyExample;
+
       const response = await callAI(
-        `Analyze this vacancy data: ${vacancyExample}. Analyze our skills list: ${jobSkills}. Give me a list of skills that are required for this vacancy.`
+        `Analyze following vacancy data. Name: ${name}. Employer Description: ${shortDescription} ${description}. Work type: ${schedule}. Analyze our skills list: ${jobSkills}. Give me a list of skills that are required for this vacancy.`
       );
+
       setAiResponse(response);
     };
 
-    // getAIResponse();
+    getAIResponse();
   }, []);
 
   return (
