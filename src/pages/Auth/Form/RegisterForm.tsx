@@ -214,14 +214,14 @@ const RegisterForm = () => {
               <Button
                 type="button"
                 onClick={() => setStep(step - 1)}
-                className="w-full"
+                className="w-full !bg-[#E1DECB]"
               >
-                Назад
+                <span className="text-black">Назад</span>
               </Button>
             ) : (
               <Link to="/login">
-                <Button type="button" className="w-full">
-                  Назад
+                <Button type="button" className="w-full !bg-[#E1DECB] !text-black">
+                  <span className="text-black">Назад</span>
                 </Button>
               </Link>
             )}
