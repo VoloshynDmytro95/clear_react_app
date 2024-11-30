@@ -36,11 +36,13 @@ export const useAI = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+            Accept: "application/json",
           },
           body: JSON.stringify({
             model: "gpt-3.5-turbo",
-            messages: [systemMessage, { role: "assistant", content: text }],
+            messages: [systemMessage, { role: "user", content: text }],
             temperature: 0.2,
+            response_format: { type: "json_object" },
           }),
         }
       );
