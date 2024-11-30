@@ -1,3 +1,4 @@
+import { VosSelect } from "@/components/VosSelect/VosSelect";
 import { Link } from "react-router-dom";
 
 const Manual = () => {
@@ -13,6 +14,7 @@ const Manual = () => {
         <input type="text" placeholder="Password" />
         <input type="text" placeholder="Confirm password" />
       </div>
+      <VosSelect />
     </div>
   );
 };

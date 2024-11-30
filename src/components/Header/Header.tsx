@@ -14,19 +14,19 @@ const Header = () => {
           {isAuthenticated ? (
             <Link to="/">
               <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 transition duration-200">
-                Logout
+                Вийти
               </button>
             </Link>
           ) : (
             <div className="flex gap-2">
               <Link to="/login">
-                <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 transition duration-200">
-                  Login
+                <button className="bg-[#EFDB2B] font-semibold py-2 px-4 transition duration-200">
+                  Логін
                 </button>
               </Link>
               <Link to="/register">
                 <button className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 transition duration-200">
-                  Register
+                  Реєстрація
                 </button>
               </Link>
             </div>
