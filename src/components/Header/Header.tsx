@@ -5,10 +5,10 @@ const Header = () => {
   const { isAuthenticated } = useUser();
 
   return (
-    <header className="bg-white w-full">
-      <div className="flex justify-between items-center py-4 px-6">
-        <Link to="/" className="text-2xl font-bold text-blue-600">
-          JobBoard
+    <header className="bg-[#332F21] w-full">
+      <div className="flex justify-between items-center py-4 px-3">
+        <Link to="/" className="text-2xl font-bold text-white">
+          Є Робота+
         </Link>
         <div>
           {isAuthenticated ? (

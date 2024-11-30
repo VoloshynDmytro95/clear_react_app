@@ -9,7 +9,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <UserProvider>
             <Header />
             <AppRoutes />
