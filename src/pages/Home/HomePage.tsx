@@ -16,7 +16,7 @@ const HomePage = () => {
         <Subtitle>Текст підзаголовка</Subtitle>
       </div>
 
-      <div className="flex flex-col gap-4 mt-20">
+      <div className="flex flex-col gap-4 mt-10">
         <Button
           className="!bg-black text-white w-[345px]"
           onClick={() => {

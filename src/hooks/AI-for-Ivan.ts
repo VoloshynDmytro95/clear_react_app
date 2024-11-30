@@ -386,6 +386,6 @@ const { name, shortDescription, description, schedule } = vacancyExample;
 const { callAI } = useAI();
 
 // Make API call with formatted vacancy data
-const response = await callAI(
-  `Analyze following vacancy data. Name: ${name}. Employer Description: ${shortDescription} ${description}. Work type: ${schedule}. Analyze our skills list: ${jobSkills}. Give me a list of skills that are required for this vacancy.`
-);
+// const response = await callAI(
+//   `Analyze following vacancy data. Name: ${name}. Employer Description: ${shortDescription} ${description}. Work type: ${schedule}. Analyze our skills list: ${jobSkills}. Give me a list of skills that are required for this vacancy.`
+// );
