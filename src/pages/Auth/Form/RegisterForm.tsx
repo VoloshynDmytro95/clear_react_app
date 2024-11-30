@@ -85,27 +85,24 @@ const RegisterForm = () => {
         );
       case 1:
         return (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col mt-7">
             <Field
               as={Input}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
               placeholder="Ім'я"
               name="firstName"
-              error={formik.errors.firstName}
             />
             <Field
               as={Input}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
               placeholder="Прізвище"
               name="lastName"
-              error={formik.errors.lastName}
             />
             <Field
               as={Input}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
               placeholder="Телефон"
               name="phone"
-              error={formik.errors.phone}
             />
           </div>
         );
@@ -196,20 +193,38 @@ const RegisterForm = () => {
     >
       {(formik) => (
         <Form className="px-6 pt-[39px] pb-[66px] bg-[#E1DECB] h-screen flex flex-col justify-center">
-          <div className="mb-6">
+          <div className="mb-6 absolute top-6 w-[327px]">
             {step > 0 && (
-              <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+              <div className="w-full bg-white rounded-full h-[6px]">
                 <div
-                  className="bg-blue-500 h-2.5 rounded-full"
-                  style={{ width: `${(step / 5) * 100}%` }}
+                  className="bg-[#0F172A] h-[6px] rounded-full"
+                  style={{ width: `${(step / 7) * 100}%` }}
                 />
+                <span className="text-[10px] font-500 uppercase">
+                  Крок {step}
+                </span>
               </div>
             )}
           </div>
 
+          {step !== 0 && (
+            <div className="mt-2 ">
+              <h2 className="text-[28px]">Введіть Ваші дані</h2>
+            </div>
+          )}
+
           {renderStep(formik)}
 
-          <div className="flex flex-col gap-y-4 justify-between mt-6">
+          <div className="flex flex-col gap-y-4 justify-between mt-[60px]">
+            <Button
+              type="submit"
+              disabled={formik.isSubmitting}
+              onClick={() => setStep(step + 1)}
+              className="w-full !bg-[#828282] !text-white"
+            >
+              {step === 4 ? "Завершити" : "Продовжити"}
+            </Button>
+
             {step > 0 ? (
               <Button
                 type="button"
@@ -220,19 +235,14 @@ const RegisterForm = () => {
               </Button>
             ) : (
               <Link to="/login">
-                <Button type="button" className="w-full !bg-[#E1DECB] !text-black">
+                <Button
+                  type="button"
+                  className="w-full !bg-[#E1DECB] !text-black"
+                >
                   <span className="text-black">Назад</span>
                 </Button>
               </Link>
             )}
-            <Button
-              type="submit"
-              disabled={formik.isSubmitting}
-              onClick={() => setStep(step + 1)}
-              className="w-full"
-            >
-              {step === 4 ? "Завершити" : "Далі"}
-            </Button>
           </div>
         </Form>
       )}
