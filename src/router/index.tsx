@@ -5,6 +5,7 @@ import RegisterPage from "@/pages/Auth/RegisterPage";
 import HomePage from "@/pages/Home/HomePage";
 import AboutPage from "@/pages/About/AboutPage";
 import Manual from "@/pages/Auth/Manual/Manual";
+import VacancyPage from "@/pages/Vacancy/VacancyPage";
 
 export const AppRoutes = () => {
   const isAuthenticated = true;
@@ -16,6 +17,7 @@ export const AppRoutes = () => {
       <Route path="/register/manual" element={<Manual />} />
       <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/vacancy" element={<VacancyPage />} />
         <Route path="/about" element={<AboutPage />} />
       </Route>
     </Routes>
