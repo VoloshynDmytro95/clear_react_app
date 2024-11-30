@@ -43,7 +43,7 @@ export const useAI = () => {
           body: JSON.stringify({
             model: "gpt-4o-mini",
             messages: [systemMessage, { role: "user", content: text }],
-            temperature: 0.2,
+            temperature: 0.1,
             response_format: { type: "json_object" },
           }),
         }

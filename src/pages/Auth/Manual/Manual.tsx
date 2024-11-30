@@ -1,5 +1,6 @@
 import { VosSelect } from "@/components/VosSelect/VosSelect";
 import { Link } from "react-router-dom";
+import Subtitle from "@/components/GeneralComponents/Subtitle";
 
 const Manual = () => {
   return (
@@ -7,7 +8,7 @@ const Manual = () => {
       <Link to="/register" className="text-blue-500">
         {"<-"} Back
       </Link>
-      <h2>Manual register</h2>
+      <Subtitle>Текст підзаголовка</Subtitle>{" "}
       <div>
         <input type="text" placeholder="Name" />
         <input type="text" placeholder="Email" />
