@@ -1,4 +1,5 @@
-import { Formik, Form, Field } from "formik";
+import Input from "@/components/FormComponents/Input/Input";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
 const LoginSchema = Yup.object().shape({
@@ -21,16 +22,15 @@ const LoginPage = () => {
           setSubmitting(false);
         }}
       >
-        {({ errors, touched }: any) => (
+        {({ errors }: any) => (
           <Form>
-            <Field type="email" name="email" placeholder="Email" />
-            {errors.email && touched.email && <div>{errors.email}</div>}
-
-            <Field type="password" name="password" placeholder="Password" />
-            {errors.password && touched.password && (
-              <div>{errors.password}</div>
-            )}
-
+            <Input
+              type="email"
+              name="email"
+              placeholder="Email"
+              error={errors.email}
+            />
+            <Input type="password" name="password" placeholder="Password" />
             <button type="submit">Login</button>
           </Form>
         )}
