@@ -20,7 +20,8 @@ export const useAI = () => {
 
   const systemMessage: Message = {
     role: "system",
-    content: "You are a helpful AI assistant.",
+    content:
+      "You are a helpful AI assistant for defining job skills from the vacancy description. Your task is to analyze the job vacancy and define the professional soft and hard skills that match the vacancy. We will give you a list of skills and you will need to choose the most relevant ones. Reply maximum containts 10 skills. Does not makeup your own skills, only the ones we defined, validate response. Your response is in JSON format where there is an array of skills. Your response should have this structure: {'skills': ['skill1', 'skill2', 'skill3']}",
   };
 
   const callAI = async (text: string) => {
@@ -38,7 +39,7 @@ export const useAI = () => {
           },
           body: JSON.stringify({
             model: "gpt-3.5-turbo",
-            messages: [systemMessage, { role: "user", content: text }],
+            messages: [systemMessage, { role: "assistant", content: text }],
             temperature: 0.2,
           }),
         }
