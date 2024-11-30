@@ -8,11 +8,7 @@ const Header = () => {
       <div className="flex justify-between px-4">
         <div>Logo</div>
         <div>
-          {isAuthenticated ? (
-            <button>Logout</button>
-          ) : (
-            <button>Login</button>
-          )}
+          {isAuthenticated ? <button>Logout</button> : <button>Login</button>}
         </div>
       </div>
     </header>

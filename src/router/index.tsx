@@ -5,7 +5,7 @@ import HomePage from "@/pages/Home/HomePage";
 import AboutPage from "@/pages/About/AboutPage";
 
 export const AppRoutes = () => {
-  const isAuthenticated = false;  
+  const isAuthenticated = true;
 
   return (
     <Routes>
