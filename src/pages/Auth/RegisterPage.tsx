@@ -3,6 +3,7 @@ import SecondaryButton from "@/components/FormComponents/Button/SecondaryButton"
 import Title from "@/components/GeneralComponents/Title";
 import Subtitle from "@/components/GeneralComponents/Subtitle";
 import govIcon from "@/pages/Home/assets/illustration-idgovua.png";
+import BackButton from "@/components/GeneralComponents/BackButton";
 
 import { useNavigate } from "react-router-dom";
 
@@ -29,7 +30,7 @@ const RegisterPage = () => {
         <SecondaryButton
           className="!border-black w-[345px]"
           onClick={() => {
-            navigate("/login-employer");
+            navigate("/register-employee");
           }}
         >
           <p className="text-black flex justify-center">
@@ -37,6 +38,8 @@ const RegisterPage = () => {
           </p>
         </SecondaryButton>
       </div>
+
+      <BackButton />
     </div>
   );
 };

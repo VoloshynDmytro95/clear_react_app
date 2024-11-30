@@ -15,10 +15,7 @@ export const AppRoutes = () => {
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route
-        path="/login-employer"
-        element={<RegisterCredentialsPage />}
-      />
+      <Route path="/register-employee" element={<RegisterCredentialsPage />} />
       <Route path="/register/manual" element={<Manual />} />
       <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
         <Route path="/" element={<HomePage />} />

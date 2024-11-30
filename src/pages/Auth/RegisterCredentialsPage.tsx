@@ -2,6 +2,7 @@ import Button from "@/components/FormComponents/Button/Button";
 import Title from "@/components/GeneralComponents/Title";
 import Subtitle from "@/components/GeneralComponents/Subtitle";
 import Input from "@/components/FormComponents/Input/Input";
+import BackButton from "@/components/GeneralComponents/BackButton";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
@@ -12,11 +13,14 @@ const RegisterCredentialsPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const validationSchema = Yup.object({
-    email: Yup.string().email("Invalid email address").required("Required"),
-    password: Yup.string().required("Required"),
-    dataApproval: Yup.boolean()
-      .oneOf([true], "You must accept the terms")
-      .required("Required"),
+    // email: Yup.string().email("Invalid email address").required("Required"),
+    // password: Yup.string().required("Required"),
+    // dataApproval: Yup.boolean()
+    //   .oneOf([true], "You must accept the terms")
+    //   .required("Required"),
+    email: Yup.string(),
+    password: Yup.string(),
+    dataApproval: Yup.boolean(),
   });
 
   const handleSubmit = (values: any) => {
@@ -69,13 +73,13 @@ const RegisterCredentialsPage = () => {
                 <label htmlFor="dataApproval" className="text-sm">
                   I agree to the processing of my personal data
                 </label>
-
-                {touched.dataApproval && errors.dataApproval && (
-                  <div className="text-[#FE8909] text-[14px] leading-5">
-                    {errors.dataApproval}
-                  </div>
-                )}
               </div>
+
+              {touched.dataApproval && errors.dataApproval && (
+                <div className="text-[#FE8909] text-[14px] leading-5">
+                  {errors.dataApproval}
+                </div>
+              )}
 
               <Button
                 className="!bg-black text-white w-[345px]"
@@ -90,6 +94,8 @@ const RegisterCredentialsPage = () => {
           )}
         </Formik>
       </div>
+
+      <BackButton />
     </div>
   );
 };
