@@ -15,6 +15,7 @@ const RegisterPage = () => {
         <Title>Текст тайтлу</Title>
         <Subtitle>Текст підзаголовка</Subtitle>
       </div>
+
       <div className="flex flex-col gap-4  mt-20">
         <Button
           className="!bg-black text-white w-[345px]"
@@ -27,6 +28,7 @@ const RegisterPage = () => {
             <img src={govIcon} alt="gov icon" className="h-[24px] ml-2" />
           </p>
         </Button>
+
         <SecondaryButton
           className="!border-black w-[345px]"
           onClick={() => {
