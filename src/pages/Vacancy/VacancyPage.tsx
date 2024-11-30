@@ -18,7 +18,7 @@ const VacancyPage = () => {
       setAiResponse(response);
     };
 
-    getAIResponse();
+    // getAIResponse();
   }, []);
 
   return (
