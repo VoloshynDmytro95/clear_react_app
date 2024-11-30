@@ -2,6 +2,8 @@ import { VosSelect } from "@/components/VosSelect/VosSelect";
 import { Link } from "react-router-dom";
 import Subtitle from "@/components/GeneralComponents/Subtitle";
 
+// TODO: remove in favor RegisterCredentialsPage?????
+
 const Manual = () => {
   return (
     <div className="flex flex-col h-screen">

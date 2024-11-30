@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { vacancyExample } from "@/mop/vacancyExample";
 import { jobSkills } from "@/mop/jobSkills";
 import Subtitle from "@/components/GeneralComponents/Subtitle";
+
 const VacancyPage = () => {
   const { callAI } = useAI();
   const [aiResponse, setAiResponse] = useState("");
