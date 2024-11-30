@@ -1,10 +1,10 @@
 import { mockJobVacancies } from "@/mop/jobVacancy";
-import { JobCard } from "@/components/JobCard";
+import { JobCard } from "@/components/JobCards/JobCard";
 import { useAI } from "@/hooks/useAI";
 import { useEffect, useState } from "react";
 import { vacancyExample } from "@/mop/vacancyExample";
 import { jobSkills } from "@/mop/jobSkills";
-
+import Subtitle from "@/components/GeneralComponents/Subtitle";
 const VacancyPage = () => {
   const { callAI } = useAI();
   const [aiResponse, setAiResponse] = useState("");
@@ -26,8 +26,7 @@ const VacancyPage = () => {
   return (
     <div>
       <div className="bg-white p-4 rounded shadow">
-        <h2 className="text-xl font-bold mb-2">AI Job Search Tips</h2>
-        <p>{aiResponse}</p>
+        <Subtitle>Текст підзаголовка</Subtitle> <p>{aiResponse}</p>
       </div>
 
       {mockJobVacancies.map((job) => (

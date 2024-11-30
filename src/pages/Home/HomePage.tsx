@@ -2,6 +2,8 @@ import Button from "@/components/FormComponents/Button/Button";
 import SecondaryButton from "@/components/FormComponents/Button/SecondaryButton";
 import veteranIcon from "./assets/illustration-veteran.png";
 import employerIcon from "./assets/illustration-company.png";
+import Title from "@/components/GeneralComponents/Title";
+import Subtitle from "@/components/GeneralComponents/Subtitle";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
@@ -10,10 +12,11 @@ const HomePage = () => {
   return (
     <div className="bg-[#E1DECB] flex flex-col justify-center items-center h-screen">
       <div className="text-center">
-        <h1>Текст тайтлу</h1>
-        <h2>subTitle</h2>
+        <Title>Текст тайтлу</Title>
+        <Subtitle>Текст підзаголовка</Subtitle>
       </div>
-      <div className="flex flex-col gap-4  mt-20">
+
+      <div className="flex flex-col gap-4 mt-20">
         <Button
           className="!bg-black text-white w-[345px]"
           onClick={() => {
@@ -29,6 +32,7 @@ const HomePage = () => {
             <span>Для ветеранів</span>
           </p>
         </Button>
+
         <SecondaryButton
           className="!border-black w-[345px]"
           onClick={() => {

@@ -1,15 +1,18 @@
 import Button from "@/components/FormComponents/Button/Button";
 import SecondaryButton from "@/components/FormComponents/Button/SecondaryButton";
-import { useNavigate } from "react-router-dom";
+import Title from "@/components/GeneralComponents/Title";
+import Subtitle from "@/components/GeneralComponents/Subtitle";
 import govIcon from "@/pages/Home/assets/illustration-idgovua.png";
+
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
   return (
     <div className="bg-[#E1DECB] flex flex-col justify-center items-center h-screen">
       <div className="text-center">
-        <h2>Title text</h2>
-        <h3>Subtitle text</h3>
+        <Title>Текст тайтлу</Title>
+        <Subtitle>Текст підзаголовка</Subtitle>
       </div>
       <div className="flex flex-col gap-4  mt-20">
         <Button
