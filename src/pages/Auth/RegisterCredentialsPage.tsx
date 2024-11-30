@@ -4,13 +4,22 @@ import Subtitle from "@/components/GeneralComponents/Subtitle";
 import Input from "@/components/FormComponents/Input/Input";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
 
 const RegisterCredentialsPage = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const validationSchema = Yup.object({
+    email: Yup.string().email("Invalid email address").required("Required"),
+    password: Yup.string().required("Required"),
+    dataApproval: Yup.boolean()
+      .oneOf([true], "You must accept the terms")
+      .required("Required"),
+  });
+
+  const handleSubmit = (values: any) => {
     setIsLoading(true);
     setTimeout(() => {
       navigate("/login-employer/contact-details");
@@ -25,34 +34,61 @@ const RegisterCredentialsPage = () => {
       </div>
 
       <div className="flex flex-col gap-4 mt-10">
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          <Input type="email" name="email" placeholder="Email" />
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-[345px] px-4 py-2 rounded border border-black"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-[345px] px-4 py-2 rounded border border-black"
-          />
-          <div className="flex items-center gap-2">
-            <input type="checkbox" id="dataApproval" className="w-4 h-4" />
-            <label htmlFor="dataApproval" className="text-sm">
-              I agree to the processing of my personal data
-            </label>
-          </div>
-          <Button
-            className="!bg-black text-white w-[345px]"
-            type="submit"
-            disabled={isLoading}
-          >
-            <p className="text-white flex justify-center">
-              <span>{isLoading ? "Loading..." : "Зареєструватися"}</span>
-            </p>
-          </Button>
-        </form>
+        <Formik
+          initialValues={{
+            email: "",
+            password: "",
+            dataApproval: false,
+          }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ errors, touched }) => (
+            <Form className="flex flex-col gap-4">
+              <Input
+                type="email"
+                name="email"
+                placeholder="Email"
+                error={touched.email && errors.email}
+              />
+
+              <Input
+                type="password"
+                name="password"
+                placeholder="Password"
+                error={touched.password && errors.password}
+              />
+
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  name="dataApproval"
+                  id="dataApproval"
+                  className="w-4 h-4"
+                />
+                <label htmlFor="dataApproval" className="text-sm">
+                  I agree to the processing of my personal data
+                </label>
+
+                {touched.dataApproval && errors.dataApproval && (
+                  <div className="text-[#FE8909] text-[14px] leading-5">
+                    {errors.dataApproval}
+                  </div>
+                )}
+              </div>
+
+              <Button
+                className="!bg-black text-white w-[345px]"
+                type="submit"
+                disabled={isLoading}
+              >
+                <p className="text-white flex justify-center">
+                  <span>{isLoading ? "Loading..." : "Зареєструватися"}</span>
+                </p>
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </div>
     </div>
   );
