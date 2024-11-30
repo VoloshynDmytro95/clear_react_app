@@ -1,4 +1,6 @@
-import { Formik, Form, Field } from "formik";
+import Button from "@/components/FormComponents/Button/Button";
+import Input from "@/components/FormComponents/Input/Input";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
 const LoginSchema = Yup.object().shape({
@@ -11,7 +13,11 @@ const LoginSchema = Yup.object().shape({
 const LoginPage = () => {
   return (
     <div>
-      <button>Login py govUa</button>
+      <div>
+        <h2>Login py govUa</h2>
+        <button>gov ua</button>
+      </div>
+
       <div>or</div>
       <Formik
         initialValues={{ email: "", password: "" }}
@@ -21,17 +27,21 @@ const LoginPage = () => {
           setSubmitting(false);
         }}
       >
-        {({ errors, touched }: any) => (
+        {({ errors }: any) => (
           <Form>
-            <Field type="email" name="email" placeholder="Email" />
-            {errors.email && touched.email && <div>{errors.email}</div>}
-
-            <Field type="password" name="password" placeholder="Password" />
-            {errors.password && touched.password && (
-              <div>{errors.password}</div>
-            )}
-
-            <button type="submit">Login</button>
+            <Input
+              type="email"
+              name="email"
+              placeholder="Імейл"
+              error={errors.email}
+            />
+            <Input
+              type="password"
+              name="password"
+              placeholder="Пароль"
+              error={errors.password}
+            />
+            <Button title="Login" onClick={() => {}} />
           </Form>
         )}
       </Formik>

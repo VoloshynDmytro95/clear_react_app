@@ -9,12 +9,10 @@ const App = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <div className="container mx-auto">
-          <UserProvider>
-            <Header />
-            <AppRoutes />
-          </UserProvider>
-        </div>
+        <UserProvider>
+          <Header />
+          <AppRoutes />
+        </UserProvider>
       </BrowserRouter>
     </Provider>
   );
