@@ -1,6 +1,7 @@
 import { Field } from "formik";
+import classNames from "classnames";
 
-const Input = ({ type, name, placeholder, error }: any) => {
+const Input = ({ type, name, placeholder, error, className }: any) => {
   return (
     <div>
       <label className="text-[14px] text-[#0F172A] font-[500] leading-5 flex justify-between">
@@ -15,7 +16,10 @@ const Input = ({ type, name, placeholder, error }: any) => {
         type={type}
         name={name}
         placeholder={placeholder}
-        className="p-3 rounded-[12px] w-full max-w-[340px] border border-[#CBD5E1] my-[6px]"
+        className={classNames(
+          "p-3 rounded-[12px] w-full max-w-[340px] border border-[#CBD5E1] my-[6px]",
+          className
+        )}
       />
     </div>
   );
