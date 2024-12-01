@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 
 import Button from "@/components/FormComponents/Button/Button";
 import SecondaryButton from "@/components/FormComponents/Button/SecondaryButton";
-import Title from "@/components/GeneralComponents/Title";
-import Subtitle from "@/components/GeneralComponents/Subtitle";
 import govIcon from "@/pages/Home/assets/illustration-idgovua.png";
 import employerIcon from "../../pages/Home/assets/illustration-company.png";
 
@@ -13,9 +11,12 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   return (
     <div className="bg-[#E1DECB] flex flex-col justify-center items-center h-screen">
-      <div className="text-center">
-        <Title>Текст тайтлу</Title>
-        <Subtitle>Текст підзаголовка</Subtitle>
+      <div className="text-center px-6">
+        <h1 className="text-[28px] font-[700] leading-10">єМайбутнє</h1>
+        <p className="text-[16px] font-[400] leading-7">
+          Платформа, яка допомагає ветеранам знайти гідну цивільну роботу,
+          адаптуючи їхні військові навички до потреб сучасного ринку праці
+        </p>
       </div>
 
       <div className="flex flex-col gap-4  mt-20">
