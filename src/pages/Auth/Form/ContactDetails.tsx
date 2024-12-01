@@ -2,10 +2,19 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { IoMdClose } from "react-icons/io";
 
 const ContactDetails = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
+
+  const positions = [
+    "Розробник",
+    "Дизайнер",
+    "Менеджер",
+    "Аналітик",
+    // додайте інші посади
+  ];
 
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Обов'язкове поле"),
@@ -28,6 +37,7 @@ const ContactDetails = () => {
       is: 2,
       then: () => Yup.string().required("Обов'язкове поле"),
     }),
+    position: Yup.string().required("Обов'язкове поле"),
   });
 
   const initialValues = {
@@ -40,6 +50,7 @@ const ContactDetails = () => {
     address: "",
     city: "",
     additionalInfo: "",
+    position: "",
   };
 
   const handleSubmit = (values: any, { setSubmitting }: any) => {
@@ -52,9 +63,8 @@ const ContactDetails = () => {
   };
 
   const renderProgressBar = (currentStep: number) => {
-    const width = 
-      currentStep === 0 ? "21px" : 
-      currentStep === 1 ? "166px" : "332px";
+    const width =
+      currentStep === 0 ? "21px" : currentStep === 1 ? "166px" : "332px";
     return (
       <div className="w-[332px] h-1.5 relative">
         <div className="w-[332px] h-1.5 left-0 top-0 absolute bg-slate-100 rounded-[40px]" />
@@ -134,36 +144,91 @@ const ContactDetails = () => {
         </div>
       );
     }
-    
+
     if (step === 1) {
       return (
-        <div className="self-stretch h-[398px] flex-col justify-start items-start gap-3 flex">
-          <Field name="address">
-            {({ field }: any) => (
+        <div className="self-stretch h-[228px] flex-col justify-start items-start gap-3 flex">
+          <Field name="position">
+            {({ field, form }: any) => (
               <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
                 <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
-                  Адреса
+                  Посада
                 </div>
-                <input
-                  {...field}
-                  className="self-stretch p-3 bg-white rounded-xl border border-slate-300"
-                  placeholder="Введіть адресу"
-                />
+                <div className="relative w-full">
+                  <select
+                    {...field}
+                    className="self-stretch w-full p-3 bg-white rounded-xl border border-slate-300 appearance-none"
+                    onChange={(e) => {
+                      field.onChange(e);
+                    }}
+                  >
+                    <option value="">Оберіть посаду</option>
+                    {positions.map((pos) => (
+                      <option key={pos} value={pos}>
+                        {pos}
+                      </option>
+                    ))}
+                  </select>
+                  {field.value && (
+                    <button
+                      type="button"
+                      className="absolute right-3 top-1/2 -translate-y-1/2"
+                      onClick={() => form.setFieldValue('position', '')}
+                    >
+                      <IoMdClose className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
               </div>
             )}
           </Field>
-          <Field name="city">
+
+          <Field name="position">
             {({ field }: any) => (
-              <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
-                <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
-                  Місто
+              field.value && (
+                <div className="self-stretch h-[146px] flex-col justify-start items-start gap-1.5 flex">
+                  <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
+                    Цивільні Навички
+                  </div>
+                  <div className="self-stretch h-[120px] p-3 bg-white rounded-xl border border-slate-300 flex-col justify-center items-start gap-3 flex">
+                    <div className="self-stretch justify-start items-start gap-2 inline-flex">
+                      <div className="px-2 py-1 bg-black rounded-lg justify-start items-center gap-1 flex">
+                        <div className="text-white text-sm font-normal font-['Inter'] leading-tight">
+                          навичка1
+                        </div>
+                        <div className="w-4 h-4 relative" />
+                      </div>
+                      <div className="px-2 py-1 bg-black rounded-lg justify-start items-center gap-1 flex">
+                        <div className="text-white text-sm font-normal font-['Inter'] leading-tight">
+                          Fff
+                        </div>
+                        <div className="w-4 h-4 relative" />
+                      </div>
+                      <div className="px-2 py-1 bg-black rounded-lg justify-start items-center gap-1 flex">
+                        <div className="text-white text-sm font-normal font-['Inter'] leading-tight">
+                          Fff
+                        </div>
+                        <div className="w-4 h-4 relative" />
+                      </div>
+                      <div className="px-2 py-1 bg-black rounded-lg justify-start items-center gap-1 flex">
+                        <div className="text-white text-sm font-normal font-['Inter'] leading-tight">
+                          навичка2
+                        </div>
+                        <div className="w-4 h-4 relative" />
+                      </div>
+                      <div className="px-2 py-1 bg-black rounded-lg justify-start items-center gap-1 flex">
+                        <div className="text-white text-sm font-normal font-['Inter'] leading-tight">
+                          Fff
+                        </div>
+                        <div className="w-4 h-4 relative" />
+                      </div>
+                    </div>
+                    <div className="self-stretch text-slate-400 text-sm font-normal font-['Inter'] leading-tight">
+                      Додайте...
+                    </div>
+                  </div>
                 </div>
-                <input
-                  {...field}
-                  className="self-stretch p-3 bg-white rounded-xl border border-slate-300"
-                  placeholder="Введіть місто"
-                />
-              </div>
+              )
             )}
           </Field>
         </div>
@@ -211,15 +276,15 @@ const ContactDetails = () => {
                 </div>
                 <div className="self-stretch justify-start items-start gap-2 inline-flex">
                   <div className="grow shrink basis-0 text-[#000002] text-[28px] font-bold font-['Inter'] leading-10">
-                    {step === 0 
-                      ? "Введіть Ваші дані" 
-                      : step === 1 
-                      ? "Введіть адресу" 
-                      : "Додаткова інформація"}
+                    {step === 0
+                      ? "Введіть Ваші дані"
+                      : step === 1
+                        ? "Ваш досвід"
+                        : "Додаткова інформація"}
                   </div>
                   <div className="px-1.5 justify-center items-center flex">
                     <div className="text-black text-[28px] font-bold font-['Inter'] leading-10">
-                      ✍️
+                      {step === 0 ? "✍️" : step === 1 ? "🌟" : "✍️"}
                     </div>
                   </div>
                 </div>
