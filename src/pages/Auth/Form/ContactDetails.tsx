@@ -220,18 +220,33 @@ const ContactDetails = () => {
                 </div>
 
                 <input
-                  {...field} // Ensures Formik's handling of this field
+                  {...field}
                   type="date"
+                  pattern="\d{4}-\d{2}-\d{2}"
                   className="self-stretch p-3 bg-white rounded-xl border border-slate-300"
                   onChange={(e) => {
-                    form.setFieldValue("birthday_date", e.target.value); // Ensures Formik updates the field value
+                    form.setFieldValue("birthday_date", e.target.value);
+                  }}
+                  onFocus={(e) => {
+                    // Для iOS відкриваємо нативний датапікер
+                    e.currentTarget.click();
+                    // Для старих версій iOS
+                    if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g)) {
+                      e.currentTarget.blur();
+                      setTimeout(() => e.currentTarget.focus(), 100);
+                    }
+                  }}
+                  style={{
+                    // Виправлення для iOS
+                    WebkitAppearance: 'none',
+                    MozAppearance: 'none',
+                    appearance: 'none'
                   }}
                 />
 
                 {form.errors.birthday_date && form.touched.birthday_date && (
                   <div className="text-red-500 text-sm">
-                    {form.errors.birthday_date}{" "}
-                    {/* Display error message if validation fails */}
+                    {form.errors.birthday_date}
                   </div>
                 )}
               </div>
