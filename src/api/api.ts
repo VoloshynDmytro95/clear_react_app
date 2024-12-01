@@ -52,6 +52,7 @@ const apiEndpoints = {
       patch("/user/save-skills", { ...data.data }),
     saveExperienceData: (data: Record<string, any>) =>
       patch("/user/save-experience-data", { ...data.data }),
+    me: () => get("/user/me"),
   },
   position: {
     getAll: () => get("/position"),
