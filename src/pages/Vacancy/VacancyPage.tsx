@@ -35,7 +35,12 @@ const VacancyPage = () => {
   };
 
   useEffect(() => {
-    const closeOnClickOutside = () => setIsFilterOpen(false);
+    const closeOnClickOutside = (e: MouseEvent) => {
+      const modalElement = document.querySelector('.modal-container');
+      if (modalElement && !modalElement.contains(e.target as Node)) {
+        setIsFilterOpen(false);
+      }
+    };
 
     if (isFilterOpen) {
       window.addEventListener("mousedown", closeOnClickOutside);
@@ -51,16 +56,27 @@ const VacancyPage = () => {
     }).then((res) => setVacancies(res.vacancies));
   }, []);
 
+  const getAppliedVacancies = () => {
+    return JSON.parse(localStorage.getItem('appliedVacancies') || '[]');
+  };
+
   const renderVacancies = () => {
+    const appliedVacancies = getAppliedVacancies();
+    
     return vacancies.map((vacancy) => (
-      <VacancyCard key={vacancy.id} {...vacancy} />
+      <div key={vacancy.id}>
+        <VacancyCard 
+          {...vacancy} 
+          isApplied={appliedVacancies.includes(vacancy.id)}
+        />
+      </div>
     ));
   };
 
   return (
     <div>
       <VacancyHeader />
-      <div className="bg-[#E1DECB] flex flex-col items-center py-8 px-4">
+      <div className="bg-[#E1DECB] h-screen flex flex-col items-center py-8 px-4">
         <div className="flex flex-col items-start  w-full mb-6">
           <h2 className="text-[24px] font-[600] leading-8">Вакансії для вас</h2>
           <button onClick={() => setIsFilterOpen(true)}>Фільтр</button>
@@ -72,8 +88,8 @@ const VacancyPage = () => {
       </div>
 
       {isFilterOpen && (
-        <div onClick={(e) => e.stopPropagation()}>
-          <FilterModal onSubmit={onApplyFilters} />
+        <div className="modal-container">
+          <FilterModal onSubmit={onApplyFilters} onClose={() => setIsFilterOpen(false)} />
         </div>
       )}
     </div>

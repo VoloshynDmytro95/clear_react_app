@@ -10,6 +10,8 @@ import RegisterCredentialsPage from "@/pages/Auth/RegisterCredentialsPage";
 import EmployeLogin from "@/pages/Auth/Employe/Login";
 import ContactDetails from "@/pages/Auth/Form/ContactDetails";
 import ContactByDia from "@/pages/Auth/Form/ContactByDia";
+import VacancyDetails from '@/pages/Vacancy/VacancyDetails';
+
 import GenerateResume from "@/pages/Resume/generate-resume";
 export const AppRoutes = () => {
   const isAuthenticated = true;
@@ -28,6 +30,7 @@ export const AppRoutes = () => {
         <Route path="/vacancy" element={<VacancyPage />} />
         <Route path="/about" element={<AboutPage />} />
       </Route>
+      <Route path="/vacancy/:id" element={<VacancyDetails />} />
     </Routes>
   );
 };
