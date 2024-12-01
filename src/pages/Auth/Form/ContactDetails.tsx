@@ -241,7 +241,7 @@ const ContactDetails = () => {
                   <button
                     type="button"
                     onClick={() => {
-                      if (step !== 1) {
+                      if (step <= 1) {
                         navigate("/register-employee");
                       }
                       setStep(Math.max(0, step - 1));
