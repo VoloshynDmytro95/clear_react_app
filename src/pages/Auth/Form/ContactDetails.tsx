@@ -3,18 +3,15 @@ import * as Yup from "yup";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
+import { usePosition } from "@/api/position/usePosition";
 
 const ContactDetails = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
 
-  const positions = [
-    "Розробник",
-    "Дизайнер",
-    "Менеджер",
-    "Аналітик",
-    // додайте інші посади
-  ];
+  const data = usePosition();
+  console.log(data);
+  const positions = ["Розробник", "Дизайнер", "Менеджер", "Аналітик"];
 
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Обов'язкове поле"),
@@ -173,7 +170,7 @@ const ContactDetails = () => {
                     <button
                       type="button"
                       className="absolute right-3 top-1/2 -translate-y-1/2"
-                      onClick={() => form.setFieldValue('position', '')}
+                      onClick={() => form.setFieldValue("position", "")}
                     >
                       <IoMdClose className="w-4 h-4" />
                     </button>
@@ -184,7 +181,7 @@ const ContactDetails = () => {
           </Field>
 
           <Field name="position">
-            {({ field }: any) => (
+            {({ field }: any) =>
               field.value && (
                 <div className="self-stretch h-[146px] flex-col justify-start items-start gap-1.5 flex">
                   <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
@@ -229,7 +226,7 @@ const ContactDetails = () => {
                   </div>
                 </div>
               )
-            )}
+            }
           </Field>
         </div>
       );
