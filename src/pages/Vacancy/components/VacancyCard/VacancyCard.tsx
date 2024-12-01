@@ -1,5 +1,6 @@
 import { Vacancy } from "@/api/types";
 import { FaChevronRight } from "react-icons/fa";
+import { vacancyScheduleToString } from "@/api/vacancyScheduleToString";
 
 const VacancyCard = (vacancy: Vacancy) => {
   const renderSalary = () => {
@@ -33,7 +34,7 @@ const VacancyCard = (vacancy: Vacancy) => {
             <div className="self-stretch justify-start items-start gap-2 inline-flex">
               <div className="px-2 py-1 bg-[#c0fecc] rounded-[3px] justify-start items-start gap-2.5 flex">
                 <div className="text-[#0ba02c] text-xs font-semibold font-['Inter'] uppercase leading-3">
-                  {vacancy.schedule}
+                  {vacancyScheduleToString(vacancy.schedule)}
                 </div>
               </div>
               <div className="text-[#767f8c] text-sm font-medium font-['Inter'] leading-tight">
