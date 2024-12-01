@@ -26,7 +26,7 @@ const RegisterCredentialsPage = () => {
   const handleSubmit = (values: any) => {
     setIsLoading(true);
     setTimeout(() => {
-      navigate("/employee/contact-details");
+      navigate("/contact-details");
     }, 500);
   };
 
