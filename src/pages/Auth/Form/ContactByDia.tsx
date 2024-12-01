@@ -361,7 +361,7 @@ const ContactByDia = () => {
                           .filter((pos) =>
                             pos.title
                               .toLowerCase()
-                              .includes(searchTerm.toLowerCase())
+                              .includes(searchTerm.toLowerCase()),
                           )
                           .map((pos) => (
                             <div
@@ -371,7 +371,7 @@ const ContactByDia = () => {
                                 setSelectedPositionTitle(pos.title);
 
                                 usePositionByCode(pos.id).then((res) => {
-                                  form.setFieldValue("position", res.id);
+                                  form.setFieldValue("position", pos.id);
                                   setSelectedPosition(res);
                                   setIsOpen(false);
                                   setSearchTerm("");
@@ -415,7 +415,7 @@ const ContactByDia = () => {
                               onClick={() => {
                                 const newSelectedPosition =
                                   selectedPosition.filter(
-                                    (_, i) => i !== index
+                                    (_, i) => i !== index,
                                   );
                                 setSelectedPosition(newSelectedPosition);
                               }}
@@ -519,7 +519,7 @@ const ContactByDia = () => {
                     {field.value && Array.isArray(field.value) ? (
                       field.value.map((selectedId: string) => {
                         const specialty = educationSpecialities.find(
-                          (item) => item.id === selectedId
+                          (item) => item.id === selectedId,
                         );
                         return (
                           <div
@@ -535,7 +535,7 @@ const ContactByDia = () => {
                               onClick={(e) => {
                                 e.stopPropagation();
                                 const newValue = field.value.filter(
-                                  (id: string) => id !== selectedId
+                                  (id: string) => id !== selectedId,
                                 );
                                 form.setFieldValue("position", newValue);
                               }}
@@ -550,7 +550,7 @@ const ContactByDia = () => {
                         <span className="text-sm">
                           {
                             educationSpecialities.find(
-                              (item) => item.id === field.value
+                              (item) => item.id === field.value,
                             )?.category
                           }
                         </span>

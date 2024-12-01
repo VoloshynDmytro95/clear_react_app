@@ -1,4 +1,12 @@
 import axios from "axios";
+import {
+  Position,
+  SearchVacancyPayload,
+  SearchVacancyResponse,
+  Skill,
+  Specialty,
+  Vacancy,
+} from "@/api/types";
 
 // Base Axios instance
 const api = axios.create({
@@ -10,9 +18,9 @@ const api = axios.create({
 });
 
 // Utility functions for API calls
-const get = async (url: string, params = {}) => {
+const get = async <T>(url: string, params = {}) => {
   try {
-    const response = await api.get(url, { params });
+    const response = await api.get<T>(url, { params });
     return response.data;
   } catch (error) {
     console.error(`GET ${url} failed:`, error);
@@ -20,9 +28,9 @@ const get = async (url: string, params = {}) => {
   }
 };
 
-const post = async (url: string, data = {}) => {
+const post = async <T>(url: string, data = {}): Promise<T> => {
   try {
-    const response = await api.post(url, data);
+    const response = await api.post<T>(url, data);
     console.log(`POST ${url} succeeded:`, response.data);
     return response.data;
   } catch (error) {
@@ -54,8 +62,9 @@ const apiEndpoints = {
       patch("/user/save-experience-data", { ...data.data }),
   },
   position: {
-    getAll: () => get("/position"),
-    getSkillsById: (id: string | number) => get(`/position/${id}/skills`),
+    getAll: () => get<Position[]>("/position"),
+    getSkillsById: (id: string | number) =>
+      get<Skill[]>(`/position/${id}/skills`),
   },
   auth: {
     refresh: () => patch("/auth/refresh"),
@@ -65,14 +74,17 @@ const apiEndpoints = {
       rememberMe: boolean;
     }) => post("/auth/login", credentials),
     register: (data: { email: string; password: string }) =>
-      post("/auth/register", data),
+      post<{ status: boolean }>("/auth/register", data),
     logout: () => post("/auth/logout"),
   },
   specialty: {
-    getAll: () => get("/specialty"),
+    getAll: () => get<Specialty[]>("/specialty"),
   },
-  vacancyParser: {
-    start: () => get("/vacancy-parser"),
+  vacancy: {
+    getById: (id: string) => get<Vacancy>(`/vacancy/${id}`),
+    search: (payload: SearchVacancyPayload) =>
+      post<SearchVacancyResponse>("/vacancy/search", payload),
+    apply: (id: string) => patch(`/vacancy/${id}/apply`),
   },
 };
 
