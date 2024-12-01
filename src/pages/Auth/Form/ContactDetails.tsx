@@ -26,7 +26,7 @@ const ContactDetails = () => {
     }[]
   >([]);
   const navigate = useNavigate();
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
   const [hasHigherEducation, setHasHigherEducation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -108,6 +108,7 @@ const ContactDetails = () => {
     skills: string[];
     hasHigherEducation: boolean;
     previousExperience: string;
+    desiredSpecialties: string[];
   }
 
   const initialValues: FormValues = {
@@ -124,6 +125,7 @@ const ContactDetails = () => {
     skills: [],
     hasHigherEducation: false,
     previousExperience: "",
+    desiredSpecialties: [],
   };
 
   const handleNavigate = async (values: FormValues) => {
@@ -139,9 +141,9 @@ const ContactDetails = () => {
           ubd: `${ubdSeries} ${ubdNumber}`,
         };
 
-        // await useSaveCoreData({
-        //   data: payloadContactInfo,
-        // });
+        await useSaveCoreData({
+          data: payloadContactInfo,
+        });
 
         setStep(step + 1);
         break;
@@ -151,9 +153,9 @@ const ContactDetails = () => {
           skills: selectedPosition.map((skill) => skill.id),
         };
 
-        // await useSaveSkills({
-        //   data: payloadSkills,
-        // });
+        await useSaveSkills({
+          data: payloadSkills,
+        });
 
         setStep(step + 1);
         break;
@@ -168,21 +170,25 @@ const ContactDetails = () => {
           graduated_university: boolean;
           specialtyId?: string;
           previous_experience?: string;
+          desiredSpecialties?: string[];
         }
 
         const payloadExperienceData = {
           data: {
             graduated_university,
-            ...(selectedSpecialty?.id && { specialtyId: selectedSpecialty.id }),
+            ...(selectedSpecialty?.id &&
+              hasHigherEducation && {
+                specialty_id: selectedSpecialty.id,
+              }),
             ...(previous_experience && { previous_experience }),
+            ...(selectedSpecialty?.id &&
+              !hasHigherEducation && {
+                desired_specialties: [selectedSpecialty.id],
+              }),
           } as ExperienceData,
         };
 
-        console.log(111, payloadExperienceData);
-
-        // await useSaveExperienceData({
-        //   data: payloadExperienceData,
-        // });
+        await useSaveExperienceData(payloadExperienceData);
 
         setTimeout(() => {
           navigate("/vacancy");
@@ -264,10 +270,10 @@ const ContactDetails = () => {
                     e.currentTarget.focus();
                   }}
                   style={{
-                    WebkitAppearance: 'none',
-                    MozAppearance: 'none',
-                    appearance: 'none',
-                    cursor: 'pointer'
+                    WebkitAppearance: "none",
+                    MozAppearance: "none",
+                    appearance: "none",
+                    cursor: "pointer",
                   }}
                 />
 
@@ -539,7 +545,7 @@ const ContactDetails = () => {
           </Field>
         </div>
 
-        <Field name="specialty">
+        <Field name={"specialty"}>
           {({ field, form }: any) => (
             <div
               className="self-stretch flex-col justify-start items-start gap-1.5 flex"
