@@ -1,8 +1,9 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
+import apiEndpoints from "@/api/api";
 
 import Input from "../../../components/FormComponents/Input/Input";
 import Button from "../../../components/FormComponents/Button/Button";
@@ -11,6 +12,13 @@ import { educationSpecialities } from "../../../mop/educationSpecialities";
 import { usePosition } from "@/api/position/usePosition";
 
 const ContactDetails = () => {
+  const [positions, setPositions] = useState<
+    {
+      id: string;
+      code: string;
+      title: string;
+    }[]
+  >([]);
   const navigate = useNavigate();
   const [step, setStep] = useState(2);
   const [hasHigherEducation, setHasHigherEducation] = useState(false);
@@ -34,9 +42,11 @@ const ContactDetails = () => {
     };
   }, []);
 
-  const data = usePosition();
-  console.log(data);
-  const positions = ["Розробник", "Дизайнер", "Менеджер", "Аналітик"];
+  useEffect(() => {
+    apiEndpoints.position.getAll().then((res) => {
+      setPositions(res.data);
+    });
+  }, []);
 
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Обов'язкове поле"),
@@ -185,11 +195,11 @@ const ContactDetails = () => {
                     }}
                   >
                     <option value="">Оберіть посаду</option>
-                    {positions.map((pos) => (
-                      <option key={pos} value={pos}>
-                        {pos}
-                      </option>
-                    ))}
+
+                    {positions &&
+                      positions.map((pos) => (
+                        <option key={pos.code}>{pos.title}</option>
+                      ))}
                   </select>
                   {field.value && (
                     <button

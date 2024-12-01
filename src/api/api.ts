@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Base Axios instance
 const api = axios.create({
-  baseURL: `http://d8kscscooggc4gwo8co8k0o4.198.12.77.132.sslip.io/api/v1`,
+  baseURL: `https://hackaton-api.apps.devkucher.com/api/v1`,
   headers: {
     "Content-Type": "application/json",
   },
@@ -13,7 +13,6 @@ const api = axios.create({
 const get = async (url: string, params = {}) => {
   try {
     const response = await api.get(url, { params });
-    console.log(`GET ${url} succeeded:`, response.data);
     return response.data;
   } catch (error) {
     console.error(`GET ${url} failed:`, error);
