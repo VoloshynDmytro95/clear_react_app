@@ -46,6 +46,8 @@ const patch = async (url: string, data = {}) => {
 const apiEndpoints = {
   user: {
     fillData: (data: Record<string, any>) => patch("/user/fill-data", data),
+    saveCoreData: (data: Record<string, any>) =>
+      patch("/user/save-core-data", { ...data.data }),
   },
   position: {
     getAll: () => get("/position"),
@@ -53,8 +55,11 @@ const apiEndpoints = {
   },
   auth: {
     refresh: () => patch("/auth/refresh"),
-    login: (credentials: { email: string; password: string; rememberMe: boolean }) =>
-      post("/auth/login", credentials),
+    login: (credentials: {
+      email: string;
+      password: string;
+      rememberMe: boolean;
+    }) => post("/auth/login", credentials),
     register: (data: { email: string; password: string }) =>
       post("/auth/register", data),
     logout: () => post("/auth/logout"),
