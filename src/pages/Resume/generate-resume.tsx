@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import { useMe } from "@/api/user/useMe";
-import { useAI } from "@/hooks/useAI";
 import VacancyHeader from "../Vacancy/components/Header/Header";
+import { useSkillsResume } from "@/api/user/skillsResume";
 
 interface UserData {
   fullName: string;
@@ -16,6 +16,10 @@ interface UserData {
   };
   experience: string;
   specialties: string[];
+  specialty: {
+    id: string;
+    uk_name: string;
+  };
 }
 
 interface APIResponse {
@@ -27,6 +31,10 @@ interface APIResponse {
   email?: string;
   skills?: Array<{ uk_name: string }>;
   desired_specialties?: Array<{ uk_name: string }>;
+  specialty?: {
+    id: string;
+    uk_name: string;
+  };
 }
 
 const ResumeView = ({
@@ -39,24 +47,20 @@ const ResumeView = ({
   return (
     <div
       id="resume-content"
-      className="p-8 bg-white"
+      className="p-4 md:p-8 bg-white w-full md:w-[210mm] min-h-screen md:min-h-[297mm] mx-auto box-border"
       style={{
-        width: "210mm",
-        minHeight: "297mm",
-        margin: "0 auto",
-        padding: "20mm",
-        boxSizing: "border-box",
+        padding: "10mm",
       }}
     >
-      <h1 className="text-3xl font-bold mb-6 text-center">
+      <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-center">
         {userData.fullName}
       </h1>
 
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-3 border-b-2 border-gray-300 pb-1">
+      <div className="mb-6 md:mb-8">
+        <h2 className="text-lg md:text-xl font-semibold mb-2 md:mb-3 border-b-2 border-gray-300 pb-1">
           Контакти
         </h2>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-2">
           <p>
             <span className="font-medium">Email:</span> {userData.email}
           </p>
@@ -67,22 +71,22 @@ const ResumeView = ({
       </div>
 
       {aiSummary && (
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-3 border-b-2 border-gray-300 pb-1">
+        <div className="mb-6 md:mb-8">
+          <h2 className="text-lg md:text-xl font-semibold mb-2 md:mb-3 border-b-2 border-gray-300 pb-1">
             Про мене
           </h2>
-          <p className="text-gray-700 whitespace-pre-line">{aiSummary}</p>
+          <p className="text-gray-700 whitespace-pre-line text-sm md:text-base">{aiSummary}</p>
         </div>
       )}
 
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-3 border-b-2 border-gray-300 pb-1">
+      <div className="mb-6 md:mb-8">
+        <h2 className="text-lg md:text-xl font-semibold mb-2 md:mb-3 border-b-2 border-gray-300 pb-1">
           Професійні навички
         </h2>
 
         <div className="flex flex-wrap gap-2">
           {userData.skills.map((skill, index) => (
-            <span key={index} className="bg-gray-100 px-3 py-1 rounded text-sm">
+            <span key={index} className="bg-gray-100 px-2 md:px-3 py-1 rounded text-xs md:text-sm">
               {skill}
             </span>
           ))}
@@ -90,38 +94,36 @@ const ResumeView = ({
       </div>
 
       {userData.education.hasHigherEducation && (
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-3 border-b-2 border-gray-300 pb-1">
+        <div className="mb-6 md:mb-8">
+          <h2 className="text-lg md:text-xl font-semibold mb-2 md:mb-3 border-b-2 border-gray-300 pb-1">
             Освіта
           </h2>
-          <p className="font-medium mb-1">
+          <p className="font-medium mb-1 text-sm md:text-base">
             {userData.education.hasHigherEducation ? "Вища освіта" : ""}
           </p>
           {userData.education.details && (
-            <p className="text-gray-700">{userData.education.details}</p>
+            <p className="text-gray-700 text-sm md:text-base"> {userData.specialty.uk_name}</p>
           )}
         </div>
       )}
 
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-3 border-b-2 border-gray-300 pb-1">
+      <div className="mb-6 md:mb-8">
+        <h2 className="text-lg md:text-xl font-semibold mb-2 md:mb-3 border-b-2 border-gray-300 pb-1">
           Професійний досвід
         </h2>
-        <p className="text-gray-700 whitespace-pre-line">
+        <p className="text-gray-700 whitespace-pre-line text-sm md:text-base">
           {userData.experience}
         </p>
       </div>
 
       {/* <div>
-        <h2 className="text-xl font-semibold mb-3 border-b-2 border-gray-300 pb-1">
+        <h2 className="text-lg md:text-xl font-semibold mb-2 md:mb-3 border-b-2 border-gray-300 pb-1">
           Desired Positions
         </h2>
         <div className="flex flex-wrap gap-2">
-          {userData.specialties.map((specialty, index) => (
-            <span key={index} className="bg-gray-100 px-3 py-1 rounded text-sm">
-              {specialty}
-            </span>
-          ))}
+          <span className="bg-gray-100 px-2 md:px-3 py-1 rounded text-xs md:text-sm">
+            {userData.specialty.uk_name}
+          </span>
         </div>
       </div> */}
     </div>
@@ -140,9 +142,12 @@ const Generateresume = () => {
     },
     experience: "",
     specialties: [],
+    specialty: {
+      id: "",
+      uk_name: "",
+    },
   });
 
-  const { callAI, isLoading, error, response } = useAI();
   const [aiSummary, setAiSummary] = useState("");
   const [isGenerating, setIsGenerating] = useState(true);
   const [hasGeneratedSummary, setHasGeneratedSummary] = useState(false);
@@ -161,30 +166,35 @@ const Generateresume = () => {
           details: "", // Specific details not provided in API response
         },
         experience: response.coreData?.previous_experience || "",
+        specialty: response?.specialty || {
+          id: "",
+          uk_name: "",
+        },
         specialties:
           response.desired_specialties?.map((specialty) => specialty.uk_name) ||
           [],
       });
     };
 
+    const getAIResumeSummary = async () => {
+      const result = await useSkillsResume();
+      setAiSummary(result as string);
+      setIsGenerating(false);
+    };
+
     fetchUser();
+    getAIResumeSummary();
   }, []);
 
-  useEffect(() => {
-    if (userData.skills.length > 0 && !hasGeneratedSummary) {
-      setHasGeneratedSummary(true);
+  // useEffect(() => {
+  //   const getAIResumeSummary = async () => {
+  //     const result = await useSkillsResume();
+  //     setAiSummary(result as string);
+  //     setIsGenerating(false);
+  //   };
 
-      const generateResponse = async () => {
-        const result = await callAI(
-          `Проаналізуй дані навички користувача: ${userData.skills.join(", ")} і створи секцію резюме для користувача.`
-        );
-        setAiSummary(result);
-        setIsGenerating(false);
-      };
-
-      generateResponse();
-    }
-  }, [userData.skills, hasGeneratedSummary]);
+  //   getAIResumeSummary();
+  // }, []);
 
   console.log("aiSummary: ", aiSummary);
 
@@ -213,7 +223,7 @@ const Generateresume = () => {
     pdf.save(`Резюме ${userData.fullName}.pdf`);
   };
 
-  if (isGenerating || isLoading) {
+  if (isGenerating) {
     return (
       <>
         <VacancyHeader />
