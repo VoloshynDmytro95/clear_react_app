@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import { useMe } from "@/api/user/useMe";
+import { useAI } from "@/hooks/useAI";
 
 interface UserData {
   fullName: string;
@@ -16,7 +17,13 @@ interface UserData {
   specialties: string[];
 }
 
-const ResumeView = ({ userData }: { userData: UserData }) => {
+const ResumeView = ({
+  userData,
+  aiSummary,
+}: {
+  userData: UserData;
+  aiSummary: string;
+}) => {
   return (
     <div
       id="resume-content"
@@ -47,10 +54,20 @@ const ResumeView = ({ userData }: { userData: UserData }) => {
         </div>
       </div>
 
+      {aiSummary && (
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-3 border-b-2 border-gray-300 pb-1">
+            Про мене
+          </h2>
+          <p className="text-gray-700 whitespace-pre-line">{aiSummary}</p>
+        </div>
+      )}
+
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-3 border-b-2 border-gray-300 pb-1">
           Професійні навички
         </h2>
+
         <div className="flex flex-wrap gap-2">
           {userData.skills.map((skill, index) => (
             <span key={index} className="bg-gray-100 px-3 py-1 rounded text-sm">
@@ -60,23 +77,23 @@ const ResumeView = ({ userData }: { userData: UserData }) => {
         </div>
       </div>
 
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-3 border-b-2 border-gray-300 pb-1">
-          Освіта
-        </h2>
-        <p className="font-medium mb-1">
-          {userData.education.hasHigherEducation
-            ? "Вища освіта"
-            : ""}
-        </p>
-        {userData.education.details && (
-          <p className="text-gray-700">{userData.education.details}</p>
-        )}
-      </div>
+      {userData.education.hasHigherEducation && (
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-3 border-b-2 border-gray-300 pb-1">
+            Освіта
+          </h2>
+          <p className="font-medium mb-1">
+            {userData.education.hasHigherEducation ? "Вища освіта" : ""}
+          </p>
+          {userData.education.details && (
+            <p className="text-gray-700">{userData.education.details}</p>
+          )}
+        </div>
+      )}
 
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-3 border-b-2 border-gray-300 pb-1">
-          Professional Experience
+          Професійний досвід
         </h2>
         <p className="text-gray-700 whitespace-pre-line">
           {userData.experience}
@@ -113,6 +130,10 @@ const Generateresume = () => {
     specialties: [],
   });
 
+  const { callAI, isLoading, error, response } = useAI();
+  const [aiSummary, setAiSummary] = useState("");
+  const [isGenerating, setIsGenerating] = useState(true);
+
   useEffect(() => {
     const fetchUser = async () => {
       const response = await useMe();
@@ -139,6 +160,20 @@ const Generateresume = () => {
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    if (userData.skills.length > 0) {
+      const generateResponse = async () => {
+        const result = await callAI(
+          `Проаналізуй дані навички користувача: ${userData.skills.join(", ")} і створи секціюрезюме для користувача.`
+        );
+        setAiSummary(result);
+        setIsGenerating(false);
+      };
+
+      generateResponse();
+    }
+  }, [userData.skills]);
+
   const generatePDF = async () => {
     const content = document.getElementById("resume-content");
     if (!content) return;
@@ -164,6 +199,17 @@ const Generateresume = () => {
     pdf.save("resume.pdf");
   };
 
+  if (isGenerating || isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-[#0F172A]/20 border-t-[#0F172A]"></div>
+          <p className="text-lg text-[#0F172A] font-medium animate-pulse">Генеруємо ваше резюме...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div>
@@ -176,7 +222,7 @@ const Generateresume = () => {
           </button>
         </div>
 
-        <ResumeView userData={userData} />
+        <ResumeView userData={userData} aiSummary={aiSummary} />
       </div>
     </div>
   );
