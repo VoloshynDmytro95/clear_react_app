@@ -10,7 +10,7 @@ import {
 
 // Base Axios instance
 const api = axios.create({
-  baseURL: `https://hackaton-api.apps.devkucher.com/api/v1`,
+  baseURL: `http://localhost:3000/api/v1`,
   headers: {
     "Content-Type": "application/json",
   },

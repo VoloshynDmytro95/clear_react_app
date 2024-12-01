@@ -9,6 +9,7 @@ export interface SearchVacancyPayload {
   salaryTo: number;
   schedule: VacancySchedule | null;
   skills: string[]; // UUID IDs
+  page: number;
 }
 
 export interface SearchVacancyResponse {
