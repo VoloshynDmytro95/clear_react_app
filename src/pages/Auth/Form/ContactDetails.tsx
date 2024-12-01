@@ -24,6 +24,10 @@ const ContactDetails = () => {
       is: 1,
       then: () => Yup.string().required("Обов'язкове поле"),
     }),
+    additionalInfo: Yup.string().when("step", {
+      is: 2,
+      then: () => Yup.string().required("Обов'язкове поле"),
+    }),
   });
 
   const initialValues = {
@@ -35,6 +39,7 @@ const ContactDetails = () => {
     ubdNumber: "",
     address: "",
     city: "",
+    additionalInfo: "",
   };
 
   const handleSubmit = (values: any, { setSubmitting }: any) => {
@@ -47,7 +52,9 @@ const ContactDetails = () => {
   };
 
   const renderProgressBar = (currentStep: number) => {
-    const width = currentStep === 0 ? "21px" : "166px";
+    const width = 
+      currentStep === 0 ? "21px" : 
+      currentStep === 1 ? "166px" : "332px";
     return (
       <div className="w-[332px] h-1.5 relative">
         <div className="w-[332px] h-1.5 left-0 top-0 absolute bg-slate-100 rounded-[40px]" />
@@ -127,33 +134,54 @@ const ContactDetails = () => {
         </div>
       );
     }
+    
+    if (step === 1) {
+      return (
+        <div className="self-stretch h-[398px] flex-col justify-start items-start gap-3 flex">
+          <Field name="address">
+            {({ field }: any) => (
+              <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
+                <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
+                  Адреса
+                </div>
+                <input
+                  {...field}
+                  className="self-stretch p-3 bg-white rounded-xl border border-slate-300"
+                  placeholder="Введіть адресу"
+                />
+              </div>
+            )}
+          </Field>
+          <Field name="city">
+            {({ field }: any) => (
+              <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
+                <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
+                  Місто
+                </div>
+                <input
+                  {...field}
+                  className="self-stretch p-3 bg-white rounded-xl border border-slate-300"
+                  placeholder="Введіть місто"
+                />
+              </div>
+            )}
+          </Field>
+        </div>
+      );
+    }
 
     return (
       <div className="self-stretch h-[398px] flex-col justify-start items-start gap-3 flex">
-        <Field name="address">
+        <Field name="additionalInfo">
           {({ field }: any) => (
             <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
               <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
-                Адреса
+                Додаткова інформація
               </div>
-              <input
+              <textarea
                 {...field}
-                className="self-stretch p-3 bg-white rounded-xl border border-slate-300"
-                placeholder="Введіть адресу"
-              />
-            </div>
-          )}
-        </Field>
-        <Field name="city">
-          {({ field }: any) => (
-            <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
-              <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
-                Місто
-              </div>
-              <input
-                {...field}
-                className="self-stretch p-3 bg-white rounded-xl border border-slate-300"
-                placeholder="Введіть місто"
+                className="self-stretch p-3 bg-white rounded-xl border border-slate-300 min-h-[150px]"
+                placeholder="Введіть додаткову інформацію"
               />
             </div>
           )}
@@ -183,7 +211,11 @@ const ContactDetails = () => {
                 </div>
                 <div className="self-stretch justify-start items-start gap-2 inline-flex">
                   <div className="grow shrink basis-0 text-[#000002] text-[28px] font-bold font-['Inter'] leading-10">
-                    {step === 0 ? "Введіть Ваші дані" : "Введіть адресу"}
+                    {step === 0 
+                      ? "Введіть Ваші дані" 
+                      : step === 1 
+                      ? "Введіть адресу" 
+                      : "Додаткова інформація"}
                   </div>
                   <div className="px-1.5 justify-center items-center flex">
                     <div className="text-black text-[28px] font-bold font-['Inter'] leading-10">
