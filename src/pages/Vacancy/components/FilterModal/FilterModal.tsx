@@ -5,15 +5,22 @@ import { CloseIcon } from "@/components/icons/CloseIcon";
 export type SearchFilters = Omit<SearchVacancyPayload, "skills" | "page">;
 
 interface FilterModalProps {
+  selectedFilters: SearchFilters;
   onSubmit: (payload: SearchFilters) => void;
   onClose: () => void;
 }
 
-const FilterModal = ({ onSubmit, onClose }: FilterModalProps) => {
-  const [salaryFrom, setSalaryFrom] = useState<number>(10000);
-  const [salaryTo, setSalaryTo] = useState<number>(20000);
+const FilterModal = ({
+  selectedFilters,
+  onSubmit,
+  onClose,
+}: FilterModalProps) => {
+  const [salaryFrom, setSalaryFrom] = useState<number>(
+    selectedFilters.salaryFrom,
+  );
+  const [salaryTo, setSalaryTo] = useState<number>(selectedFilters.salaryTo);
   const [schedule, setSchedule] = useState<VacancySchedule>(
-    VacancySchedule.FULL_TIME,
+    selectedFilters.schedule,
   );
 
   return (
@@ -93,6 +100,7 @@ const FilterModal = ({ onSubmit, onClose }: FilterModalProps) => {
                       placeholder="Від"
                       type="number"
                       min="0"
+                      value={salaryFrom}
                       onChange={(e) => setSalaryFrom(parseInt(e.target.value))}
                     />
                     <input
@@ -100,6 +108,7 @@ const FilterModal = ({ onSubmit, onClose }: FilterModalProps) => {
                       placeholder="До"
                       type="number"
                       min="0"
+                      value={salaryTo}
                       onChange={(e) => setSalaryTo(parseInt(e.target.value))}
                     />
                   </div>

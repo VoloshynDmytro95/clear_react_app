@@ -7,7 +7,7 @@ export interface Position {
 export interface SearchVacancyPayload {
   salaryFrom: number;
   salaryTo: number;
-  schedule: VacancySchedule | null;
+  schedule: VacancySchedule;
   skills: string[]; // UUID IDs
   page: number;
 }
