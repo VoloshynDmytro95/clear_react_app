@@ -439,7 +439,7 @@ const ContactByDia = () => {
                         ))}
                     </div>
 
-                    <div className="self-stretch flex items-center gap-2">
+                    {/* <div className="self-stretch flex items-center gap-2">
                       <input
                         type="text"
                         value={newSkill}
@@ -482,7 +482,7 @@ const ContactByDia = () => {
                       >
                         Додати
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               )

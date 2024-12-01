@@ -1,5 +1,5 @@
 import { Vacancy } from "@/api/types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
 import { vacancyScheduleToString } from "@/api/vacancyScheduleToString";
 
@@ -7,7 +7,12 @@ const VacancyCard = ({
   isApplied,
   ...vacancy
 }: { isApplied: boolean } & Vacancy) => {
-  console.log(isApplied);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/vacancy/${vacancy.id}`);
+  };
+
   const renderSalary = () => {
     if (vacancy.salary) {
       return `${vacancy.salary} грн.`;
@@ -28,8 +33,9 @@ const VacancyCard = ({
     }
     return <div className="w-4 h-4 relative" />;
   };
+
   return (
-    <div>
+    <div onClick={handleClick} className="cursor-pointer">
       <div className="flex-col justify-start items-start gap-6 flex">
         <div className="self-stretch p-5 bg-white rounded-[20px] shadow border border-neutral-300 flex-col justify-start items-start gap-5 flex">
           <div className="self-stretch flex-col justify-start items-start gap-2 flex">
