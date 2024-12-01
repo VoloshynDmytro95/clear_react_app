@@ -383,7 +383,7 @@ export const useAI = () => {
 const { name, shortDescription, description, schedule } = vacancyExample;
 
 // Initialize the AI hook
-const { callAI } = useAI();
+// const { callAI } = useAI();
 
 // Make API call with formatted vacancy data
 // const response = await callAI(

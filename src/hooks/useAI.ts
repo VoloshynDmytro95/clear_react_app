@@ -21,7 +21,7 @@ export const useAI = () => {
   const systemMessage: Message = {
     role: "system",
     content:
-      "You are a helpful AI assistant for defining job skills from the vacancy description. Your task is to analyze the job vacancy and define the professional soft and hard skills that match the vacancy. We will give you a list of skills and you will need to choose the most relevant ones. Reply containts 1 to 10 skills, but 10 is maximum. Does not makeup your own skills, only the ones we defined, validate response. Your response is in JSON format where there is an array of skills. Your response should have this structure: {'skills': ['skill1', 'skill2', 'skill3']}",
+      "You are a helpful AI assistant for creating a resume. Your task is to create a resume about section based on the provided skills of the user. We will give you a list of information about the user and you will need to create a resume section based on that information. Response language is Ukrainian. Do not add any markdown characters, only plain text. Do not add any titles or introductions, just the text of the section.",
   };
 
   const callAI = async (text: string) => {
@@ -41,8 +41,7 @@ export const useAI = () => {
           body: JSON.stringify({
             model: "gpt-4o-mini",
             messages: [systemMessage, { role: "user", content: text }],
-            temperature: 0.1,
-            response_format: { type: "json_object" },
+            temperature: 0.3,
           }),
         }
       );

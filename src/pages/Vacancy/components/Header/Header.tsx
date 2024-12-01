@@ -28,7 +28,7 @@ const VacancyHeader = () => {
         </button>
         
         {isDropdownOpen && (
-          <div ref={dropdownRef} className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+          <div ref={dropdownRef} className="absolute right-0 mt-2 w-[200px] bg-white rounded-md shadow-lg py-1">
             <button className="block w-full text-left px-4 py-2 hover:bg-gray-100">
               Мої вакансії
             </button>
@@ -38,6 +38,10 @@ const VacancyHeader = () => {
             <button className="block w-full text-left px-4 py-2 hover:bg-gray-100">
               Вийти
             </button>
+
+            <a href="resume" className="block w-full text-left px-4 py-2 hover:bg-gray-100">
+              Згенерувати резюме
+            </a>
           </div>
         )}
       </div>

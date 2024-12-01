@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { SearchVacancyPayload, VacancySchedule } from "@/api/types";
 
+export type SearchFilters = Omit<SearchVacancyPayload, "skills" | "page">;
+
 interface FilterModalProps {
-  onSubmit: (payload: Omit<SearchVacancyPayload, "skills">) => void;
+  onSubmit: (payload: SearchFilters) => void;
 }
 
 const FilterModal = ({ onSubmit }: FilterModalProps) => {
