@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Base Axios instance
 const api = axios.create({
-  baseURL: `${process.env.REACT_APP_API_BASE_URL}`,
+  baseURL: `http://d8kscscooggc4gwo8co8k0o4.198.12.77.132.sslip.io/api/v1`,
   headers: {
     "Content-Type": "application/json",
   },

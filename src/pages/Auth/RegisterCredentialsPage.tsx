@@ -34,7 +34,7 @@ const RegisterCredentialsPage = () => {
 
     if (user.status === true) {
       setTimeout(() => {
-        navigate("/employee/contact-details");
+        navigate("/contact-details");
       }, 500);
     }
   };
