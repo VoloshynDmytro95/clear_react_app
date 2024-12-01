@@ -7,11 +7,17 @@ import employerIcon from "../../pages/Home/assets/illustration-company.png";
 
 import { useNavigate } from "react-router-dom";
 import { LoadingModal } from "@/animations/loading";
+import { useRegister } from "@/api/auth/register/useRegister";
+import { useState } from "react";
+import { useUser } from "@/providers/UserProvider/UserProvider";
 
 const RegisterPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { setMockData } = useUser();
 
   const generateRandomCredentials = () => {
+    setIsLoading(true);
     const randomString = Math.random().toString(36).substring(2, 10);
     const email = `user_${randomString}@example.com`;
     const password =
@@ -21,11 +27,20 @@ const RegisterPage = () => {
     localStorage.setItem("tempEmail", email);
     localStorage.setItem("tempPassword", password);
 
-    return { email, password };
+    useRegister({ email, password });
+    // імітація загрузки
+    setMockData();
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+    setTimeout(() => {
+      navigate("/register-by-dia");
+    }, 2500);
   };
 
   return (
     <div className="bg-[#E1DECB] flex flex-col justify-center items-center h-screen">
+      <LoadingModal isOpen={isLoading} onClose={() => {}} />
       <div className="text-center px-6">
         <h1 className="text-[28px] font-[700] leading-10">єМайбутнє</h1>
         <p className="text-[16px] font-[400] leading-7">
@@ -39,7 +54,6 @@ const RegisterPage = () => {
           className="!bg-black text-white w-[345px]"
           onClick={() => {
             const credentials = generateRandomCredentials();
-            console.log("Generated credentials:", credentials); // для дебагу
             // navigate("/register-by-dia");
           }}
         >

@@ -25,7 +25,7 @@ export const LoadingModal: React.FC<LoadingModalProps> = ({ isOpen, onClose }) =
         className="fixed inset-0 bg-black bg-opacity-50"
         onClick={onClose}
       />
-      <div className="relative z-10 bg-white rounded-lg p-6 max-w-md w-full">
+      <div className="relative z-10 bg-white rounded-lg p-6 max-w-md">
         <Lottie 
           animationData={animationData}
           loop={true}
