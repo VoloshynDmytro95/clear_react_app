@@ -17,6 +17,17 @@ interface UserData {
   specialties: string[];
 }
 
+interface APIResponse {
+  coreData?: {
+    fullName?: string;
+    graduated_university?: boolean;
+    previous_experience?: string;
+  };
+  email?: string;
+  skills?: Array<{ uk_name: string }>;
+  desired_specialties?: Array<{ uk_name: string }>;
+}
+
 const ResumeView = ({
   userData,
   aiSummary,
@@ -136,14 +147,14 @@ const Generateresume = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const response = await useMe();
+      const response = await useMe() as APIResponse;
 
       setUserData({
         fullName: response.coreData?.fullName || "",
         email: response.email || "",
         // phone: "", // Not provided in API response
         skills:
-          response.skills?.map((skill: { uk_name: any }) => skill.uk_name) ||
+          response.skills?.map((skill) => skill.uk_name) ||
           [],
         education: {
           hasHigherEducation: response.coreData?.graduated_university || false,
@@ -152,7 +163,7 @@ const Generateresume = () => {
         experience: response.coreData?.previous_experience || "",
         specialties:
           response.desired_specialties?.map(
-            (specialty: { uk_name: any }) => specialty.uk_name
+            (specialty) => specialty.uk_name
           ) || [],
       });
     };
@@ -204,7 +215,9 @@ const Generateresume = () => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="animate-spin rounded-full h-16 w-16 border-4 border-[#0F172A]/20 border-t-[#0F172A]"></div>
-          <p className="text-lg text-[#0F172A] font-medium animate-pulse">Генеруємо ваше резюме...</p>
+          <p className="text-lg text-[#0F172A] font-medium animate-pulse">
+            Генеруємо ваше резюме...
+          </p>
         </div>
       </div>
     );
