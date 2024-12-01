@@ -53,7 +53,7 @@ const apiEndpoints = {
   },
   auth: {
     refresh: (data: { refreshToken: string }) => patch("/auth/refresh", data),
-    login: (credentials: { email: string; password: string }) =>
+    login: (credentials: { email: string; password: string; rememberMe: boolean }) =>
       post("/auth/login", credentials),
     register: (data: { email: string; password: string }) =>
       patch("/auth/register", data),

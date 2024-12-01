@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
-import { useRegister } from "@/api/register/useRegister";
+import { useRegister } from "@/api/auth/register/useRegister";
 
 const RegisterCredentialsPage = () => {
   const navigate = useNavigate();
