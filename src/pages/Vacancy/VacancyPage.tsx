@@ -4,7 +4,6 @@ import { useAI } from "@/hooks/useAI";
 import { useEffect, useState } from "react";
 import { vacancyExample } from "@/mop/vacancyExample";
 import { jobSkills } from "@/mop/jobSkills";
-import { useUserRegister } from "@/hooks/useUserRegister";
 import Subtitle from "@/components/GeneralComponents/Subtitle";
 
 const VacancyPage = () => {
@@ -24,10 +23,6 @@ const VacancyPage = () => {
 
   //   getAIResponse();
   // }, []);
-
-  useEffect(() => {
-    useUserRegister({ email: "test@example.com", password: "123456" });
-  }, []);
 
   return (
     <div>

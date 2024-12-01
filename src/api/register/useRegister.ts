@@ -1,6 +1,6 @@
 import api from "@/api/api";
 
-export async function useUserRegister({
+export async function useRegister({
   email,
   password,
 }: {
@@ -12,7 +12,8 @@ export async function useUserRegister({
       email,
       password,
     });
-    console.log(user);
+    console.log("user register:", user);
+    return user;
   } catch (error) {
     console.error("Error logging in:", error);
   }

@@ -3,10 +3,11 @@ import Title from "@/components/GeneralComponents/Title";
 import Subtitle from "@/components/GeneralComponents/Subtitle";
 import Input from "@/components/FormComponents/Input/Input";
 import BackButton from "@/components/GeneralComponents/BackButton";
+import * as Yup from "yup";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import { useRegister } from "@/api/register/useRegister";
 
 const RegisterCredentialsPage = () => {
   const navigate = useNavigate();
@@ -23,11 +24,19 @@ const RegisterCredentialsPage = () => {
     dataApproval: Yup.boolean(),
   });
 
-  const handleSubmit = (values: any) => {
+  const handleSubmit = async (values: any) => {
     setIsLoading(true);
-    setTimeout(() => {
-      navigate("/employee/contact-details");
-    }, 500);
+
+    const user = await useRegister({
+      email: values.email,
+      password: values.password,
+    });
+
+    if (user.status === true) {
+      setTimeout(() => {
+        navigate("/employee/contact-details");
+      }, 500);
+    }
   };
 
   return (
