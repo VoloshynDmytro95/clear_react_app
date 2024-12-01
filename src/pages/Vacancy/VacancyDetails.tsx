@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import Header from "@/pages/Vacancy/components/Header/Header";
 import { LoadingModal } from "@/animations/loading";
 import api from "@/api/api";
-import Modal from "@/components/Modal/Modal";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

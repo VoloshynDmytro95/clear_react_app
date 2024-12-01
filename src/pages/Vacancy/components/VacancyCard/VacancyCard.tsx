@@ -44,17 +44,22 @@ const VacancyCard = ({
               </div>
             </div>
             <div className="self-stretch justify-center items-end gap-2 inline-flex">
-              <div className="grow shrink basis-0 h-[38px] justify-start items-center gap-2 flex">
-                <div className="bg-[#edeff4] rounded-[26.67px] justify-start items-start gap-[6.67px] flex w-8 h-8">
-                  {renderLogo()}
+              <div className="self-stretch justify-center items-center gap-2 inline-flex">
+                <div className="grow shrink basis-0 h-[38px] justify-start items-center gap-2 flex">
+                  <div className="bg-[#edeff4] rounded-[26.67px] justify-start items-start gap-[6.67px] flex w-8 h-8">
+                    {renderLogo()}
+                  </div>
+                  <div className="grow shrink basis-0 flex-col justify-start items-start gap-1 inline-flex">
+                    <div className="self-stretch text-[#3c3c3c] text-sm font-bold font-['Inter'] leading-[14px]">
+                      {vacancy.companyName}
+                    </div>
+                    <div className="w-[233px] h-5 text-[#767f8c] text-sm font-normal font-['Inter'] leading-tight">
+                      {vacancy.cityName}
+                    </div>
+                  </div>
                 </div>
-                <div className="grow shrink basis-0 flex-col justify-start items-start gap-1 inline-flex">
-                  <div className="self-stretch text-[#3c3c3c] text-sm font-bold font-['Inter'] leading-[14px]">
-                    {vacancy.companyName}
-                  </div>
-                  <div className="w-[233px] h-5 text-[#767f8c] text-sm font-normal font-['Inter'] leading-tight">
-                    {vacancy.cityName}
-                  </div>
+                <div className="relative">
+                  <FaChevronRight color="#3D3D3D" size={14} />
                 </div>
               </div>
               <div className="w-6 h-6 relative">
@@ -62,33 +67,14 @@ const VacancyCard = ({
               </div>
             </div>
             {isApplied && (
-          <div className="bg-green-200 p-2 rounded-md text-gray-600 text-[8px]">
-            Ви вже відгукнулись на цю вакансію
-          </div>
-        )}
-          <div className="self-stretch justify-center items-center gap-2 inline-flex">
-            <div className="grow shrink basis-0 h-[38px] justify-start items-center gap-2 flex">
-              <div className="bg-[#edeff4] rounded-[26.67px] justify-start items-start gap-[6.67px] flex w-8 h-8">
-                {renderLogo()}
+              <div className="bg-green-200 p-2 rounded-md text-gray-600 text-[8px]">
+                Ви вже відгукнулись на цю вакансію
               </div>
-              <div className="grow shrink basis-0 flex-col justify-start items-start gap-1 inline-flex">
-                <div className="self-stretch text-[#3c3c3c] text-sm font-bold font-['Inter'] leading-[14px]">
-                  {vacancy.companyName}
-                </div>
-                <div className="w-[233px] h-5 text-[#767f8c] text-sm font-normal font-['Inter'] leading-tight">
-                  {vacancy.cityName}
-                </div>
-              </div>
-            </div>
-            <div className="relative">
-              <FaChevronRight color="#3D3D3D" size={14} />
-            </div>
+            )}
           </div>
-
         </div>
-
       </div>
-    </Link>
+    </div>
   );
 };
 
