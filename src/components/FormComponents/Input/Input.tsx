@@ -11,7 +11,6 @@ const Input = ({ type, name, placeholder, error, className }: any) => {
           <div className="text-[#FE8909] text-[14px] leading-5">{error}</div>
         )}
       </label>
-
       <Field
         type={type}
         name={name}

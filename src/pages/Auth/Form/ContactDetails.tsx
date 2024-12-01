@@ -6,10 +6,7 @@ import { IoMdClose } from "react-icons/io";
 import apiEndpoints from "@/api/api";
 
 import Input from "../../../components/FormComponents/Input/Input";
-import Button from "../../../components/FormComponents/Button/Button";
 import { educationSpecialities } from "../../../mop/educationSpecialities";
-
-import { usePosition } from "@/api/position/usePosition";
 
 const ContactDetails = () => {
   const [positions, setPositions] = useState<
@@ -25,6 +22,8 @@ const ContactDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -33,6 +32,8 @@ const ContactDetails = () => {
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setShowDropdown(false);
+        setIsOpen(false);
+        setSearchTerm("");
       }
     };
 
@@ -44,7 +45,7 @@ const ContactDetails = () => {
 
   useEffect(() => {
     apiEndpoints.position.getAll().then((res) => {
-      setPositions(res.data);
+      setPositions(res);
     });
   }, []);
 
@@ -187,28 +188,50 @@ const ContactDetails = () => {
                   Посада
                 </div>
                 <div className="relative w-full">
-                  <select
-                    {...field}
-                    className="self-stretch w-full p-3 bg-white rounded-xl border border-slate-300 appearance-none"
-                    onChange={(e) => {
-                      field.onChange(e);
-                    }}
+                  <div
+                    className="self-stretch w-full p-3 bg-white rounded-xl border border-slate-300 cursor-pointer flex justify-between items-center"
+                    onClick={() => setIsOpen(!isOpen)}
                   >
-                    <option value="">Оберіть посаду</option>
+                    <span className={`${field.value ? "text-black" : "text-slate-400"} truncate flex-1 mr-2`}>
+                      {field.value ? positions.find(p => p.code === field.value)?.title : "Оберіть посаду"}
+                    </span>
+                    <svg className={`w-4 h-4 transition-transform flex-shrink-0 ${isOpen ? "rotate-180" : ""}`} viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
 
-                    {positions &&
-                      positions.map((pos) => (
-                        <option key={pos.code}>{pos.title}</option>
-                      ))}
-                  </select>
-                  {field.value && (
-                    <button
-                      type="button"
-                      className="absolute right-3 top-1/2 -translate-y-1/2"
-                      onClick={() => form.setFieldValue("position", "")}
-                    >
-                      <IoMdClose className="w-4 h-4" />
-                    </button>
+                  {isOpen && (
+                    <div className="absolute z-50 w-full mt-1 bg-white border border-slate-300 rounded-xl shadow-lg">
+                      <div className="p-2 border-b">
+                        <input
+                          type="text"
+                          className="w-full p-2 border rounded-lg"
+                          placeholder="Пошук..."
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      </div>
+                      <div className="overflow-y-auto" style={{ maxHeight: '200px' }}>
+                        {positions
+                          .filter(pos => 
+                            pos.title.toLowerCase().includes(searchTerm.toLowerCase())
+                          )
+                          .map((pos) => (
+                            <div
+                              key={pos.code}
+                              className="px-3 py-2 cursor-pointer hover:bg-gray-100 truncate"
+                              onClick={() => {
+                                form.setFieldValue("position", pos.code);
+                                setIsOpen(false);
+                                setSearchTerm("");
+                              }}
+                            >
+                              {pos.title}
+                            </div>
+                          ))}
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
