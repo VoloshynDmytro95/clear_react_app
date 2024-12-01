@@ -33,6 +33,11 @@ const RegisterCredentialsPage = () => {
     });
 
     if (user.status === true) {
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ email: values.email, password: values.password })
+      );
+
       setTimeout(() => {
         navigate("/contact-details");
       }, 500);
