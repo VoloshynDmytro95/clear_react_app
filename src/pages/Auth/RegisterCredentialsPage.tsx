@@ -6,7 +6,7 @@ import BackButton from "@/components/GeneralComponents/BackButton";
 import * as Yup from "yup";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 import { useRegister } from "@/api/auth/register/useRegister";
 
 const RegisterCredentialsPage = () => {
@@ -14,9 +14,15 @@ const RegisterCredentialsPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const validationSchema = Yup.object({
-    email: Yup.string(),
-    password: Yup.string(),
-    dataApproval: Yup.boolean(),
+    email: Yup.string()
+      .email("Невірна імейл адреса")
+      .required("Обовязкове поле"),
+    password: Yup.string()
+      .min(8, "Мінімальна довжина паролю 8 символів")
+      .required("Обовязкове поле"),
+    dataApproval: Yup.boolean()
+      .oneOf([true], "Ви повинні погодитися з обробкою персональних даних")
+      .required("Обовязкове поле"),
   });
 
   const handleSubmit = async (values: any) => {
@@ -30,7 +36,7 @@ const RegisterCredentialsPage = () => {
     if (user.status === true) {
       localStorage.setItem(
         "user",
-        JSON.stringify({ email: values.email, password: values.password })
+        JSON.stringify({ email: values.email, password: values.password }),
       );
 
       setTimeout(() => {
@@ -59,6 +65,8 @@ const RegisterCredentialsPage = () => {
             <Form className="flex flex-col gap-4">
               <Input
                 type="email"
+                inputmode="email"
+                autocomplete="email"
                 name="email"
                 placeholder="Email"
                 error={touched.email && errors.email}
@@ -66,20 +74,22 @@ const RegisterCredentialsPage = () => {
 
               <Input
                 type="password"
+                inputmode="text"
+                autocomplete="new-password"
                 name="password"
-                placeholder="Password"
+                placeholder="Пароль"
                 error={touched.password && errors.password}
               />
 
               <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  name="dataApproval"
-                  id="dataApproval"
-                  className="w-4 h-4"
-                />
-                <label htmlFor="dataApproval" className="text-sm">
-                  I agree to the processing of my personal data
+                <label className="text-sm">
+                  <Field
+                    type="checkbox"
+                    name="dataApproval"
+                    id="dataApproval"
+                    className="w-4 h-4"
+                  />
+                  Я погоджуюсь з обробкою персональних даних
                 </label>
               </div>
 
@@ -88,14 +98,16 @@ const RegisterCredentialsPage = () => {
                   {errors.dataApproval}
                 </div>
               )}
-
               <Button
-                className="!bg-black text-white w-[345px]"
+                className={`${Object.keys(errors).length > 0 || Object.keys(touched).length === 0 ? "bg-[#828282]" : "bg-black"} text-white w-[345px]`}
                 type="submit"
-                disabled={isLoading}
+                disabled={
+                  Object.keys(errors).length > 0 ||
+                  Object.keys(touched).length === 0
+                }
               >
                 <p className="text-white flex justify-center">
-                  <span>{isLoading ? "Loading..." : "Зареєструватися"}</span>
+                  <span>{isLoading ? "Реєстрація..." : "Зареєструватися"}</span>
                 </p>
               </Button>
             </Form>
