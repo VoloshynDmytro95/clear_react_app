@@ -3,7 +3,7 @@ import api from "@/api/api";
 export async function useSpecialty() {
   try {
     const response = await api.specialty.getAll();
-    return response.data as any[];
+    return response;
   } catch (error) {
     console.error("Error fetching positions:", error);
     return [];

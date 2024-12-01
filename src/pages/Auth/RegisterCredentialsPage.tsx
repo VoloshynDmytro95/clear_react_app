@@ -28,12 +28,12 @@ const RegisterCredentialsPage = () => {
   const handleSubmit = async (values: any) => {
     setIsLoading(true);
 
-    const user = await useRegister({
+    const status = await useRegister({
       email: values.email,
       password: values.password,
     });
 
-    if (user.status === true) {
+    if (status) {
       localStorage.setItem(
         "user",
         JSON.stringify({ email: values.email, password: values.password }),
