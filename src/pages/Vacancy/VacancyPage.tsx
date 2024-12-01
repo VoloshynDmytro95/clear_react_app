@@ -1,5 +1,3 @@
-import { mockJobVacancies } from "@/mop/jobVacancy";
-import { JobCard } from "@/components/JobCards/JobCard";
 import VacancyHeader from "./components/Header/Header";
 import VacancyCard from "./components/VacancyCard/VacancyCard";
 import { useState, useEffect } from "react";
