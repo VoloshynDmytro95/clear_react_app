@@ -48,6 +48,8 @@ const apiEndpoints = {
     fillData: (data: Record<string, any>) => patch("/user/fill-data", data),
     saveCoreData: (data: Record<string, any>) =>
       patch("/user/save-core-data", { ...data.data }),
+    saveSkills: (data: Record<string, any>) =>
+      patch("/user/save-skills", { ...data.data }),
   },
   position: {
     getAll: () => get("/position"),
