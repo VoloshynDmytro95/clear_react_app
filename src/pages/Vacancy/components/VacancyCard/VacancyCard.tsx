@@ -1,4 +1,5 @@
 import { Vacancy } from "@/api/types";
+import { FaChevronRight } from "react-icons/fa";
 
 const VacancyCard = (vacancy: Vacancy) => {
   const renderSalary = () => {
@@ -40,7 +41,7 @@ const VacancyCard = (vacancy: Vacancy) => {
               </div>
             </div>
           </div>
-          <div className="self-stretch justify-center items-end gap-2 inline-flex">
+          <div className="self-stretch justify-center items-center gap-2 inline-flex">
             <div className="grow shrink basis-0 h-[38px] justify-start items-center gap-2 flex">
               <div className="bg-[#edeff4] rounded-[26.67px] justify-start items-start gap-[6.67px] flex w-8 h-8">
                 {renderLogo()}
@@ -54,8 +55,8 @@ const VacancyCard = (vacancy: Vacancy) => {
                 </div>
               </div>
             </div>
-            <div className="w-6 h-6 relative">
-              <div className="w-6 h-6 left-0 top-0 absolute"></div>
+            <div className="relative">
+              <FaChevronRight color="#3D3D3D" size={14} />
             </div>
           </div>
         </div>
