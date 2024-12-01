@@ -6,6 +6,7 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 // Utility functions for API calls
@@ -52,7 +53,7 @@ const apiEndpoints = {
     getSkillsById: (id: string | number) => get(`/position/${id}/skills`),
   },
   auth: {
-    refresh: (data: { refreshToken: string }) => patch("/auth/refresh", data),
+    refresh: () => patch("/auth/refresh"),
     login: (credentials: { email: string; password: string; rememberMe: boolean }) =>
       post("/auth/login", credentials),
     register: (data: { email: string; password: string }) =>

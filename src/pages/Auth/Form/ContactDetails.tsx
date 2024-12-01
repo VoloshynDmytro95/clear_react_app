@@ -3,9 +3,12 @@ import * as Yup from "yup";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
+
 import Input from "../../../components/FormComponents/Input/Input";
 import Button from "../../../components/FormComponents/Button/Button";
 import { educationSpecialities } from "../../../mop/educationSpecialities";
+
+import { usePosition } from "@/api/position/usePosition";
 
 const ContactDetails = () => {
   const navigate = useNavigate();
@@ -31,13 +34,9 @@ const ContactDetails = () => {
     };
   }, []);
 
-  const positions = [
-    "Розробник",
-    "Дизайнер",
-    "Менеджер",
-    "Аналітик",
-    // додайте інші посади
-  ];
+  const data = usePosition();
+  console.log(data);
+  const positions = ["Розробник", "Дизайнер", "Менеджер", "Аналітик"];
 
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Обов'язкове поле"),
