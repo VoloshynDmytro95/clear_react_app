@@ -207,16 +207,16 @@ const ContactByDia = () => {
   const renderFormFields = () => {
     if (step === 0) {
       return (
-        <div className="self-stretch h-[398px] flex-col justify-start items-start gap-3 flex">
+        <div className="flex-col justify-start items-start gap-3 flex">
           <Field name="fullName">
             {({ field }: any) => (
-              <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
-                <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
+              <div className="w-full flex-col justify-start items-start gap-1.5 flex mb-3">
+                <div className="w-full text-black text-sm font-medium font-['Inter'] leading-tight">
                   ПІБ
                 </div>
                 <input
                   {...field}
-                  className="self-stretch p-3 bg-white rounded-xl border border-slate-300"
+                  className="w-full p-3 bg-white rounded-xl border border-slate-300"
                   placeholder="Ім'я"
                 />
               </div>
@@ -225,16 +225,15 @@ const ContactByDia = () => {
 
           <Field name="birthday_date">
             {({ field, form }: any) => (
-              <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
-                <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
+              <div className="w-full flex-col justify-start items-start gap-1.5 flex mb-3">
+                <div className="w-full text-black text-sm font-medium font-['Inter'] leading-tight">
                   Дата
                 </div>
-
                 <input
                   {...field}
                   type="date"
                   pattern="\d{4}-\d{2}-\d{2}"
-                  className="self-stretch p-3 bg-white rounded-xl border border-slate-300"
+                  className="w-full p-3 bg-white rounded-xl border border-slate-300"
                   onChange={(e) => {
                     form.setFieldValue("birthday_date", e.target.value);
                   }}
@@ -248,7 +247,6 @@ const ContactByDia = () => {
                     cursor: "pointer",
                   }}
                 />
-
                 {form.errors.birthday_date && form.touched.birthday_date && (
                   <div className="text-red-500 text-sm">
                     {form.errors.birthday_date}
@@ -261,13 +259,13 @@ const ContactByDia = () => {
           {!IS_AUTHENTICATED_BY_GOVUA && (
             <Field name="email">
               {({ field }: any) => (
-                <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
-                  <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
+                <div className="w-full flex-col justify-start items-start gap-1.5 flex mb-3">
+                  <div className="w-full text-black text-sm font-medium font-['Inter'] leading-tight">
                     Email
                   </div>
                   <input
                     {...field}
-                    className="self-stretch p-3 bg-white rounded-xl border border-slate-300"
+                    className="w-full p-3 bg-white rounded-xl border border-slate-300"
                     placeholder="Email"
                   />
                 </div>
@@ -277,30 +275,29 @@ const ContactByDia = () => {
 
           <Field name="phone">
             {({ field }: any) => (
-              <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
-                <div className="self-stretch text-slate-900 text-sm font-medium font-['Inter'] leading-tight">
+              <div className="w-full flex-col justify-start items-start gap-1.5 flex mb-3">
+                <div className="w-full text-slate-900 text-sm font-medium font-['Inter'] leading-tight">
                   Номер телефона
                 </div>
-
                 <input
                   {...field}
-                  className="self-stretch p-3 bg-white rounded-xl border border-slate-300"
+                  className="w-full p-3 bg-white rounded-xl border border-slate-300"
                   placeholder="380"
                 />
               </div>
             )}
           </Field>
 
-          <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
-            <div className="self-stretch text-slate-900 text-sm font-medium font-['Inter'] leading-tight">
+          <div className="w-full flex-col justify-start items-start gap-1.5 flex">
+            <div className="w-full text-slate-900 text-sm font-medium font-['Inter'] leading-tight">
               Персональний УБД
             </div>
-            <div className="self-stretch justify-start flex-col items-start gap-1.5 inline-flex">
+            <div className="w-full flex gap-2">
               <Field name="ubdSeries">
                 {({ field }: any) => (
                   <input
                     {...field}
-                    className="h-11 p-3 bg-white rounded-xl border border-slate-300 w-full"
+                    className="w-[30%] p-3 bg-white rounded-xl border border-slate-300"
                     placeholder="Серія"
                   />
                 )}
@@ -310,7 +307,7 @@ const ContactByDia = () => {
                 {({ field }: any) => (
                   <input
                     {...field}
-                    className="grow shrink basis-0 h-11 p-3 bg-white rounded-xl border border-slate-300 w-full"
+                    className="w-[70%] p-3 bg-white rounded-xl border border-slate-300"
                     placeholder="Номер"
                   />
                 )}
@@ -323,16 +320,16 @@ const ContactByDia = () => {
 
     if (step === 1) {
       return (
-        <div className="self-stretch h-[228px] flex-col justify-start items-start gap-3 flex">
+        <div className="flex-col justify-start items-start gap-3 flex">
           <Field name="position">
             {({ field, form }: any) => (
-              <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
-                <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
+              <div className="w-full flex-col justify-start items-start gap-1.5 flex mb-3">
+                <div className="w-full text-black text-sm font-medium font-['Inter'] leading-tight">
                   Посада
                 </div>
                 <div className="relative w-full">
                   <div
-                    className="self-stretch w-full p-3 bg-white rounded-xl border border-slate-300 cursor-pointer flex justify-between items-center"
+                    className="w-full p-3 bg-white rounded-xl border border-slate-300 cursor-pointer flex justify-between items-center"
                     onClick={() => setIsOpen(!isOpen)}
                   >
                     <span
@@ -404,12 +401,12 @@ const ContactByDia = () => {
           <Field name="position">
             {({ field, form }: any) =>
               selectedPositionTitle && (
-                <div className="self-stretch flex-col justify-start items-start gap-1.5 flex">
-                  <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
+                <div className="w-full flex-col justify-start items-start gap-1.5 flex">
+                  <div className="w-full text-black text-sm font-medium font-['Inter'] leading-tight">
                     Цивільні навички
                   </div>
-                  <div className="self-stretch p-3 bg-white rounded-xl border border-slate-300 flex-col justify-start items-start gap-3 flex">
-                    <div className="self-stretch flex flex-wrap gap-2">
+                  <div className="w-full p-3 bg-white rounded-xl border border-slate-300 flex-col justify-start items-start gap-3 flex">
+                    <div className="w-full flex flex-wrap gap-2">
                       {selectedPosition &&
                         selectedPosition.map((skill, index) => (
                           <div
@@ -493,7 +490,7 @@ const ContactByDia = () => {
     }
 
     return (
-      <div className="flex flex-col gap-4 mt-10 w-full">
+      <div className="flex flex-col gap-4 w-full">
         <div className="flex justify-between gap-2 mb-4">
           <span className="ml-3" style={{ margin: 0 }}>
             Я маю вищу освіту
@@ -512,16 +509,13 @@ const ContactByDia = () => {
 
         <Field name="specialty_id">
           {({ field, form }: any) => (
-            <div
-              className="self-stretch flex-col justify-start items-start gap-1.5 flex"
-              ref={dropdownRef}
-            >
-              <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
+            <div className="w-full flex-col justify-start items-start gap-1.5 flex" ref={dropdownRef}>
+              <div className="w-full text-black text-sm font-medium font-['Inter'] leading-tight">
                 Спеціальність
               </div>
               <div className="relative w-full">
                 <div
-                  className="self-stretch w-full p-3 bg-white rounded-xl border border-slate-300 min-h-[48px] cursor-pointer"
+                  className="w-full p-3 bg-white rounded-xl border border-slate-300 min-h-[48px] cursor-pointer"
                   onClick={() => setShowDropdown(!showDropdown)}
                 >
                   {!field.value?.length && (
@@ -638,18 +632,18 @@ const ContactByDia = () => {
     >
       {(formik) => (
         <Form>
-          <div className="w-full h-[852px] px-6 pt-6 pb-[66px] bg-[#e1decb] flex-col justify-start items-center inline-flex">
-            <div className="self-stretch h-[762px] flex-col justify-between items-center inline-flex">
-              <div className="self-stretch h-[92px] flex-col justify-start items-start gap-6 flex">
-                <div className="self-stretch h-7 flex-col justify-center items-start gap-1 flex">
+          <div className="w-full px-6 pt-6 pb-[66px] min-h-screen bg-[#e1decb] flex-col justify-start items-center inline-flex">
+            <div className="w-full flex-col justify-between items-center inline-flex">
+              <div className="w-full mb-6 flex-col justify-start items-start gap-6 flex">
+                <div className="w-full mb-4 flex-col justify-center items-start gap-1 flex">
                   <div className="p-1 flex-col justify-start items-start gap-1 flex">
                     {renderProgressBar(step)}
                   </div>
-                  <div className="self-stretch text-[#000002] text-[10px] font-medium font-['Inter'] uppercase leading-[10px]">
+                  <div className="w-full text-[#000002] text-[10px] font-medium font-['Inter'] uppercase leading-[10px]">
                     крок {step + 1}
                   </div>
                 </div>
-                <div className="self-stretch justify-start items-start gap-2 inline-flex">
+                <div className="w-full justify-start items-start gap-2 inline-flex">
                   <div className="grow shrink basis-0 text-[#000002] text-[28px] font-bold font-['Inter'] leading-10">
                     {step === 0
                       ? "Введіть Ваші дані"
@@ -664,12 +658,14 @@ const ContactByDia = () => {
                   </div>
                 </div>
               </div>
-              {renderFormFields()}
-              <div className="self-stretch h-[111px] flex-col justify-start items-center gap-[46px] flex">
-                <div className="self-stretch h-[111px] flex-col justify-start items-start gap-[15px] flex">
+              <div className="w-full mb-8">
+                {renderFormFields()}
+              </div>
+              <div className="w-full mt-auto">
+                <div className="w-full flex-col justify-start items-start gap-[15px] flex">
                   <button
                     type="submit"
-                    className="self-stretch px-4 py-3 bg-[#828282] rounded-xl"
+                    className="w-full px-4 py-3 bg-black rounded-xl"
                   >
                     <div
                       className="text-center text-white text-base font-medium font-['Inter']"
@@ -682,7 +678,7 @@ const ContactByDia = () => {
                   <button
                     type="button"
                     onClick={handleBack}
-                    className="self-stretch px-4 py-3 rounded-xl"
+                    className="w-full px-4 py-3 rounded-xl"
                   >
                     <div className="text-center text-black text-base font-medium font-['Inter']">
                       Назад

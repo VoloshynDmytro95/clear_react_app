@@ -6,6 +6,6 @@ export async function useMe() {
     return response;
   } catch (error) {
     console.error("Error fetching positions:", error);
-    return [];
+    return null;
   }
 }
