@@ -10,6 +10,9 @@ import Button from "../../../components/FormComponents/Button/Button";
 import { educationSpecialities } from "../../../mop/educationSpecialities";
 
 import { usePosition } from "@/api/position/usePosition";
+import { useSaveCoreData } from "@/api/user/useSaveCoreData";
+
+const IS_AUTHENTICATED_BY_GOVUA = true;
 
 const ContactDetails = () => {
   const [positions, setPositions] = useState<
@@ -72,9 +75,22 @@ const ContactDetails = () => {
     position: Yup.string().required("Обов'язкове поле"),
   });
 
-  const initialValues = {
+  interface FormValues {
+    fullName: string;
+    birthday_date: string;
+    email: string;
+    phone: string;
+    ubdSeries: string;
+    ubdNumber: string;
+    address: string;
+    city: string;
+    additionalInfo: string;
+    position: string;
+  }
+
+  const initialValues: FormValues = {
     fullName: "",
-    date: "",
+    birthday_date: "",
     email: "",
     phone: "",
     ubdSeries: "",
@@ -83,6 +99,53 @@ const ContactDetails = () => {
     city: "",
     additionalInfo: "",
     position: "",
+  };
+
+  const handleNavigate = (values: FormValues) => {
+    console.log("[Formik Data]:", values);
+
+    switch (step) {
+      case 0:
+        const { fullName, birthday_date, phone, ubdSeries, ubdNumber } = values;
+
+        useSaveCoreData({
+          data: {
+            fullName,
+            birthday_date,
+            phone: phone,
+            ubd: `${ubdSeries} ${ubdNumber}`,
+          },
+        });
+
+        setStep(step + 1);
+        break;
+
+      case 1:
+        // useSaveCoreData(values);
+
+        setStep(step + 1);
+        break;
+
+      case 2:
+        // useSaveCoreData(values);
+
+        setTimeout(() => {
+          navigate("/vacancy");
+        }, 500);
+
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const handleBack = () => {
+    if (step < 1) {
+      navigate("/register-employee");
+    }
+
+    setStep(Math.max(0, step - 1));
   };
 
   const handleSubmit = (values: any, { setSubmitting }: any) => {
@@ -126,51 +189,90 @@ const ContactDetails = () => {
               </div>
             )}
           </Field>
-          <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
-            <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
-              Дата
-            </div>
-            <div className="self-stretch p-3 bg-white rounded-xl border border-slate-300 justify-start items-center inline-flex">
-              <div className="grow shrink basis-0 text-slate-400 text-sm font-normal font-['Inter'] leading-tight">
-                дд.мм.рр
+
+          <Field name="birthday_date">
+            {({ field, form }: any) => (
+              <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
+                <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
+                  Дата
+                </div>
+
+                <input
+                  {...field} // Ensures Formik's handling of this field
+                  type="date"
+                  className="self-stretch p-3 bg-white rounded-xl border border-slate-300"
+                  onChange={(e) => {
+                    form.setFieldValue("birthday_date", e.target.value); // Ensures Formik updates the field value
+                  }}
+                />
+
+                {form.errors.birthday_date && form.touched.birthday_date && (
+                  <div className="text-red-500 text-sm">
+                    {form.errors.birthday_date}{" "}
+                    {/* Display error message if validation fails */}
+                  </div>
+                )}
               </div>
-            </div>
-          </div>
-          <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
-            <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
-              Email
-            </div>
-            <div className="self-stretch p-3 bg-white rounded-xl border border-slate-300 justify-start items-center inline-flex">
-              <div className="grow shrink basis-0 text-slate-400 text-sm font-normal font-['Inter'] leading-tight">
-                Email
+            )}
+          </Field>
+
+          {!IS_AUTHENTICATED_BY_GOVUA && (
+            <Field name="email">
+              {({ field }: any) => (
+                <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
+                  <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
+                    Email
+                  </div>
+                  <input
+                    {...field}
+                    className="self-stretch p-3 bg-white rounded-xl border border-slate-300"
+                    placeholder="Email"
+                  />
+                </div>
+              )}
+            </Field>
+          )}
+
+          <Field name="phone">
+            {({ field }: any) => (
+              <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
+                <div className="self-stretch text-slate-900 text-sm font-medium font-['Inter'] leading-tight">
+                  Номер телефона
+                </div>
+
+                <input
+                  {...field}
+                  className="self-stretch p-3 bg-white rounded-xl border border-slate-300"
+                  placeholder="380"
+                />
               </div>
-            </div>
-          </div>
-          <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
-            <div className="self-stretch text-slate-900 text-sm font-medium font-['Inter'] leading-tight">
-              Номер телефона
-            </div>
-            <div className="self-stretch p-3 bg-white rounded-xl border border-slate-300 justify-start items-center inline-flex">
-              <div className="grow shrink basis-0 text-slate-400 text-sm font-normal font-['Inter'] leading-tight">
-                380
-              </div>
-            </div>
-          </div>
+            )}
+          </Field>
+
           <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
             <div className="self-stretch text-slate-900 text-sm font-medium font-['Inter'] leading-tight">
               Персональний УБД
             </div>
-            <div className="self-stretch justify-start items-start gap-1.5 inline-flex">
-              <div className="h-11 p-3 bg-white rounded-xl border border-slate-300 justify-start items-center flex">
-                <div className="grow shrink basis-0 text-slate-400 text-sm font-normal font-['Inter'] leading-tight">
-                  Серія
-                </div>
-              </div>
-              <div className="grow shrink basis-0 h-11 p-3 bg-white rounded-xl border border-slate-300 justify-start items-center flex">
-                <div className="grow shrink basis-0 text-slate-400 text-sm font-normal font-['Inter'] leading-tight">
-                  Номер
-                </div>
-              </div>
+            <div className="self-stretch justify-start flex-col items-start gap-1.5 inline-flex">
+              <Field name="ubdSeries">
+                {({ field }: any) => (
+                  <input
+                    {...field}
+                    className="h-11 p-3 bg-white rounded-xl border border-slate-300 w-full"
+                    placeholder="Серія"
+                  />
+                )}
+              </Field>
+
+              <Field name="ubdNumber">
+                {({ field }: any) => (
+                  <input
+                    {...field}
+                    className="grow shrink basis-0 h-11 p-3 bg-white rounded-xl border border-slate-300 w-full"
+                    placeholder="Номер"
+                  />
+                )}
+              </Field>
             </div>
           </div>
         </div>
@@ -448,15 +550,7 @@ const ContactDetails = () => {
                   >
                     <div
                       className="text-center text-white text-base font-medium font-['Inter']"
-                      onClick={() => {
-                        if (step === 2) {
-                          setTimeout(() => {
-                            navigate("/vacancy");
-                          }, 500);
-                        } else {
-                          setStep(step + 1);
-                        }
-                      }}
+                      onClick={() => handleNavigate(formik.values)}
                     >
                       Продовжити
                     </div>
@@ -464,12 +558,7 @@ const ContactDetails = () => {
 
                   <button
                     type="button"
-                    onClick={() => {
-                      if (step <= 1) {
-                        navigate("/register-employee");
-                      }
-                      setStep(Math.max(0, step - 1));
-                    }}
+                    onClick={handleBack}
                     className="self-stretch px-4 py-3 rounded-xl"
                   >
                     <div className="text-center text-black text-base font-medium font-['Inter']">
