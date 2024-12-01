@@ -35,7 +35,12 @@ const VacancyPage = () => {
   };
 
   useEffect(() => {
-    const closeOnClickOutside = () => setIsFilterOpen(false);
+    const closeOnClickOutside = (e: MouseEvent) => {
+      const modalElement = document.querySelector('.modal-container');
+      if (modalElement && !modalElement.contains(e.target as Node)) {
+        setIsFilterOpen(false);
+      }
+    };
 
     if (isFilterOpen) {
       window.addEventListener("mousedown", closeOnClickOutside);
@@ -83,8 +88,8 @@ const VacancyPage = () => {
       </div>
 
       {isFilterOpen && (
-        <div onClick={(e) => e.stopPropagation()}>
-          <FilterModal onSubmit={onApplyFilters} />
+        <div className="modal-container">
+          <FilterModal onSubmit={onApplyFilters} onClose={() => setIsFilterOpen(false)} />
         </div>
       )}
     </div>
