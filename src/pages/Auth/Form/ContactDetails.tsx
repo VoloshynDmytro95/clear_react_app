@@ -10,6 +10,7 @@ import { educationSpecialities } from "../../../mop/educationSpecialities";
 
 import { usePosition } from "@/api/position/usePosition";
 import { useSaveCoreData } from "@/api/user/useSaveCoreData";
+import { useSaveSkills } from "@/api/user/useSaveSkills";
 
 const IS_AUTHENTICATED_BY_GOVUA = true;
 
@@ -97,6 +98,7 @@ const ContactDetails = () => {
     city: string;
     additionalInfo: string;
     position: string;
+    skills: string[];
   }
 
   const initialValues: FormValues = {
@@ -110,30 +112,37 @@ const ContactDetails = () => {
     city: "",
     additionalInfo: "",
     position: "",
+    skills: [],
   };
 
-  const handleNavigate = (values: FormValues) => {
+  const handleNavigate = async (values: FormValues) => {
     console.log("[Formik Data]:", values);
 
     switch (step) {
       case 0:
         const { fullName, birthday_date, phone, ubdSeries, ubdNumber } = values;
-        const payload = {
+        const payloadContactInfo = {
           fullName,
           birthday_date,
           phone: phone,
           ubd: `${ubdSeries} ${ubdNumber}`,
         };
 
-        // useSaveCoreData({
-        //   data: payload,
-        // });
+        await useSaveCoreData({
+          data: payloadContactInfo,
+        });
 
         setStep(step + 1);
         break;
 
       case 1:
-        // useSaveCoreData(values);
+        const payloadSkills = {
+          skills: selectedPosition.map((skill) => skill.id),
+        };
+
+        await useSaveSkills({
+          data: payloadSkills,
+        });
 
         setStep(step + 1);
         break;
@@ -168,6 +177,8 @@ const ContactDetails = () => {
       console.log("Завершено");
     }
   };
+
+  console.log("skills:", selectedPosition);
 
   const renderProgressBar = (currentStep: number) => {
     const width =
@@ -370,6 +381,7 @@ const ContactDetails = () => {
               </div>
             )}
           </Field>
+
           <Field name="position">
             {({ field, form }: any) =>
               selectedPositionTitle && (
@@ -394,9 +406,10 @@ const ContactDetails = () => {
                             <button
                               type="button"
                               onClick={() => {
-                                const newSelectedPosition = selectedPosition.filter(
-                                  (_, i) => i !== index
-                                );
+                                const newSelectedPosition =
+                                  selectedPosition.filter(
+                                    (_, i) => i !== index
+                                  );
                                 setSelectedPosition(newSelectedPosition);
                               }}
                               className="w-4 h-4 flex items-center justify-center"
@@ -418,9 +431,12 @@ const ContactDetails = () => {
                             const newSkillObject = {
                               en_name: newSkill.trim(),
                               id: Date.now().toString(),
-                              uk_name: newSkill.trim()
+                              uk_name: newSkill.trim(),
                             };
-                            setSelectedPosition([...selectedPosition, newSkillObject]);
+                            setSelectedPosition([
+                              ...selectedPosition,
+                              newSkillObject,
+                            ]);
                             setNewSkill("");
                           }
                         }}
@@ -434,9 +450,12 @@ const ContactDetails = () => {
                             const newSkillObject = {
                               en_name: newSkill.trim(),
                               id: Date.now().toString(),
-                              uk_name: newSkill.trim()
+                              uk_name: newSkill.trim(),
                             };
-                            setSelectedPosition([...selectedPosition, newSkillObject]);
+                            setSelectedPosition([
+                              ...selectedPosition,
+                              newSkillObject,
+                            ]);
                             setNewSkill("");
                           }
                         }}
