@@ -28,8 +28,6 @@ export const useAI = () => {
     setIsLoading(true);
     setError(null);
 
-    console.log(111, [systemMessage, { role: "user", content: text }]);
-
     try {
       const response = await fetch(
         "https://api.openai.com/v1/chat/completions",

@@ -4,24 +4,29 @@ import { useAI } from "@/hooks/useAI";
 import { useEffect, useState } from "react";
 import { vacancyExample } from "@/mop/vacancyExample";
 import { jobSkills } from "@/mop/jobSkills";
+import { useUserRegister } from "@/hooks/useUserRegister";
 import Subtitle from "@/components/GeneralComponents/Subtitle";
 
 const VacancyPage = () => {
   const { callAI } = useAI();
   const [aiResponse, setAiResponse] = useState("");
 
+  // useEffect(() => {
+  //   const getAIResponse = async () => {
+  //     const { name, shortDescription, description, schedule } = vacancyExample;
+
+  //     const response = await callAI(
+  //       `Analyze following vacancy data. Name: ${name}. Employer Description: ${shortDescription} ${description}. Work type: ${schedule}. Analyze our skills list: ${jobSkills}. Give me a list of skills that are required for this vacancy.`
+  //     );
+
+  //     setAiResponse(response);
+  //   };
+
+  //   getAIResponse();
+  // }, []);
+
   useEffect(() => {
-    const getAIResponse = async () => {
-      const { name, shortDescription, description, schedule } = vacancyExample;
-
-      const response = await callAI(
-        `Analyze following vacancy data. Name: ${name}. Employer Description: ${shortDescription} ${description}. Work type: ${schedule}. Analyze our skills list: ${jobSkills}. Give me a list of skills that are required for this vacancy.`
-      );
-
-      setAiResponse(response);
-    };
-
-    getAIResponse();
+    useUserRegister({ email: "test@example.com", password: "123456" });
   }, []);
 
   return (
@@ -31,7 +36,7 @@ const VacancyPage = () => {
       </div>
 
       {mockJobVacancies.map((job) => (
-        <JobCard {...job} />
+        <JobCard key={job.id} {...job} />
       ))}
     </div>
   );
