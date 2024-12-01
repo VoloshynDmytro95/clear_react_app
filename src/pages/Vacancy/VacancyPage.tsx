@@ -60,7 +60,7 @@ const VacancyPage = () => {
 
   useEffect(() => {
     const closeOnClickOutside = (e: MouseEvent) => {
-      const modalElement = document.querySelector('.modal-container');
+      const modalElement = document.querySelector(".modal-container");
       if (modalElement && !modalElement.contains(e.target as Node)) {
         setIsFilterOpen(false);
       }
@@ -94,16 +94,16 @@ const VacancyPage = () => {
   }, []);
 
   const getAppliedVacancies = () => {
-    return JSON.parse(localStorage.getItem('appliedVacancies') || '[]');
+    return JSON.parse(localStorage.getItem("appliedVacancies") || "[]");
   };
 
   const renderVacancies = () => {
     const appliedVacancies = getAppliedVacancies();
-    
+
     return vacancies.map((vacancy) => (
       <div key={vacancy.id}>
-        <VacancyCard 
-          {...vacancy} 
+        <VacancyCard
+          {...vacancy}
           isApplied={appliedVacancies.includes(vacancy.id)}
         />
       </div>
@@ -126,7 +126,11 @@ const VacancyPage = () => {
 
       {isFilterOpen && (
         <div className="modal-container">
-          <FilterModal onSubmit={onApplyFilters} onClose={() => setIsFilterOpen(false)} />
+          <FilterModal
+            selectedFilters={filters}
+            onSubmit={onApplyFilters}
+            onClose={() => setIsFilterOpen(false)}
+          />
         </div>
       )}
     </div>
