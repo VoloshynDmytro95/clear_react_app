@@ -394,11 +394,10 @@ const ContactDetails = () => {
                             <button
                               type="button"
                               onClick={() => {
-                                const newSkills = civilSkills.filter(
+                                const newSelectedPosition = selectedPosition.filter(
                                   (_, i) => i !== index
                                 );
-                                setCivilSkills(newSkills);
-                                form.setFieldValue("civilSkills", newSkills);
+                                setSelectedPosition(newSelectedPosition);
                               }}
                               className="w-4 h-4 flex items-center justify-center"
                             >
@@ -416,34 +415,34 @@ const ContactDetails = () => {
                         onKeyPress={(e) => {
                           if (e.key === "Enter" && newSkill.trim()) {
                             e.preventDefault();
-                            const updatedSkills = [
-                              ...civilSkills,
-                              newSkill.trim(),
-                            ];
-                            setCivilSkills(updatedSkills);
-                            form.setFieldValue("civilSkills", updatedSkills);
+                            const newSkillObject = {
+                              en_name: newSkill.trim(),
+                              id: Date.now().toString(),
+                              uk_name: newSkill.trim()
+                            };
+                            setSelectedPosition([...selectedPosition, newSkillObject]);
                             setNewSkill("");
                           }
                         }}
                         className="flex-1 p-2 border border-slate-300 rounded-lg text-sm"
-                        placeholder="Add civil skill..."
+                        placeholder="Додати навичку..."
                       />
                       <button
                         type="button"
                         onClick={() => {
                           if (newSkill.trim()) {
-                            const updatedSkills = [
-                              ...civilSkills,
-                              newSkill.trim(),
-                            ];
-                            setCivilSkills(updatedSkills);
-                            form.setFieldValue("civilSkills", updatedSkills);
+                            const newSkillObject = {
+                              en_name: newSkill.trim(),
+                              id: Date.now().toString(),
+                              uk_name: newSkill.trim()
+                            };
+                            setSelectedPosition([...selectedPosition, newSkillObject]);
                             setNewSkill("");
                           }
                         }}
                         className="px-3 py-1 bg-black text-white rounded-lg text-sm"
                       >
-                        Add
+                        Додати
                       </button>
                     </div>
                   </div>
