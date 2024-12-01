@@ -19,13 +19,12 @@ export const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
       <Route path="/register-employee" element={<RegisterCredentialsPage />} />
       <Route path="/register/manual" element={<Manual />} />
       <Route path="/register-form" element={<RegisterForm />} />
       <Route path="/login-employer" element={<EmployeLogin />} />
       <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<RegisterPage />} />
         <Route path="/vacancy" element={<VacancyPage />} />
         <Route path="/about" element={<AboutPage />} />
       </Route>
