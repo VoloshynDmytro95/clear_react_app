@@ -118,15 +118,16 @@ const ContactDetails = () => {
     switch (step) {
       case 0:
         const { fullName, birthday_date, phone, ubdSeries, ubdNumber } = values;
+        const payload = {
+          fullName,
+          birthday_date,
+          phone: phone,
+          ubd: `${ubdSeries} ${ubdNumber}`,
+        };
 
-        useSaveCoreData({
-          data: {
-            fullName,
-            birthday_date,
-            phone: phone,
-            ubd: `${ubdSeries} ${ubdNumber}`,
-          },
-        });
+        // useSaveCoreData({
+        //   data: payload,
+        // });
 
         setStep(step + 1);
         break;
