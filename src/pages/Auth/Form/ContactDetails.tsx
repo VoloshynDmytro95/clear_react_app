@@ -26,7 +26,7 @@ const ContactDetails = () => {
     }[]
   >([]);
   const navigate = useNavigate();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(2);
   const [hasHigherEducation, setHasHigherEducation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -165,12 +165,18 @@ const ContactDetails = () => {
           previousExperience: previous_experience,
         } = values;
 
+        interface ExperienceData {
+          graduated_university: boolean;
+          specialtyId?: string;
+          previous_experience?: string;
+        }
+
         const payloadExperienceData = {
           data: {
             graduated_university,
-            specialty: selectedSpecialty?.id,
-            previous_experience,
-          },
+            ...(selectedSpecialty?.id && { specialtyId: selectedSpecialty.id }),
+            ...(previous_experience && { previous_experience }),
+          } as ExperienceData,
         };
 
         console.log(111, payloadExperienceData);
@@ -534,7 +540,7 @@ const ContactDetails = () => {
               <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
                 {form.values.hasHigherEducation
                   ? "Спеціальність"
-                  : "Бажані напрямки"}
+                  : "Бажаний напрямок"}
               </div>
 
               <div className="relative w-full">
@@ -611,6 +617,7 @@ const ContactDetails = () => {
               <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
                 Попередній досвід роботи
               </div>
+
               <input
                 {...field}
                 type="text"
