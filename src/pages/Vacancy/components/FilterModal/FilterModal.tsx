@@ -42,7 +42,9 @@ const FilterModal = ({ onSubmit, onClose }: FilterModalProps) => {
                         name="schedule"
                         value={VacancySchedule.FULL_TIME}
                         checked={schedule === VacancySchedule.FULL_TIME}
-                        onChange={(e) => setSchedule(e.target.value as VacancySchedule)}
+                        onChange={(e) =>
+                          setSchedule(e.target.value as VacancySchedule)
+                        }
                         className="w-5 h-5 rounded-full border-zinc-400 checked:bg-black checked:border-black accent-black"
                       />
                       <span className="text-[#333333] text-sm font-normal leading-tight tracking-tight">
@@ -55,7 +57,9 @@ const FilterModal = ({ onSubmit, onClose }: FilterModalProps) => {
                         name="schedule"
                         value={VacancySchedule.PART_TIME}
                         checked={schedule === VacancySchedule.PART_TIME}
-                        onChange={(e) => setSchedule(e.target.value as VacancySchedule)}
+                        onChange={(e) =>
+                          setSchedule(e.target.value as VacancySchedule)
+                        }
                         className="w-5 h-5 rounded-full border-zinc-400 checked:bg-black checked:border-black accent-black"
                       />
                       <span className="text-[#333333] text-sm font-normal leading-tight tracking-tight">
@@ -68,7 +72,9 @@ const FilterModal = ({ onSubmit, onClose }: FilterModalProps) => {
                         name="schedule"
                         value={VacancySchedule.SHIFT}
                         checked={schedule === VacancySchedule.SHIFT}
-                        onChange={(e) => setSchedule(e.target.value as VacancySchedule)}
+                        onChange={(e) =>
+                          setSchedule(e.target.value as VacancySchedule)
+                        }
                         className="w-5 h-5 rounded-full border-zinc-400 checked:bg-black checked:border-black accent-black"
                       />
                       <span className="text-[#333333] text-sm font-normal leading-tight tracking-tight">
@@ -85,10 +91,16 @@ const FilterModal = ({ onSubmit, onClose }: FilterModalProps) => {
                     <input
                       className="w-[150px] p-2 bg-white rounded-xl border border-zinc-300 text-sm"
                       placeholder="Від"
+                      type="number"
+                      min="0"
+                      onChange={(e) => setSalaryFrom(parseInt(e.target.value))}
                     />
                     <input
                       className="w-[150px] p-2 bg-white rounded-xl border border-zinc-300 text-sm"
                       placeholder="До"
+                      type="number"
+                      min="0"
+                      onChange={(e) => setSalaryTo(parseInt(e.target.value))}
                     />
                   </div>
                 </div>
