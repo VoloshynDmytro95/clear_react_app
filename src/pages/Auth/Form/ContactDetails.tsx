@@ -1,17 +1,24 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
-import { usePosition } from "@/api/position/usePosition";
+import apiEndpoints from "@/api/api";
 
 const ContactDetails = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
+  const [positions, setPositions] = useState<{
+    id: string;
+    code: string;
+    title: string;
+  }[]>([]);
 
-  const data = usePosition();
-  console.log(data);
-  const positions = ["Розробник", "Дизайнер", "Менеджер", "Аналітик"];
+  useEffect(() => {
+    apiEndpoints.position.getAll().then((res) => {
+      setPositions(res.data);
+    });
+  }, []);
 
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Обов'язкове поле"),
@@ -160,9 +167,10 @@ const ContactDetails = () => {
                     }}
                   >
                     <option value="">Оберіть посаду</option>
-                    {positions.map((pos) => (
-                      <option key={pos} value={pos}>
-                        {pos}
+                    
+                    {positions && positions.map((pos) => (
+                      <option key={pos.code}>
+                        {pos.title}
                       </option>
                     ))}
                   </select>
