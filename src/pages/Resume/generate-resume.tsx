@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 import { useMe } from "@/api/user/useMe";
 import { useAI } from "@/hooks/useAI";
+import VacancyHeader from "../Vacancy/components/Header/Header";
 
 interface UserData {
   fullName: string;
@@ -172,7 +173,7 @@ const Generateresume = () => {
   useEffect(() => {
     if (userData.skills.length > 0 && !hasGeneratedSummary) {
       setHasGeneratedSummary(true);
-      
+
       const generateResponse = async () => {
         const result = await callAI(
           `Проаналізуй дані навички користувача: ${userData.skills.join(", ")} і створи секцію резюме для користувача.`
@@ -209,37 +210,44 @@ const Generateresume = () => {
 
     const imgData = canvas.toDataURL("image/jpeg", 1.0);
     pdf.addImage(imgData, "JPEG", 0, 0, a4Width, a4Height);
-    pdf.save("resume.pdf");
+    pdf.save(`Резюме ${userData.fullName}.pdf`);
   };
 
   if (isGenerating || isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="animate-spin rounded-full h-16 w-16 border-4 border-[#0F172A]/20 border-t-[#0F172A]"></div>
-          <p className="text-lg text-[#0F172A] font-medium animate-pulse">
-            Генеруємо ваше резюме...
-          </p>
+      <>
+        <VacancyHeader />
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-[#0F172A]/20 border-t-[#0F172A]"></div>
+            <p className="text-lg text-[#0F172A] font-medium animate-pulse">
+              Генеруємо ваше резюме...
+            </p>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div>
-        <div className="flex justify-center md:justify-end mb-4 max-w-[210mm] mx-auto">
-          <button
-            onClick={generatePDF}
-            className="bg-[#0F172A] text-white px-4 py-2 rounded hover:bg-[#1E293B]"
-          >
-            Завантажити PDF
-          </button>
-        </div>
+    <>
+      <VacancyHeader />
 
-        <ResumeView userData={userData} aiSummary={aiSummary} />
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div>
+          <div className="flex justify-center md:justify-end mb-4 max-w-[210mm] mx-auto">
+            <button
+              onClick={generatePDF}
+              className="bg-[#0F172A] text-white px-4 py-2 rounded hover:bg-[#1E293B]"
+            >
+              Завантажити PDF
+            </button>
+          </div>
+
+          <ResumeView userData={userData} aiSummary={aiSummary} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
