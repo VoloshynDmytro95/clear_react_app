@@ -227,20 +227,14 @@ const ContactDetails = () => {
                   onChange={(e) => {
                     form.setFieldValue("birthday_date", e.target.value);
                   }}
-                  onFocus={(e) => {
-                    // Для iOS відкриваємо нативний датапікер
-                    e.currentTarget.click();
-                    // Для старих версій iOS
-                    if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g)) {
-                      e.currentTarget.blur();
-                      setTimeout(() => e.currentTarget.focus(), 100);
-                    }
+                  onClick={(e) => {
+                    e.currentTarget.focus();
                   }}
                   style={{
-                    // Виправлення для iOS
                     WebkitAppearance: 'none',
                     MozAppearance: 'none',
-                    appearance: 'none'
+                    appearance: 'none',
+                    cursor: 'pointer'
                   }}
                 />
 
