@@ -10,19 +10,19 @@ const VacancyPage = () => {
   const { callAI } = useAI();
   const [aiResponse, setAiResponse] = useState("");
 
-  useEffect(() => {
-    const getAIResponse = async () => {
-      const { name, shortDescription, description, schedule } = vacancyExample;
+  // useEffect(() => {
+  //   const getAIResponse = async () => {
+  //     const { name, shortDescription, description, schedule } = vacancyExample;
 
-      const response = await callAI(
-        `Analyze following vacancy data. Name: ${name}. Employer Description: ${shortDescription} ${description}. Work type: ${schedule}. Analyze our skills list: ${jobSkills}. Give me a list of skills that are required for this vacancy.`
-      );
+  //     const response = await callAI(
+  //       `Analyze following vacancy data. Name: ${name}. Employer Description: ${shortDescription} ${description}. Work type: ${schedule}. Analyze our skills list: ${jobSkills}. Give me a list of skills that are required for this vacancy.`
+  //     );
 
-      setAiResponse(response);
-    };
+  //     setAiResponse(response);
+  //   };
 
-    getAIResponse();
-  }, []);
+  //   getAIResponse();
+  // }, []);
 
   return (
     <div>
@@ -31,7 +31,7 @@ const VacancyPage = () => {
       </div>
 
       {mockJobVacancies.map((job) => (
-        <JobCard {...job} />
+        <JobCard key={job.id} {...job} />
       ))}
     </div>
   );
