@@ -144,27 +144,25 @@ const Generateresume = () => {
   const { callAI, isLoading, error, response } = useAI();
   const [aiSummary, setAiSummary] = useState("");
   const [isGenerating, setIsGenerating] = useState(true);
+  const [hasGeneratedSummary, setHasGeneratedSummary] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const response = await useMe() as APIResponse;
+      const response = (await useMe()) as APIResponse;
 
       setUserData({
         fullName: response.coreData?.fullName || "",
         email: response.email || "",
         // phone: "", // Not provided in API response
-        skills:
-          response.skills?.map((skill) => skill.uk_name) ||
-          [],
+        skills: response.skills?.map((skill) => skill.uk_name) || [],
         education: {
           hasHigherEducation: response.coreData?.graduated_university || false,
           details: "", // Specific details not provided in API response
         },
         experience: response.coreData?.previous_experience || "",
         specialties:
-          response.desired_specialties?.map(
-            (specialty) => specialty.uk_name
-          ) || [],
+          response.desired_specialties?.map((specialty) => specialty.uk_name) ||
+          [],
       });
     };
 
@@ -172,10 +170,12 @@ const Generateresume = () => {
   }, []);
 
   useEffect(() => {
-    if (userData.skills.length > 0) {
+    if (userData.skills.length > 0 && !hasGeneratedSummary) {
+      setHasGeneratedSummary(true);
+      
       const generateResponse = async () => {
         const result = await callAI(
-          `Проаналізуй дані навички користувача: ${userData.skills.join(", ")} і створи секціюрезюме для користувача.`
+          `Проаналізуй дані навички користувача: ${userData.skills.join(", ")} і створи секцію резюме для користувача.`
         );
         setAiSummary(result);
         setIsGenerating(false);
@@ -183,7 +183,9 @@ const Generateresume = () => {
 
       generateResponse();
     }
-  }, [userData.skills]);
+  }, [userData.skills, hasGeneratedSummary]);
+
+  console.log("aiSummary: ", aiSummary);
 
   const generatePDF = async () => {
     const content = document.getElementById("resume-content");
