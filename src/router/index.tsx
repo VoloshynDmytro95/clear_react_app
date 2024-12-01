@@ -13,6 +13,8 @@ import ContactByDia from "@/pages/Auth/Form/ContactByDia";
 import VacancyDetails from "@/pages/Vacancy/VacancyDetails";
 
 import GenerateResume from "@/pages/Resume/generate-resume";
+import MyVacancies from "@/pages/Vacancy/MyVacancies";
+
 export const AppRoutes = () => {
   const isAuthenticated = true;
 
@@ -25,6 +27,7 @@ export const AppRoutes = () => {
       <Route path="/contact-details" element={<ContactDetails />} />
       <Route path="/register-by-dia" element={<ContactByDia />} />
       <Route path="/resume" element={<GenerateResume />} />
+      <Route path="/my-vacancies" element={<MyVacancies />} />
       <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
         <Route path="/" element={<RegisterPage />} />
         <Route path="/vacancy" element={<VacancyPage />} />

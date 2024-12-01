@@ -400,7 +400,7 @@ const ContactDetails = () => {
                           .filter((pos) =>
                             pos.title
                               .toLowerCase()
-                              .includes(searchTerm.toLowerCase()),
+                              .includes(searchTerm.toLowerCase())
                           )
                           .map((pos) => (
                             <div
@@ -454,7 +454,7 @@ const ContactDetails = () => {
                               onClick={() => {
                                 const newSelectedPosition =
                                   selectedPosition.filter(
-                                    (_, i) => i !== index,
+                                    (_, i) => i !== index
                                   );
                                 setSelectedPosition(newSelectedPosition);
                               }}
@@ -599,7 +599,7 @@ const ContactDetails = () => {
                         .filter((specialty) =>
                           specialty.uk_name
                             .toLowerCase()
-                            .includes(searchTerm.toLowerCase()),
+                            .includes(searchTerm.toLowerCase())
                         )
                         .map((specialty) => (
                           <div

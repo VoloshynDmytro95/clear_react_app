@@ -21,7 +21,10 @@ const VacancyHeader = () => {
 
   return (
     <div className="h-20 px-4 w-full bg-[#dfdaba] shadow justify-between items-center inline-flex">
-      <img src={headerIcon} alt="headerIcon" />
+      <a href="/vacancy">
+        <img src={headerIcon} alt="headerIcon" />
+      </a>
+
       <div className="relative">
         <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
           <img src={avatarIcon} alt="avatarIcon" />
@@ -29,15 +32,9 @@ const VacancyHeader = () => {
         
         {isDropdownOpen && (
           <div ref={dropdownRef} className="absolute right-0 mt-2 w-[200px] bg-white rounded-md shadow-lg py-1">
-            <button className="block w-full text-left px-4 py-2 hover:bg-gray-100">
+            <a href="/my-vacancies" className="block w-full text-left px-4 py-2 hover:bg-gray-100">
               Мої вакансії
-            </button>
-            <button className="block w-full text-left px-4 py-2 hover:bg-gray-100">
-              Налаштування
-            </button>
-            <button className="block w-full text-left px-4 py-2 hover:bg-gray-100">
-              Вийти
-            </button>
+            </a>
 
             <a href="resume" className="block w-full text-left px-4 py-2 hover:bg-gray-100">
               Згенерувати резюме

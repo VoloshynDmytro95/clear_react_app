@@ -113,7 +113,7 @@ const VacancyPage = () => {
   return (
     <div>
       <VacancyHeader />
-      <div className="bg-[#E1DECB] h-screen flex flex-col items-center py-8 px-4">
+      <div className="bg-[#E1DECB] flex flex-col items-center py-8 px-4">
         <div className="flex flex-col items-start  w-full mb-6">
           <h2 className="text-[24px] font-[600] leading-8">Вакансії для вас</h2>
           <button onClick={() => setIsFilterOpen(true)}>Фільтр</button>
