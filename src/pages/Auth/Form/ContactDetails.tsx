@@ -25,7 +25,7 @@ const ContactDetails = () => {
     }[]
   >([]);
   const navigate = useNavigate();
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
   const [hasHigherEducation, setHasHigherEducation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
