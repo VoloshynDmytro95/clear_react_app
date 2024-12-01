@@ -1,4 +1,5 @@
 export interface JobVacancy {
+  id: number;
   title: string;
   salary: string;
   companyName: string;
@@ -8,6 +9,7 @@ export interface JobVacancy {
 
 export const mockJobVacancies: JobVacancy[] = [
   {
+    id: 1,
     title: "Бариста",
     salary: "15 000 - 20 000 грн",
     companyName: "Кава Хаус",
@@ -16,7 +18,8 @@ export const mockJobVacancies: JobVacancy[] = [
       "Шукаємо досвідченого бариста для роботи в затишній кав'ярні...",
   },
   {
-    title: "Водій",
+    id: 2,
+    title: "Водій", 
     salary: "25 000 - 35 000 грн",
     companyName: "Транспорт Сервіс",
     location: "Дніпро, Україна",
@@ -24,6 +27,7 @@ export const mockJobVacancies: JobVacancy[] = [
       "Потрібен водій зі стажем для роботи на корпоративному транспорті...",
   },
   {
+    id: 3,
     title: "Full Stack Розробник",
     salary: "100 000 - 130 000 грн",
     companyName: "Діджитал Інновації",
