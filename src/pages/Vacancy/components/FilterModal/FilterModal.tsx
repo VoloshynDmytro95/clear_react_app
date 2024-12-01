@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { SearchVacancyPayload, VacancySchedule } from "@/api/types";
+import { CloseIcon } from "@/components/icons/CloseIcon";
 
 export type SearchFilters = Omit<SearchVacancyPayload, "skills" | "page">;
 
 interface FilterModalProps {
   onSubmit: (payload: SearchFilters) => void;
+  onClose: () => void;
 }
 
-const FilterModal = ({ onSubmit }: FilterModalProps) => {
+const FilterModal = ({ onSubmit, onClose }: FilterModalProps) => {
   const [salaryFrom, setSalaryFrom] = useState<number>(10000);
   const [salaryTo, setSalaryTo] = useState<number>(20000);
   const [schedule, setSchedule] = useState<VacancySchedule>(
@@ -17,6 +19,14 @@ const FilterModal = ({ onSubmit }: FilterModalProps) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4">
       <div className="bg-white rounded-lg w-full max-w-[480px] max-h-[90vh] flex flex-col">
+        <div className="flex justify-end pr-4 pt-2">
+          <button
+            onClick={onClose}
+            className="text-neutral-600 hover:text-black transition-colors"
+          >
+            <CloseIcon />
+          </button>
+        </div>
         <div className="overflow-y-auto flex-1 p-4 sm:p-6">
           <div className="flex flex-col gap-4">
             <div className="w-full p-3 sm:p-4 bg-white rounded-[20px] border-neutral-300">
@@ -28,8 +38,12 @@ const FilterModal = ({ onSubmit }: FilterModalProps) => {
                   <div className="flex flex-wrap gap-3">
                     <label className="py-2 justify-start items-center gap-1 flex cursor-pointer">
                       <input
-                        type="checkbox"
-                        className="w-5 h-5 rounded-md border-zinc-400 checked:bg-black checked:border-black accent-black"
+                        type="radio"
+                        name="schedule"
+                        value={VacancySchedule.FULL_TIME}
+                        checked={schedule === VacancySchedule.FULL_TIME}
+                        onChange={(e) => setSchedule(e.target.value as VacancySchedule)}
+                        className="w-5 h-5 rounded-full border-zinc-400 checked:bg-black checked:border-black accent-black"
                       />
                       <span className="text-[#333333] text-sm font-normal leading-tight tracking-tight">
                         Повна
@@ -37,8 +51,12 @@ const FilterModal = ({ onSubmit }: FilterModalProps) => {
                     </label>
                     <label className="py-2 justify-start items-center gap-1 flex cursor-pointer">
                       <input
-                        type="checkbox"
-                        className="w-5 h-5 rounded-md border-zinc-400 checked:bg-black checked:border-black accent-black"
+                        type="radio"
+                        name="schedule"
+                        value={VacancySchedule.PART_TIME}
+                        checked={schedule === VacancySchedule.PART_TIME}
+                        onChange={(e) => setSchedule(e.target.value as VacancySchedule)}
+                        className="w-5 h-5 rounded-full border-zinc-400 checked:bg-black checked:border-black accent-black"
                       />
                       <span className="text-[#333333] text-sm font-normal leading-tight tracking-tight">
                         Неповна
@@ -46,8 +64,12 @@ const FilterModal = ({ onSubmit }: FilterModalProps) => {
                     </label>
                     <label className="py-2 justify-start items-center gap-1 flex cursor-pointer">
                       <input
-                        type="checkbox"
-                        className="w-5 h-5 rounded-md border-zinc-400 checked:bg-black checked:border-black accent-black"
+                        type="radio"
+                        name="schedule"
+                        value={VacancySchedule.SHIFT}
+                        checked={schedule === VacancySchedule.SHIFT}
+                        onChange={(e) => setSchedule(e.target.value as VacancySchedule)}
+                        className="w-5 h-5 rounded-full border-zinc-400 checked:bg-black checked:border-black accent-black"
                       />
                       <span className="text-[#333333] text-sm font-normal leading-tight tracking-tight">
                         Позмінна
