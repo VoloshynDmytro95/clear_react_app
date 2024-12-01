@@ -14,8 +14,11 @@ import { useSaveSkills } from "@/api/user/useSaveSkills";
 const IS_AUTHENTICATED_BY_GOVUA = true;
 
 import { usePositionByCode } from "@/api/position/usePosition";
+import { useUser } from "@/providers/UserProvider/UserProvider";
 
 const ContactByDia = () => {
+  const { user } = useUser();
+
   const [positions, setPositions] = useState<
     {
       id: string;
@@ -25,16 +28,21 @@ const ContactByDia = () => {
   >([]);
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
-  const [hasHigherEducation, setHasHigherEducation] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [hasHigherEducation, setHasHigherEducation] = useState(
+    user.hasHigherEducation || false
+  );
+
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedPosition, setSelectedPosition] = useState<any[]>([]);
+  const [selectedPosition, setSelectedPosition] = useState<any[]>(
+    user.skills || []
+  );
   const [newSkill, setNewSkill] = useState("");
-  const [selectedPositionTitle, setSelectedPositionTitle] =
-    useState<string>("");
+  const [selectedPositionTitle, setSelectedPositionTitle] = useState<string>(
+    user?.position?.title || ""
+  );
 
   console.log(selectedPosition);
   useEffect(() => {
@@ -96,6 +104,8 @@ const ContactByDia = () => {
     city: string;
     additionalInfo: string;
     position: string;
+    specialty_id: string;
+    previous_experience: string;
     skills: string[];
   }
 
@@ -110,11 +120,13 @@ const ContactByDia = () => {
     city: "",
     additionalInfo: "",
     position: "",
+    specialty_id: "",
+    previous_experience: "",
     skills: [],
   };
 
   const handleNavigate = async (values: FormValues) => {
-    console.log("[Formik Data]:", values);
+    console.log("фнфнфнфнфннфнфнфнфннфнфнфнфннфнф", values);
 
     switch (step) {
       case 0:
@@ -498,7 +510,7 @@ const ContactByDia = () => {
           </label>
         </div>
 
-        <Field name="position">
+        <Field name="specialty_id">
           {({ field, form }: any) => (
             <div
               className="self-stretch flex-col justify-start items-start gap-1.5 flex"
@@ -559,7 +571,7 @@ const ContactByDia = () => {
                           className="ml-2"
                           onClick={(e) => {
                             e.stopPropagation();
-                            form.setFieldValue("position", "");
+                            form.setFieldValue("specialty_id", "");
                           }}
                         >
                           <IoMdClose className="w-4 h-4" />
@@ -587,13 +599,13 @@ const ContactByDia = () => {
                             if (!hasHigherEducation) {
                               const newValue = field.value || [];
                               if (!newValue.includes(item.id)) {
-                                form.setFieldValue("position", [
+                                form.setFieldValue("specialty_id", [
                                   ...newValue,
                                   item.id,
                                 ]);
                               }
                             } else {
-                              form.setFieldValue("position", item.id);
+                              form.setFieldValue("specialty_id", item.id);
                             }
                             setShowDropdown(false);
                           }}
@@ -620,7 +632,7 @@ const ContactByDia = () => {
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={user ? user : initialValues}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
@@ -661,7 +673,7 @@ const ContactByDia = () => {
                   >
                     <div
                       className="text-center text-white text-base font-medium font-['Inter']"
-                      onClick={() => handleNavigate(formik.values)}
+                      onClick={() => handleNavigate(formik.values as any)}
                     >
                       Продовжити
                     </div>
