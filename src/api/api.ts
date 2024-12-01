@@ -5,6 +5,7 @@ import {
   SearchVacancyResponse,
   Skill,
   Specialty,
+  User,
   Vacancy,
 } from "@/api/types";
 
@@ -60,7 +61,7 @@ const apiEndpoints = {
       patch("/user/save-skills", { ...data.data }),
     saveExperienceData: (data: Record<string, any>) =>
       patch("/user/save-experience-data", { ...data.data }),
-    me: () => get("/user/me"),
+    me: () => get<User>("/user/me"),
     skillsResume: () => get("/user/skills-resume"),
   },
   position: {
@@ -81,6 +82,9 @@ const apiEndpoints = {
   },
   specialty: {
     getAll: () => get<Specialty[]>("/specialty"),
+  },
+  skill: {
+    getAll: () => get<Skill[]>("/skill"),
   },
   vacancy: {
     getById: (id: string) => get<Vacancy>(`/vacancy/${id}`),

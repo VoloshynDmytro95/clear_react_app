@@ -5,30 +5,54 @@ import FilterModal, {
   SearchFilters,
 } from "./components/FilterModal/FilterModal";
 import { useSearchVacancy } from "@/api/vacancy/useSearchVacancy";
-import { SearchVacancyPayload, Vacancy, VacancySchedule } from "@/api/types";
+import {
+  SearchVacancyPayload,
+  Skill,
+  Vacancy,
+  VacancySchedule,
+} from "@/api/types";
 import SecondaryButton from "@/components/FormComponents/Button/SecondaryButton";
+import { useMe } from "@/api/user/useMe";
+import { useAllSkills } from "@/api/skills/useAllSkills";
 
 const VacancyPage = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [vacancies, setVacancies] = useState<Vacancy[]>([]);
   const [page, setPage] = useState(1);
+  const [allSkills, setAllSkills] = useState<Skill[]>([]);
+  const [userSkills, setUserSkills] = useState<Skill[]>([]);
+  const [selectedSkills, setSelectedSkills] = useState<Skill[]>([]);
+
   const [filters, setFilters] = useState<SearchVacancyPayload>({
     salaryFrom: 20000,
     salaryTo: 40000,
     schedule: VacancySchedule.FULL_TIME,
-    skills: [],
     page: 1,
+    skills: [],
   });
 
   const onApplyFilters = (payload: SearchFilters) => {
     setIsFilterOpen(false);
-    useSearchVacancy(filters).then((res) => setVacancies(res.vacancies));
+
+    setFilters((prev) => {
+      return {
+        ...prev,
+        ...payload,
+      };
+    });
+
+    useSearchVacancy({
+      ...filters,
+      ...payload,
+      skills: selectedSkills.map((item) => item.id),
+    }).then((res) => setVacancies(res.vacancies));
     setPage(1);
   };
 
   const onShowMore = () => {
     useSearchVacancy({
       ...filters,
+      skills: selectedSkills.map((item) => item.id),
       page: page + 1,
     }).then((res) => setVacancies([...vacancies, ...res.vacancies]));
     setPage(page + 1);
@@ -52,8 +76,21 @@ const VacancyPage = () => {
   useEffect(() => {
     useSearchVacancy({
       ...filters,
+      skills: selectedSkills.map((item) => item.id),
       page: page,
     }).then((res) => setVacancies(res.vacancies));
+
+    useMe().then((res) => {
+      if (res === null) return;
+
+      setUserSkills(res.skills);
+    });
+
+    useAllSkills().then((res) => {
+      if (res === null) return;
+
+      setAllSkills(res);
+    });
   }, []);
 
   const getAppliedVacancies = () => {

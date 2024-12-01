@@ -71,3 +71,25 @@ export interface Vacancy {
   category: VacancyCategory;
   recommended_skills: Skill[];
 }
+
+export interface Position {
+  id: string;
+  code: string;
+  title: string;
+}
+
+export interface UserInfo {
+  graduated_university: boolean;
+  previous_experience: string | null;
+  fullName: string;
+  position: Position | null;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  coreData: UserInfo | null;
+  skills: Skill[];
+  specialty: Specialty | null;
+  desired_specialties: Specialty[];
+}
