@@ -1,38 +1,47 @@
 import { mockJobVacancies } from "@/mop/jobVacancy";
 import { JobCard } from "@/components/JobCards/JobCard";
-import { useAI } from "@/hooks/useAI";
-import { useEffect, useState } from "react";
-import { vacancyExample } from "@/mop/vacancyExample";
-import { jobSkills } from "@/mop/jobSkills";
-import Subtitle from "@/components/GeneralComponents/Subtitle";
+import VacancyHeader from "./components/Header/Header";
+import VacancyCard from "./components/VacancyCard/VacancyCard";
+import { useState, useEffect } from "react";
+import FilterModal from "./components/FilterModal/FilterModal";
 
 const VacancyPage = () => {
-  const { callAI } = useAI();
-  const [aiResponse, setAiResponse] = useState("");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  // useEffect(() => {
-  //   const getAIResponse = async () => {
-  //     const { name, shortDescription, description, schedule } = vacancyExample;
+  useEffect(() => {
+    const closeOnClickOutside = () => setIsFilterOpen(false);
 
-  //     const response = await callAI(
-  //       `Analyze following vacancy data. Name: ${name}. Employer Description: ${shortDescription} ${description}. Work type: ${schedule}. Analyze our skills list: ${jobSkills}. Give me a list of skills that are required for this vacancy.`
-  //     );
+    if (isFilterOpen) {
+      window.addEventListener('mousedown', closeOnClickOutside);
+    }
 
-  //     setAiResponse(response);
-  //   };
-
-  //   getAIResponse();
-  // }, []);
+    return () => window.removeEventListener('mousedown', closeOnClickOutside);
+  }, [isFilterOpen]);
 
   return (
     <div>
-      <div className="bg-white p-4 rounded shadow">
-        <Subtitle>Текст підзаголовка</Subtitle> <p>{aiResponse}</p>
+      <VacancyHeader />
+      {/* {mockJobVacancies.map((job) => (
+        <JobCard key={job.id} {...job} />
+      ))} */}
+      <div className="bg-[#E1DECB] h-screen flex flex-col items-center py-8 px-4">
+        <div className="flex flex-col items-start  w-full mb-6">
+          <h2 className="text-[24px] font-[600] leading-8">Всього вакансій: 15</h2>
+          <button 
+            onClick={() => setIsFilterOpen(true)}
+          >
+            Фільтр
+          </button>
+        </div>
+
+        <VacancyCard />
       </div>
 
-      {mockJobVacancies.map((job) => (
-        <JobCard key={job.id} {...job} />
-      ))}
+      {isFilterOpen && (
+        <div onClick={(e) => e.stopPropagation()}>
+          <FilterModal onClose={() => setIsFilterOpen(false)} />
+        </div>
+      )}
     </div>
   );
 };
