@@ -11,7 +11,7 @@ import RegisterForm from "@/pages/Auth/Form/RegisterForm";
 import VacancyPage from "@/pages/Vacancy/VacancyPage";
 import RegisterCredentialsPage from "@/pages/Auth/RegisterCredentialsPage";
 import EmployeLogin from "@/pages/Auth/Employe/Login";
-
+import ContactDetails from "@/pages/Auth/Form/ContactDetails";
 
 export const AppRoutes = () => {
   const isAuthenticated = true;
@@ -23,6 +23,7 @@ export const AppRoutes = () => {
       <Route path="/register/manual" element={<Manual />} />
       <Route path="/register-form" element={<RegisterForm />} />
       <Route path="/login-employer" element={<EmployeLogin />} />
+      <Route path="/contact-details" element={<ContactDetails />} />
       <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
         <Route path="/" element={<RegisterPage />} />
         <Route path="/vacancy" element={<VacancyPage />} />
