@@ -26,7 +26,6 @@ const ContactDetails = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState<any[]>([]);
-  const [civilSkills, setCivilSkills] = useState<string[]>([]);
   const [newSkill, setNewSkill] = useState("");
   const [selectedPositionTitle, setSelectedPositionTitle] =
     useState<string>("");
