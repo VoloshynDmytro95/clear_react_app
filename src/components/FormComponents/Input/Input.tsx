@@ -16,7 +16,7 @@ const Input = ({ type, name, placeholder, error, className }: any) => {
         name={name}
         placeholder={placeholder}
         className={classNames(
-          "p-3 rounded-[12px] w-full max-w-[340px] border border-[#CBD5E1] my-[6px]",
+          "p-3 rounded-[12px] w-full border border-[#CBD5E1] my-[6px]",
           className
         )}
       />

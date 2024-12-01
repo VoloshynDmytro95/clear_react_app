@@ -50,6 +50,8 @@ const apiEndpoints = {
       patch("/user/save-core-data", { ...data.data }),
     saveSkills: (data: Record<string, any>) =>
       patch("/user/save-skills", { ...data.data }),
+    saveExperienceData: (data: Record<string, any>) =>
+      patch("/user/save-experience-data", { ...data.data }),
   },
   position: {
     getAll: () => get("/position"),
@@ -65,6 +67,9 @@ const apiEndpoints = {
     register: (data: { email: string; password: string }) =>
       post("/auth/register", data),
     logout: () => post("/auth/logout"),
+  },
+  specialty: {
+    getAll: () => get("/specialty"),
   },
   vacancyParser: {
     start: () => get("/vacancy-parser"),
