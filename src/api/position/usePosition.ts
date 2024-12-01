@@ -13,3 +13,8 @@ export async function usePosition() {
     return [];
   }
 }
+
+export async function usePositionByCode(code: string) {
+  const response = await api.position.getSkillsById(code);
+  return response
+}
