@@ -14,7 +14,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const mockData = {
     // Крок 1: Особисті дані
-    fullName: "Петро Іваненко",
+    fullName: "Петро Іваненко Іванович",
     birthday_date: "1990-05-15",
     email: "petro.ivanenko@example.com",
     phone: "380501234567",
@@ -24,35 +24,35 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     // Крок 2: Досвід
     position: {
       code: "001",
-      id: "db49e538-dce7-4dc1-96a4-a280132c07da",
-      title: "Авіаційний спеціаліст",
+      id: "2406a879-69f7-4247-816b-8af5f8eed0ae",
+      title: "Діловод-статистик ",
     },
     skills: [
       {
-        en_name: "Aircraft operation and drone piloting",
-        id: "33db53e8-40b2-4831-a146-430a9997c2d7",
-        uk_name: "Експлуатація літальних апаратів та пілотування БПЛА",
+        en_name: "Writing concise and actionable reports",
+        id: "0426ba2c-d57e-402d-ac18-cf3205a5cc2e",
+        uk_name: "Написання лаконічних і практичних звітів",
       },
       {
-        en_name: "Maintenance of flight systems and equipment",
-        id: "b0f6e848-8fdc-4f0b-9e5b-81e3e52a1768",
-        uk_name: "Технічне обслуговування льотних систем і обладнання",
+        en_name: "Document management and record-keeping",
+        id: "f02cf558-3299-4ae1-9e13-61a92cddaa0a",
+        uk_name: "Документообіг та діловодство",
       },
       {
-        en_name: "Leading and coordinating multi-phase projects",
-        id: "4f9bcf01-fdcd-4e28-9faf-0e50e7f101c9",
-        uk_name: "Ведення та координація багатофазних проектів",
+        en_name: "Administrative coordination",
+        id: "6486f7ad-f1bf-4d9d-92c8-f46e3aeef359",
+        uk_name: "Адміністративна координація",
       },
       {
-        en_name: "Supervising and managing diverse teams",
-        id: "abdf05f5-46ae-4021-8c21-9e374fa5a935",
-        uk_name: "Нагляд та управління різноманітними командами",
+        en_name: "Communication with staff and clients",
+        id: "4bc8ac37-6f83-40e7-a3b6-d02802900a46",
+        uk_name: "Спілкування з персоналом і клієнтами",
       },
       {
-        en_name: "Adapting to dynamic work environments",
-        id: "ebcd9233-e14a-43ce-b9f6-8a9a68e7b64e",
-        uk_name: "Адаптація до динамічного робочого середовища",
-      },
+        en_name: "Basic statistical analysis",
+        id: "11c99e4a-a427-4b23-b55e-53710bfbd6e2",
+        uk_name: "Базовий статистичний аналіз",
+      }
     ],
     // Крок 3: Освіта
 

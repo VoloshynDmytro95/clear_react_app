@@ -81,8 +81,8 @@ const RegisterCredentialsPage = () => {
                 error={touched.password && errors.password}
               />
 
-              <div className="flex items-center gap-2">
-                <label className="text-sm">
+              <div className="flex items-center gap-2 ">
+                <label className="text-sm flex justify-center items-center gap-2">
                   <Field
                     type="checkbox"
                     name="dataApproval"
@@ -115,7 +115,7 @@ const RegisterCredentialsPage = () => {
         </Formik>
       </div>
 
-      <BackButton />
+      {/* <BackButton /> */}
     </div>
   );
 };

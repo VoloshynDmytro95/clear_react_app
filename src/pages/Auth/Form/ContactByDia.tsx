@@ -173,7 +173,7 @@ const ContactByDia = () => {
 
   const handleBack = () => {
     if (step < 1) {
-      navigate("/register-employee");
+      navigate("/");
     }
 
     setStep(Math.max(0, step - 1));

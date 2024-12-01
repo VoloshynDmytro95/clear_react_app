@@ -25,7 +25,7 @@ const ContactDetails = () => {
     }[]
   >([]);
   const navigate = useNavigate();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
   const [hasHigherEducation, setHasHigherEducation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -202,7 +202,7 @@ const ContactDetails = () => {
 
   const handleBack = () => {
     if (step < 1) {
-      navigate("/register-employee");
+      navigate("/");
     }
 
     setStep(Math.max(0, step - 1));
@@ -234,7 +234,7 @@ const ContactDetails = () => {
   const renderFormFields = () => {
     if (step === 0) {
       return (
-        <div className="self-stretch h-[398px] flex-col justify-start items-start gap-3 flex">
+        <div className="self-stretch flex-col justify-start items-start gap-3 flex">
           <Field name="fullName">
             {({ field }: any) => (
               <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
@@ -318,16 +318,16 @@ const ContactDetails = () => {
             )}
           </Field>
 
-          <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
-            <div className="self-stretch text-slate-900 text-sm font-medium font-['Inter'] leading-tight">
+          <div className="w-full flex-col justify-start items-start gap-1.5 flex">
+            <div className="w-full text-slate-900 text-sm font-medium font-['Inter'] leading-tight">
               Персональний УБД
             </div>
-            <div className="self-stretch justify-start flex-col items-start gap-1.5 inline-flex">
+            <div className="w-full flex gap-2">
               <Field name="ubdSeries">
                 {({ field }: any) => (
                   <input
                     {...field}
-                    className="h-11 p-3 bg-white rounded-xl border border-slate-300 w-full"
+                    className="w-[30%] p-3 bg-white rounded-xl border border-slate-300"
                     placeholder="Серія"
                   />
                 )}
@@ -337,7 +337,7 @@ const ContactDetails = () => {
                 {({ field }: any) => (
                   <input
                     {...field}
-                    className="grow shrink basis-0 h-11 p-3 bg-white rounded-xl border border-slate-300 w-full"
+                    className="w-[70%] p-3 bg-white rounded-xl border border-slate-300"
                     placeholder="Номер"
                   />
                 )}
@@ -350,7 +350,7 @@ const ContactDetails = () => {
 
     if (step === 1) {
       return (
-        <div className="self-stretch h-[228px] flex-col justify-start items-start gap-3 flex">
+        <div className="self-stretch min-h-[228px] flex-col justify-start items-start gap-3 flex">
           <Field name="position">
             {({ field, form }: any) => (
               <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
@@ -400,7 +400,7 @@ const ContactDetails = () => {
                           .filter((pos) =>
                             pos.title
                               .toLowerCase()
-                              .includes(searchTerm.toLowerCase()),
+                              .includes(searchTerm.toLowerCase())
                           )
                           .map((pos) => (
                             <div
@@ -431,7 +431,7 @@ const ContactDetails = () => {
           <Field name="position">
             {({ field, form }: any) =>
               selectedPositionTitle && (
-                <div className="self-stretch flex-col justify-start items-start gap-1.5 flex">
+                <div className="self-stretch flex-col justify-start items-start gap-1.5 flex mb-4">
                   <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
                     Цивільні навички
                   </div>
@@ -446,7 +446,7 @@ const ContactDetails = () => {
                           >
                             <div className="text-white text-sm font-normal font-['Inter']">
                               {skill.uk_name.length > 10
-                                ? `${skill.uk_name.substring(0, 10)}...`
+                                ? `${skill.uk_name.substring(0, 32)}...`
                                 : skill.uk_name}
                             </div>
                             <button
@@ -454,7 +454,7 @@ const ContactDetails = () => {
                               onClick={() => {
                                 const newSelectedPosition =
                                   selectedPosition.filter(
-                                    (_, i) => i !== index,
+                                    (_, i) => i !== index
                                   );
                                 setSelectedPosition(newSelectedPosition);
                               }}
@@ -599,7 +599,7 @@ const ContactDetails = () => {
                         .filter((specialty) =>
                           specialty.uk_name
                             .toLowerCase()
-                            .includes(searchTerm.toLowerCase()),
+                            .includes(searchTerm.toLowerCase())
                         )
                         .map((specialty) => (
                           <div
@@ -652,10 +652,10 @@ const ContactDetails = () => {
     >
       {(formik) => (
         <Form>
-          <div className="w-full h-[852px] px-6 pt-6 pb-[66px] bg-[#e1decb] flex-col justify-start items-center inline-flex">
-            <div className="self-stretch h-[762px] flex-col justify-between items-center inline-flex">
-              <div className="self-stretch h-[92px] flex-col justify-start items-start gap-6 flex">
-                <div className="self-stretch h-7 flex-col justify-center items-start gap-1 flex">
+          <div className="w-full px-6 pt-6 pb-[66px] min-h-screen bg-[#e1decb] flex-col justify-start items-center inline-flex">
+            <div className="w-full flex-col justify-between items-center inline-flex">
+              <div className="w-full mb-6 flex-col justify-start items-start gap-6 flex">
+                <div className=" flex-col justify-center items-start gap-1 flex">
                   <div className="p-1 flex-col justify-start items-start gap-1 flex">
                     {renderProgressBar(step)}
                   </div>
@@ -678,17 +678,14 @@ const ContactDetails = () => {
                   </div>
                 </div>
               </div>
-              {renderFormFields()}
-              <div className="self-stretch h-[111px] flex-col justify-start items-center gap-[46px] flex">
-                <div className="self-stretch h-[111px] flex-col justify-start items-start gap-[15px] flex">
+              <div className="w-full mb-8">{renderFormFields()}</div>
+              <div className="w-full mt-auto">
+                <div className="w-full flex-col justify-start items-start gap-[15px] flex">
                   <button
-                    type="submit"
-                    className="self-stretch px-4 py-3 bg-[#828282] rounded-xl"
+                    onClick={() => handleNavigate(formik.values as any)}
+                    className="w-full px-4 py-3 bg-black rounded-xl"
                   >
-                    <div
-                      className="text-center text-white text-base font-medium font-['Inter']"
-                      onClick={() => handleNavigate(formik.values)}
-                    >
+                    <div className="text-center text-white text-base font-medium font-['Inter']">
                       Продовжити
                     </div>
                   </button>
@@ -696,7 +693,7 @@ const ContactDetails = () => {
                   <button
                     type="button"
                     onClick={handleBack}
-                    className="self-stretch px-4 py-3 rounded-xl"
+                    className="w-full px-4 py-3 rounded-xl"
                   >
                     <div className="text-center text-black text-base font-medium font-['Inter']">
                       Назад
