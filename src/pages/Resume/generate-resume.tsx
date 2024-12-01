@@ -6,9 +6,7 @@ import { useMe } from "@/api/user/useMe";
 interface UserData {
   fullName: string;
   email: string;
-  phone: string;
-  address: string;
-  city: string;
+  // phone: string;
   skills: string[];
   education: {
     hasHigherEducation: boolean;
@@ -37,25 +35,21 @@ const ResumeView = ({ userData }: { userData: UserData }) => {
 
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-3 border-b-2 border-gray-300 pb-1">
-          Contact Information
+          Контакти
         </h2>
         <div className="grid grid-cols-2 gap-2">
           <p>
             <span className="font-medium">Email:</span> {userData.email}
           </p>
-          <p>
+          {/* <p>
             <span className="font-medium">Phone:</span> {userData.phone}
-          </p>
-          <p className="col-span-2">
-            <span className="font-medium">Location:</span> {userData.city},{" "}
-            {userData.address}
-          </p>
+          </p> */}
         </div>
       </div>
 
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-3 border-b-2 border-gray-300 pb-1">
-          Skills
+          Професійні навички
         </h2>
         <div className="flex flex-wrap gap-2">
           {userData.skills.map((skill, index) => (
@@ -68,12 +62,12 @@ const ResumeView = ({ userData }: { userData: UserData }) => {
 
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-3 border-b-2 border-gray-300 pb-1">
-          Education
+          Освіта
         </h2>
         <p className="font-medium mb-1">
           {userData.education.hasHigherEducation
-            ? "Higher Education"
-            : "Secondary Education"}
+            ? "Вища освіта"
+            : ""}
         </p>
         {userData.education.details && (
           <p className="text-gray-700">{userData.education.details}</p>
@@ -89,7 +83,7 @@ const ResumeView = ({ userData }: { userData: UserData }) => {
         </p>
       </div>
 
-      <div>
+      {/* <div>
         <h2 className="text-xl font-semibold mb-3 border-b-2 border-gray-300 pb-1">
           Desired Positions
         </h2>
@@ -100,7 +94,7 @@ const ResumeView = ({ userData }: { userData: UserData }) => {
             </span>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -109,9 +103,7 @@ const Generateresume = () => {
   const [userData, setUserData] = useState<UserData>({
     fullName: "",
     email: "",
-    phone: "",
-    address: "",
-    city: "",
+    // phone: "",
     skills: [],
     education: {
       hasHigherEducation: false,
@@ -128,9 +120,7 @@ const Generateresume = () => {
       setUserData({
         fullName: response.coreData?.fullName || "",
         email: response.email || "",
-        phone: "", // Not provided in API response
-        address: "", // Not provided in API response
-        city: "", // Not provided in API response
+        // phone: "", // Not provided in API response
         skills:
           response.skills?.map((skill: { uk_name: any }) => skill.uk_name) ||
           [],

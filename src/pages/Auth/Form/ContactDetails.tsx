@@ -25,7 +25,7 @@ const ContactDetails = () => {
     }[]
   >([]);
   const navigate = useNavigate();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(2);
   const [hasHigherEducation, setHasHigherEducation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -176,14 +176,14 @@ const ContactDetails = () => {
           data: {
             graduated_university,
             ...(selectedSpecialty?.id &&
-              hasHigherEducation && {
+              graduated_university && {
                 specialty_id: selectedSpecialty.id,
               }),
-            ...(previous_experience && { previous_experience }),
             ...(selectedSpecialty?.id &&
-              !hasHigherEducation && {
+              !graduated_university && {
                 desired_specialties: [selectedSpecialty.id],
               }),
+            ...(previous_experience && { previous_experience }),
           } as ExperienceData,
         };
 
