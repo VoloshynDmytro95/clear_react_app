@@ -7,6 +7,7 @@ import apiEndpoints from "@/api/api";
 
 import Input from "../../../components/FormComponents/Input/Input";
 import { educationSpecialities } from "../../../mop/educationSpecialities";
+import { usePositionByCode } from "@/api/position/usePosition";
 
 const ContactDetails = () => {
   const [positions, setPositions] = useState<
@@ -24,7 +25,13 @@ const ContactDetails = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedPosition, setSelectedPosition] = useState<any[]>([]);
+  const [civilSkills, setCivilSkills] = useState<string[]>([]);
+  const [newSkill, setNewSkill] = useState("");
+  const [selectedPositionTitle, setSelectedPositionTitle] =
+    useState<string>("");
 
+  console.log(selectedPosition);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -192,11 +199,21 @@ const ContactDetails = () => {
                     className="self-stretch w-full p-3 bg-white rounded-xl border border-slate-300 cursor-pointer flex justify-between items-center"
                     onClick={() => setIsOpen(!isOpen)}
                   >
-                    <span className={`${field.value ? "text-black" : "text-slate-400"} truncate flex-1 mr-2`}>
-                      {field.value ? positions.find(p => p.code === field.value)?.title : "Оберіть посаду"}
+                    <span
+                      className={`${selectedPositionTitle ? "text-black" : "text-slate-400"} truncate flex-1 mr-2`}
+                    >
+                      {selectedPositionTitle || "Оберіть посаду"}
                     </span>
-                    <svg className={`w-4 h-4 transition-transform flex-shrink-0 ${isOpen ? "rotate-180" : ""}`} viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    <svg
+                      className={`w-4 h-4 transition-transform flex-shrink-0 ${isOpen ? "rotate-180" : ""}`}
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   </div>
 
@@ -212,19 +229,29 @@ const ContactDetails = () => {
                           onClick={(e) => e.stopPropagation()}
                         />
                       </div>
-                      <div className="overflow-y-auto" style={{ maxHeight: '200px' }}>
+                      <div
+                        className="overflow-y-auto"
+                        style={{ maxHeight: "200px" }}
+                      >
                         {positions
-                          .filter(pos => 
-                            pos.title.toLowerCase().includes(searchTerm.toLowerCase())
+                          .filter((pos) =>
+                            pos.title
+                              .toLowerCase()
+                              .includes(searchTerm.toLowerCase())
                           )
                           .map((pos) => (
                             <div
                               key={pos.code}
                               className="px-3 py-2 cursor-pointer hover:bg-gray-100 truncate"
                               onClick={() => {
-                                form.setFieldValue("position", pos.code);
-                                setIsOpen(false);
-                                setSearchTerm("");
+                                setSelectedPositionTitle(pos.title);
+
+                                usePositionByCode(pos.id).then((res) => {
+                                  form.setFieldValue("position", res.id);
+                                  setSelectedPosition(res);
+                                  setIsOpen(false);
+                                  setSearchTerm("");
+                                });
                               }}
                             >
                               {pos.title}
@@ -237,49 +264,81 @@ const ContactDetails = () => {
               </div>
             )}
           </Field>
-
           <Field name="position">
-            {({ field }: any) =>
-              field.value && (
-                <div className="self-stretch h-[146px] flex-col justify-start items-start gap-1.5 flex">
+            {({ field, form }: any) =>
+              selectedPositionTitle && (
+                <div className="self-stretch flex-col justify-start items-start gap-1.5 flex">
                   <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
-                    Цивільні Навички
+                    Цивільні навички
                   </div>
-                  <div className="self-stretch h-[120px] p-3 bg-white rounded-xl border border-slate-300 flex-col justify-center items-start gap-3 flex">
-                    <div className="self-stretch justify-start items-start gap-2 inline-flex">
-                      <div className="px-2 py-1 bg-black rounded-lg justify-start items-center gap-1 flex">
-                        <div className="text-white text-sm font-normal font-['Inter'] leading-tight">
-                          навичка1
-                        </div>
-                        <div className="w-4 h-4 relative" />
-                      </div>
-                      <div className="px-2 py-1 bg-black rounded-lg justify-start items-center gap-1 flex">
-                        <div className="text-white text-sm font-normal font-['Inter'] leading-tight">
-                          Fff
-                        </div>
-                        <div className="w-4 h-4 relative" />
-                      </div>
-                      <div className="px-2 py-1 bg-black rounded-lg justify-start items-center gap-1 flex">
-                        <div className="text-white text-sm font-normal font-['Inter'] leading-tight">
-                          Fff
-                        </div>
-                        <div className="w-4 h-4 relative" />
-                      </div>
-                      <div className="px-2 py-1 bg-black rounded-lg justify-start items-center gap-1 flex">
-                        <div className="text-white text-sm font-normal font-['Inter'] leading-tight">
-                          навичка2
-                        </div>
-                        <div className="w-4 h-4 relative" />
-                      </div>
-                      <div className="px-2 py-1 bg-black rounded-lg justify-start items-center gap-1 flex">
-                        <div className="text-white text-sm font-normal font-['Inter'] leading-tight">
-                          Fff
-                        </div>
-                        <div className="w-4 h-4 relative" />
-                      </div>
+                  <div className="self-stretch p-3 bg-white rounded-xl border border-slate-300 flex-col justify-start items-start gap-3 flex">
+                    <div className="self-stretch flex flex-wrap gap-2">
+                      {selectedPosition &&
+                        selectedPosition.map((skill, index) => (
+                          <div
+                            key={index}
+                            className="px-2 py-1 bg-black rounded-lg flex items-center gap-1"
+                            title={skill.uk_name}
+                          >
+                            <div className="text-white text-sm font-normal font-['Inter']">
+                              {skill.uk_name.length > 10 
+                                ? `${skill.uk_name.substring(0, 10)}...` 
+                                : skill.uk_name}
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const newSkills = civilSkills.filter(
+                                  (_, i) => i !== index
+                                );
+                                setCivilSkills(newSkills);
+                                form.setFieldValue("civilSkills", newSkills);
+                              }}
+                              className="w-4 h-4 flex items-center justify-center"
+                            >
+                              <IoMdClose className="text-white w-3 h-3" />
+                            </button>
+                          </div>
+                        ))}
                     </div>
-                    <div className="self-stretch text-slate-400 text-sm font-normal font-['Inter'] leading-tight">
-                      Додайте...
+
+                    <div className="self-stretch flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={newSkill}
+                        onChange={(e) => setNewSkill(e.target.value)}
+                        onKeyPress={(e) => {
+                          if (e.key === "Enter" && newSkill.trim()) {
+                            e.preventDefault();
+                            const updatedSkills = [
+                              ...civilSkills,
+                              newSkill.trim(),
+                            ];
+                            setCivilSkills(updatedSkills);
+                            form.setFieldValue("civilSkills", updatedSkills);
+                            setNewSkill("");
+                          }
+                        }}
+                        className="flex-1 p-2 border border-slate-300 rounded-lg text-sm"
+                        placeholder="Add civil skill..."
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (newSkill.trim()) {
+                            const updatedSkills = [
+                              ...civilSkills,
+                              newSkill.trim(),
+                            ];
+                            setCivilSkills(updatedSkills);
+                            form.setFieldValue("civilSkills", updatedSkills);
+                            setNewSkill("");
+                          }
+                        }}
+                        className="px-3 py-1 bg-black text-white rounded-lg text-sm"
+                      >
+                        Add
+                      </button>
                     </div>
                   </div>
                 </div>
