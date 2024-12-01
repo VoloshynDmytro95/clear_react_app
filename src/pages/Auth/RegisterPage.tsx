@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
+
 import Button from "@/components/FormComponents/Button/Button";
 import SecondaryButton from "@/components/FormComponents/Button/SecondaryButton";
 import Title from "@/components/GeneralComponents/Title";
 import Subtitle from "@/components/GeneralComponents/Subtitle";
 import govIcon from "@/pages/Home/assets/illustration-idgovua.png";
-import BackButton from "@/components/GeneralComponents/BackButton";
+import employerIcon from "../../pages/Home/assets/illustration-company.png";
 
 import { useNavigate } from "react-router-dom";
 
@@ -41,7 +43,16 @@ const RegisterPage = () => {
         </SecondaryButton>
       </div>
 
-      <BackButton />
+      <Link to="/login-employer">
+        <p className="text-black flex justify-center mt-10">
+          <img
+            src={employerIcon}
+            alt="employer"
+            className="h-[24px] w-[24px]"
+          />
+          <span>Я Роботодавець</span>
+        </p>
+      </Link>
     </div>
   );
 };
