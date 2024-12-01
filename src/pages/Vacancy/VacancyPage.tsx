@@ -12,25 +12,23 @@ const VacancyPage = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [vacancies, setVacancies] = useState<Vacancy[]>([]);
   const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState<SearchVacancyPayload>({
+    salaryFrom: 20000,
+    salaryTo: 40000,
+    schedule: VacancySchedule.FULL_TIME,
+    skills: [],
+    page: 1,
+  });
 
   const onApplyFilters = (payload: SearchFilters) => {
     setIsFilterOpen(false);
-    useSearchVacancy({
-      salaryFrom: payload.salaryFrom,
-      salaryTo: payload.salaryTo,
-      schedule: payload.schedule,
-      skills: [],
-      page: 1,
-    }).then((res) => setVacancies(res.vacancies));
+    useSearchVacancy(filters).then((res) => setVacancies(res.vacancies));
     setPage(1);
   };
 
   const onShowMore = () => {
     useSearchVacancy({
-      salaryFrom: 20000,
-      salaryTo: 40000,
-      schedule: VacancySchedule.FULL_TIME,
-      skills: [],
+      ...filters,
       page: page + 1,
     }).then((res) => setVacancies([...vacancies, ...res.vacancies]));
     setPage(page + 1);
@@ -48,10 +46,7 @@ const VacancyPage = () => {
 
   useEffect(() => {
     useSearchVacancy({
-      salaryFrom: 20000,
-      salaryTo: 40000,
-      schedule: VacancySchedule.FULL_TIME,
-      skills: [],
+      ...filters,
       page: page,
     }).then((res) => setVacancies(res.vacancies));
   }, []);
