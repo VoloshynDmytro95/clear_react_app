@@ -5,3 +5,4 @@ const MyVacancies = () => {
 };
 
 export default MyVacancies;
+
