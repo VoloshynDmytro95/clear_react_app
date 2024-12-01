@@ -14,11 +14,6 @@ const RegisterCredentialsPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const validationSchema = Yup.object({
-    // email: Yup.string().email("Invalid email address").required("Required"),
-    // password: Yup.string().required("Required"),
-    // dataApproval: Yup.boolean()
-    //   .oneOf([true], "You must accept the terms")
-    //   .required("Required"),
     email: Yup.string(),
     password: Yup.string(),
     dataApproval: Yup.boolean(),
@@ -46,9 +41,8 @@ const RegisterCredentialsPage = () => {
 
   return (
     <div className="bg-[#E1DECB] flex flex-col justify-center items-center h-screen">
-      <div className="text-center">
-        <Title>Текст тайтлу</Title>
-        <Subtitle>Текст підзаголовка</Subtitle>
+      <div className="px-6">
+        <Title>Спочатку, зареєструйтесь.</Title>
       </div>
 
       <div className="flex flex-col gap-4 mt-10">
