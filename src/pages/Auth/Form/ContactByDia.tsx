@@ -6,17 +6,16 @@ import { IoMdClose } from "react-icons/io";
 import apiEndpoints from "@/api/api";
 
 import Input from "../../../components/FormComponents/Input/Input";
+import { educationSpecialities } from "../../../mop/educationSpecialities";
 
 import { useSaveCoreData } from "@/api/user/useSaveCoreData";
 import { useSaveSkills } from "@/api/user/useSaveSkills";
-import { useSaveExperienceData } from "@/api/user/useSaveExperienceData";
-import { useSpecialty } from "@/api/specialty/useSpecialty";
 
 const IS_AUTHENTICATED_BY_GOVUA = true;
 
 import { usePositionByCode } from "@/api/position/usePosition";
 
-const ContactDetails = () => {
+const ContactByDia = () => {
   const [positions, setPositions] = useState<
     {
       id: string;
@@ -35,10 +34,6 @@ const ContactDetails = () => {
   const [selectedPosition, setSelectedPosition] = useState<any[]>([]);
   const [newSkill, setNewSkill] = useState("");
   const [selectedPositionTitle, setSelectedPositionTitle] =
-    useState<string>("");
-  const [specialties, setSpecialties] = useState<any[]>([]);
-  const [selectedSpecialty, setSelectedSpecialty] = useState<any>(null);
-  const [selectedSpecialtyTitle, setSelectedSpecialtyTitle] =
     useState<string>("");
 
   console.log(selectedPosition);
@@ -63,9 +58,6 @@ const ContactDetails = () => {
   useEffect(() => {
     apiEndpoints.position.getAll().then((res) => {
       setPositions(res);
-    });
-    apiEndpoints.specialty.getAll().then((res) => {
-      setSpecialties(res);
     });
   }, []);
 
@@ -105,9 +97,6 @@ const ContactDetails = () => {
     additionalInfo: string;
     position: string;
     skills: string[];
-    hasHigherEducation: boolean;
-    previousExperience: string;
-    desiredSpecialties: string[];
   }
 
   const initialValues: FormValues = {
@@ -122,9 +111,6 @@ const ContactDetails = () => {
     additionalInfo: "",
     position: "",
     skills: [],
-    hasHigherEducation: false,
-    previousExperience: "",
-    desiredSpecialties: [],
   };
 
   const handleNavigate = async (values: FormValues) => {
@@ -160,34 +146,7 @@ const ContactDetails = () => {
         break;
 
       case 2:
-        const {
-          hasHigherEducation: graduated_university,
-          previousExperience: previous_experience,
-        } = values;
-
-        interface ExperienceData {
-          graduated_university: boolean;
-          specialtyId?: string;
-          previous_experience?: string;
-          desiredSpecialties?: string[];
-        }
-
-        const payloadExperienceData = {
-          data: {
-            graduated_university,
-            ...(selectedSpecialty?.id &&
-              hasHigherEducation && {
-                specialty_id: selectedSpecialty.id,
-              }),
-            ...(previous_experience && { previous_experience }),
-            ...(selectedSpecialty?.id &&
-              !hasHigherEducation && {
-                desired_specialties: [selectedSpecialty.id],
-              }),
-          } as ExperienceData,
-        };
-
-        await useSaveExperienceData(payloadExperienceData);
+        // useSaveCoreData(values);
 
         setTimeout(() => {
           navigate("/vacancy");
@@ -216,6 +175,8 @@ const ContactDetails = () => {
       console.log("Завершено");
     }
   };
+
+  console.log("skills:", selectedPosition);
 
   const renderProgressBar = (currentStep: number) => {
     const width =
@@ -526,96 +487,120 @@ const ContactDetails = () => {
             Я маю вищу освіту
           </span>
 
-          <Field name="hasHigherEducation">
-            {({ field }: any) => (
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  name="hasHigherEducation"
-                  type="checkbox"
-                  className="sr-only peer"
-                  checked={field.value}
-                  onChange={(e) => {
-                    field.onChange(e);
-                  }}
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#FA573F]"></div>
-              </label>
-            )}
-          </Field>
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              className="sr-only peer"
+              checked={hasHigherEducation}
+              onChange={() => setHasHigherEducation(!hasHigherEducation)}
+            />
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#FA573F]"></div>
+          </label>
         </div>
 
-        <Field name={"specialty"}>
+        <Field name="position">
           {({ field, form }: any) => (
             <div
               className="self-stretch flex-col justify-start items-start gap-1.5 flex"
               ref={dropdownRef}
             >
               <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
-                {form.values.hasHigherEducation
-                  ? "Спеціальність"
-                  : "Бажаний напрямок"}
+                Спеціальність
               </div>
-
               <div className="relative w-full">
                 <div
-                  className="self-stretch w-full p-3 bg-white rounded-xl border border-slate-300 cursor-pointer flex justify-between items-center"
-                  onClick={() => setIsOpen(!isOpen)}
+                  className="self-stretch w-full p-3 bg-white rounded-xl border border-slate-300 min-h-[48px] cursor-pointer"
+                  onClick={() => setShowDropdown(!showDropdown)}
                 >
-                  <span
-                    className={`${selectedSpecialtyTitle ? "text-black" : "text-slate-400"} truncate flex-1 mr-2`}
-                  >
-                    {selectedSpecialtyTitle || "Оберіть спеціальність"}
-                  </span>
-                  <svg
-                    className={`w-4 h-4 transition-transform flex-shrink-0 ${isOpen ? "rotate-180" : ""}`}
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  {!field.value?.length && (
+                    <span className="text-gray-400">Оберіть спеціальність</span>
+                  )}
+                  <div className="flex flex-wrap gap-2">
+                    {field.value && Array.isArray(field.value) ? (
+                      field.value.map((selectedId: string) => {
+                        const specialty = educationSpecialities.find(
+                          (item) => item.id === selectedId
+                        );
+                        return (
+                          <div
+                            key={selectedId}
+                            className="inline-flex items-center bg-gray-100 rounded-lg px-3 py-1"
+                          >
+                            <span className="text-sm">
+                              {specialty?.category}
+                            </span>
+                            <button
+                              type="button"
+                              className="ml-2"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                const newValue = field.value.filter(
+                                  (id: string) => id !== selectedId
+                                );
+                                form.setFieldValue("position", newValue);
+                              }}
+                            >
+                              <IoMdClose className="w-4 h-4" />
+                            </button>
+                          </div>
+                        );
+                      })
+                    ) : field.value ? (
+                      <div className="inline-flex items-center bg-gray-100 rounded-lg px-3 py-1">
+                        <span className="text-sm">
+                          {
+                            educationSpecialities.find(
+                              (item) => item.id === field.value
+                            )?.category
+                          }
+                        </span>
+                        <button
+                          type="button"
+                          className="ml-2"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            form.setFieldValue("position", "");
+                          }}
+                        >
+                          <IoMdClose className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
 
-                {isOpen && (
-                  <div className="absolute z-50 w-full mt-1 bg-white border border-slate-300 rounded-xl shadow-lg">
-                    <div className="p-2 border-b">
-                      <input
-                        type="text"
-                        className="w-full p-2 border rounded-lg"
-                        placeholder="Пошук..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                    </div>
+                {showDropdown && (
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-50 z-40"
+                    onClick={() => setShowDropdown(false)}
+                  >
                     <div
-                      className="overflow-y-auto"
-                      style={{ maxHeight: "200px" }}
+                      className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white border border-slate-300 rounded-xl max-h-60 overflow-y-auto z-50"
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      {specialties
-                        .filter((specialty) =>
-                          specialty.uk_name
-                            .toLowerCase()
-                            .includes(searchTerm.toLowerCase())
-                        )
-                        .map((specialty) => (
-                          <div
-                            key={specialty.id}
-                            className="px-3 py-2 cursor-pointer hover:bg-gray-100 truncate"
-                            onClick={() => {
-                              setSelectedSpecialty(specialty);
-                              setSelectedSpecialtyTitle(specialty.uk_name);
-                              form.setFieldValue("specialty", specialty.id);
-                              setIsOpen(false);
-                              setSearchTerm("");
-                            }}
-                          >
-                            {specialty.uk_name}
-                          </div>
-                        ))}
+                      {educationSpecialities.map((item) => (
+                        <button
+                          key={item.id}
+                          type="button"
+                          className="w-full text-left px-3 py-2 hover:bg-gray-100"
+                          onClick={() => {
+                            if (!hasHigherEducation) {
+                              const newValue = field.value || [];
+                              if (!newValue.includes(item.id)) {
+                                form.setFieldValue("position", [
+                                  ...newValue,
+                                  item.id,
+                                ]);
+                              }
+                            } else {
+                              form.setFieldValue("position", item.id);
+                            }
+                            setShowDropdown(false);
+                          }}
+                        >
+                          {item.category}
+                        </button>
+                      ))}
                     </div>
                   </div>
                 )}
@@ -624,22 +609,11 @@ const ContactDetails = () => {
           )}
         </Field>
 
-        <Field name="previousExperience">
-          {({ field, form }: any) => (
-            <div className="self-stretch h-[70px] flex-col justify-start items-start gap-1.5 flex">
-              <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
-                Попередній досвід роботи
-              </div>
-
-              <input
-                {...field}
-                type="text"
-                className="self-stretch p-3 bg-white rounded-xl border border-slate-300"
-                placeholder="Попередній досвід роботи"
-              />
-            </div>
-          )}
-        </Field>
+        <Input
+          type="text"
+          name="previousExperience"
+          placeholder="Попередній досвід роботи"
+        />
       </div>
     );
   };
@@ -712,4 +686,4 @@ const ContactDetails = () => {
   );
 };
 
-export default ContactDetails;
+export default ContactByDia;

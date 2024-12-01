@@ -6,9 +6,24 @@ import govIcon from "@/pages/Home/assets/illustration-idgovua.png";
 import employerIcon from "../../pages/Home/assets/illustration-company.png";
 
 import { useNavigate } from "react-router-dom";
+import { LoadingModal } from "@/animations/loading";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+
+  const generateRandomCredentials = () => {
+    const randomString = Math.random().toString(36).substring(2, 10);
+    const email = `user_${randomString}@example.com`;
+    const password =
+      Math.random().toString(36).substring(2, 10) +
+      Math.random().toString(36).substring(2, 10);
+
+    localStorage.setItem("tempEmail", email);
+    localStorage.setItem("tempPassword", password);
+
+    return { email, password };
+  };
+
   return (
     <div className="bg-[#E1DECB] flex flex-col justify-center items-center h-screen">
       <div className="text-center px-6">
@@ -23,7 +38,9 @@ const RegisterPage = () => {
         <Button
           className="!bg-black text-white w-[345px]"
           onClick={() => {
-            navigate("/register-form");
+            const credentials = generateRandomCredentials();
+            console.log("Generated credentials:", credentials); // для дебагу
+            // navigate("/register-by-dia");
           }}
         >
           <p className="text-white flex justify-center">
