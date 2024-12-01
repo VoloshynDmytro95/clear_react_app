@@ -15,7 +15,7 @@ const IS_AUTHENTICATED_BY_GOVUA = true;
 
 import { usePositionByCode } from "@/api/position/usePosition";
 
-const ContactDetails = () => {
+const ContactByDia = () => {
   const [positions, setPositions] = useState<
     {
       id: string;
@@ -230,10 +230,10 @@ const ContactDetails = () => {
                     e.currentTarget.focus();
                   }}
                   style={{
-                    WebkitAppearance: 'none',
-                    MozAppearance: 'none',
-                    appearance: 'none',
-                    cursor: 'pointer'
+                    WebkitAppearance: "none",
+                    MozAppearance: "none",
+                    appearance: "none",
+                    cursor: "pointer",
                   }}
                 />
 
@@ -686,4 +686,4 @@ const ContactDetails = () => {
   );
 };
 
-export default ContactDetails;
+export default ContactByDia;
